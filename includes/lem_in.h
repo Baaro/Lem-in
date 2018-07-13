@@ -16,5 +16,32 @@
 # include <stdbool.h>
 # define TRUE 1
 # define FALSE 0
+# define START 1
+# define END 0
+
+typedef struct      s_errors
+{
+	bool            a;
+	bool			b;
+	bool			c;
+}                   t_errors;
+
+typedef struct		s_controller
+{
+	bool			ants;
+	bool			commands[2];
+	bool			rooms;
+	bool			links;
+	struct s_errors	errors;
+}					t_controller;
+
+typedef struct      s_room
+{
+	struct s_node   *next;
+	struct s_node   *prev;
+	char            *name;
+	bool            start;
+	bool            end;
+}                   t_room;
 
 #endif
