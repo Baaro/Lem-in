@@ -24,18 +24,16 @@ static bool	controller(t_controller signals)
 static bool validation(t_controller signals)
 {
 	char		*data;
-	size_t		ants;
 
-	ants = 0;
-	data = NULL;
+	data = read_data_from_input(data);
 	while (controller(signals))
 	{
-		data = read_data_from_input(data);
-		if (valid_of_data(controller, data) == -1)
+		if (data_is_not_valid(controller, data))
 		{
 			usage(controller);
-			break ;
+			exit(1);
 		}
+
 	}
 }
 
@@ -47,7 +45,7 @@ int			main(void)
 	init_controller(&signals);
 	init_room(&room);
 	if (data_is_valid(signals))
-		use_algorithm(room);
+		use_bfs_algorithm(room);
 	free_room(room);
 	return (0);
 }
