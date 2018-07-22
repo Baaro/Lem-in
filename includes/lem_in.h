@@ -14,54 +14,68 @@
 # define LEM_IN
 # include "../libft/includes/libft.h"
 # include <stdbool.h>
+
+# define MAX_ANTS 100000
 # define TRUE 1
 # define FALSE 0
 # define START 1
 # define END 0
-# define X 0
-# define Y 1
+# define CHECKED 1
+# define UNCHECKED 0
+# define VALID 1
+# define INVALID 0
+# define NEGATIVE -1
+# define X 1
+# define Y 0
 
-typedef struct			s_errors
+typedef enum			e_errors
 {
-	bool            	a;
-	bool				b;
-	bool				c;
+	max_ants = 1,
+	incorrect_type_ants,
+	negative_num,
+	end_before_start,
+	// c;
 }						t_errors;
 
 /* This structure is a coordinator for controller */
-typedef struct			s_signals 
+typedef struct			s_checks
 {
 	bool				ants;
 	bool				commands[2]; /* start, end */
 	bool				coord;
 	bool				rooms;
 	bool				links;
-}						t_signals;
+}						t_checks;
 
-/* Brain of a programm */
-typedef struct			s_controller
+typedef struct 			s_buffer
 {
-	char				*info;
 	char				*data;
-	struct s_signals	signals;
-	struct s_errors		errors;
-}						t_controller;
+	char				*info;
+}						t_buffer;
+
+/* Brain of the programm */
+typedef struct			s_map
+{
+	intmax_t			ants;
+	struct s_buffer		buffer;
+	struct s_checks		checks;
+	t_errors			errors;
+}						t_map;
 
 /* */
-typedef struct			s_links
-{
-	char				*name;
-	bool				checked;
-	struct s_links		*next;
-}						t_links;
+// typedef struct			s_rooms
+// {
+// 	char				*name;
+// 	size_t				ant;
+// 	struct s_links		*next;
+// }						t_rooms;
 
-/* */
-typedef struct			s_vertex
-{
-	char				*name;
-	struct s_vertex		*next;
-	struct s_links		**links;
-}						t_vertex;
+// /* */
+// typedef struct			s_map
+// {
+// 	size_t				size;
+// 	struct s_rooms		**rooms;
+// }						t_map;
 
 // typedef struct      	s_node
 // {

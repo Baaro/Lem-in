@@ -37,6 +37,5 @@ int		ft_atoi(const char *str)
 	}
 	if (negative == 1)
 		return (-nbr);
-	else
-		return (nbr);
+	return (nbr);
 }
