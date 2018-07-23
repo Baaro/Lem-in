@@ -32,8 +32,6 @@
 # define VALID 1
 # define INVALID 0
 
-# define NEGATIVE -1
-
 # define X 1
 # define Y 0
 
@@ -47,7 +45,7 @@
 typedef enum			e_errors
 {
 	/* Ants */
-	wrong_value_ants = 1
+	wrong_value_ants = 1,
 	ants_is_zero,
 	ants_is_neg,
 	too_few_ants,
@@ -74,15 +72,13 @@ typedef enum			e_errors
 typedef struct			s_checks
 {
 	bool				ants_check;
-	bool				comm_check_start;
-	bool				comm_check_end;
-	bool				comm_find_start;
-	bool				comm_find_end;
+	bool				comm_check[2];
+	bool				comm_find[2];
 	// bool				comm_check[2];
 	// bool				coord_check;
 	// bool				rooms_check;
 	// bool				comm_find[2];
-	bool				links_find;
+	// bool				links_find;
 }						t_checks;
 
 typedef struct 			s_buffer
@@ -124,5 +120,16 @@ typedef struct			s_map
 // 	bool            	start;
 // 	bool            	end;
 // }                   	t_node;
+
+bool		is_link(const char *data);
+bool		valid_rooms(t_map *map);
+
+/* Errors */
+void		errors_commands(const t_errors error);
+void		errors_ants(const t_errors error);
+/* Errors */
+
+bool 	read_data_from_input(t_map *map);
+
 
 #endif
