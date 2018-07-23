@@ -16,17 +16,33 @@
 # include <stdbool.h>
 
 # define MAX_ANTS 100000
+
 # define TRUE 1
 # define FALSE 0
+
 # define START 1
 # define END 0
+
 # define CHECKED 1
 # define UNCHECKED 0
+
+# define FOUND 1
+# define NOTFOUND 0
+
 # define VALID 1
 # define INVALID 0
+
 # define NEGATIVE -1
+
 # define X 1
 # define Y 0
+
+# define OUTPUT 1
+# define INPUT 0
+
+# define KEEP_READING 0
+# define CAN_ADD_TO_HASHTABLE 2
+# define HASHTABLE_IS_CREATED 1
 
 typedef enum			e_errors
 {
@@ -57,11 +73,16 @@ typedef enum			e_errors
 /* This structure is a coordinator for controller */
 typedef struct			s_checks
 {
-	bool				ants;
-	bool				commands[2]; /* start, end */
-	bool				coord;
-	bool				rooms;
-	bool				links;
+	bool				ants_check;
+	bool				comm_check_start;
+	bool				comm_check_end;
+	bool				comm_find_start;
+	bool				comm_find_end;
+	// bool				comm_check[2];
+	// bool				coord_check;
+	// bool				rooms_check;
+	// bool				comm_find[2];
+	bool				links_find;
 }						t_checks;
 
 typedef struct 			s_buffer
