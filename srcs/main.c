@@ -14,13 +14,13 @@ static void		init_map(t_map *map)
 
 static void		errors_ants(t_errors error)
 {
-	if (error == max_ants)
+	if (error == too_few_ants)
 		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is bigger than 100 000!\n");
 	else if (error == incorrect_type_ants)
 		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is not a number!\n");
-	else if (error == negative_num)
+	else if (error == neg_ants)
 		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is negative!\n");
-	exit(1)
+	exit(1);
 }
 
 static void		errors_rooms(t_errors error)
@@ -28,52 +28,67 @@ static void		errors_rooms(t_errors error)
 
 }
 
-static intmax_t	count_ants(const char *str)
+static void		errors_commands(t_errors error)
+{
+	if (error = wrong_start_command)
+		ft_printf("\x1b[31mERROR:\x1b[0m ##start command is invalid");
+	else if (error == wrong_end_command)
+		ft_printf("\x1b[31mERROR:\x1b[0m ##end command is invalid");
+	else if (error == unknown_command)
+		ft_printf("\x1b[31mERROR:\x1b[0m The data has unknown command");
+}
+
+static intmax_t	count_ants(const char *data)
 {
 	intmax_t	ants;
 
-	ants = 0;
 	if (*str == '-')
-		return (NEGATIVE);
+		errors_ants(ants_is_neg);
+	else if (*str == 0)
+		errors_ants(ants_is_zero);
+	ants = 0;
 	while (*str && ants < MAX_ANTS)
 	{
 		if (ft_isdigit(*str))
 			ants = (ants * 10) + (*str) - '0';
 		else
-			return (INVALID);
+			errors_ants(wrong_value_ants);
 		str++;
 	}
+	if (ants < MAX_ANTS)
+		errors_ants(to_few_ants);
 	return (VALID);
 }
 
-static void		check_amount_of_ants(t_map *map)
+static bool		check_amount_of_ants(t_map *map)
 {
 	map->ants = count_ants(map->buffer.data);
-	if (map->ants == INVALID)
-		errors_ants(incorrect_type_ants);
-	if (map->ants > MAX_ANTS)
-		errors_ants(max_ants);
-	if (map->ants == NEGATIVE)
-		errors_ants(negative_num);
 	map->checks.ants = CHECKED;
+	return (VALID);
 }
 
-static void		check_start_coomands(t_map *map)
+static void		check_start_coomand(t_map *map)
 {
-	if (map->checks.commands[END] == CHECKED)
-		errors_rooms(end_before_start);
+	errors_commands(wrong_start_command);
 	read_data_from_input(map);
 }
 
 static bool		check_data(t_map *map)
 {
-	if (map->checks.ants == UNCHECKED)
-		check_amount_of_ants(map);
-	if (map->checks.commands[START] == UNCHECKED)
-		check_start_commands(map);
-	if (map->checks.commands[END] == UNCHECKED)
-		check_end_commands(map);
-	// check_rooms();
+	if (is_not_comment(map))
+	{
+		if (is_link(map->buffer.data))
+			return (VALID);
+		else if (map->checks.ants == UNCHECKED)
+			check_amount_of_ants(map);
+		else if (map->checks.commands[START] == UNCHECKED)
+			check_start_command(map);
+		else if (map->checks.commands[END] == UNCHECKED)
+			check_end_command(map);
+		else if (map->checks.links == UNCHECKED)
+			check_rooms(map);
+	}
+	return (UNVALID);
 }
 
 static bool 	read_data_from_input(t_map *map)
@@ -102,7 +117,10 @@ int			main(void)
 	init_map(&map);
 	// init_room(&room);
 	if (data_is_valid(&map))
-		// create_shortest_path(room);
+	{
+		// create_map(map);
+		// find_shortest_path(room);
+	}
 	// free_room(room);
 	return (0);
 }

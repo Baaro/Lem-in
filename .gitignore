@@ -1,2 +1,7 @@
-*
-!*.[hc]
+  1 .*.swp
+  2 libft/*.[ao]
+  3 *.o
+  4 a.out
+  5 .vscode
+  6 a.out.dSYM
+  7 .DS_Store

@@ -30,11 +30,28 @@
 
 typedef enum			e_errors
 {
-	max_ants = 1,
-	incorrect_type_ants,
-	negative_num,
-	end_before_start,
-	// c;
+	/* Ants */
+	wrong_value_ants = 1
+	ants_is_zero,
+	ants_is_neg,
+	too_few_ants,
+	/* Ants */
+
+	/* Commands */
+	wrong_start_command,
+	wrong_end_command,
+	unknown_command,
+	no_end,
+	no_start,
+	/* Commands */
+
+	/* Coordinates */
+
+	/* Coordinates */
+
+	/* Links */
+
+	/* Links */
 }						t_errors;
 
 /* This structure is a coordinator for controller */
