@@ -14,6 +14,7 @@
 # define LEM_IN
 # include "../libft/includes/libft.h"
 # include <stdbool.h>
+# include <stdio.h> // delete it
 
 # define MAX_ANTS 100000
 
@@ -52,11 +53,9 @@ typedef enum			e_errors
 	/* Ants */
 
 	/* Commands */
-	wrong_start_command,
-	wrong_end_command,
+	no_start_command,
+	no_end_command,
 	unknown_command,
-	no_end,
-	no_start,
 	/* Commands */
 
 	/* Coordinates */
@@ -122,7 +121,7 @@ typedef struct			s_map
 // }                   	t_node;
 
 bool		is_link(const char *data);
-bool		valid_data(t_map *map);
+short		valid_data(t_map *map);
 
 /* Errors */
 void		errors_commands(const t_errors error);
@@ -135,7 +134,10 @@ bool		is_start_command(char *data);
 bool		is_end_command(char *data);
 
 
-bool		valid_first_name_room(char **data);
-bool		valid_second_name_room(char **data);
+// bool		valid_first_name_room(char **data);
+// bool		valid_second_name_room(char **data);
 
+
+void		check_start_coomand(t_map *map);
+void		check_amount_of_ants(t_map *map);
 #endif

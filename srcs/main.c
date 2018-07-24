@@ -23,13 +23,14 @@ static void	create_hashtable_of_rooms(t_map *map/*, t_hashtable *hashtable*/)
 			read_data_from_input(map);
 			flag = valid_data(map);
 		}
-		if (flag == CAN_ADD_TO_HASHTABLE)
-		{
-			add_elem_to_hashtable(map/*, hashtable*/);
-			flag = READ_DATA;
-		}
-		if (flag == END_READ)
-			break ;
+		flag = 0;
+		// if (flag == CAN_ADD_TO_HASHTABLE)
+		// {
+		// 	add_elem_to_hashtable(map/*, hashtable*/);
+		// 	flag = READ_DATA;
+		// }
+		// if (flag == END_READ)
+		// 	break ;
 	}
 }
 
