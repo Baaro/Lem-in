@@ -38,9 +38,9 @@
 # define OUTPUT 1
 # define INPUT 0
 
-# define KEEP_READING 0
-# define CAN_ADD_TO_HASHTABLE 2
-# define HASHTABLE_IS_CREATED 1
+# define READ_DATA 0
+# define CAN_ADD_TO_HASHTABLE -1
+# define END_READ 1
 
 typedef enum			e_errors
 {
@@ -122,14 +122,20 @@ typedef struct			s_map
 // }                   	t_node;
 
 bool		is_link(const char *data);
-bool		valid_rooms(t_map *map);
+bool		valid_data(t_map *map);
 
 /* Errors */
 void		errors_commands(const t_errors error);
 void		errors_ants(const t_errors error);
 /* Errors */
 
-bool 	read_data_from_input(t_map *map);
+bool 		read_data_from_input(t_map *map);
 
+bool		is_start_command(char *data);
+bool		is_end_command(char *data);
+
+
+bool		valid_first_name_room(char **data);
+bool		valid_second_name_room(char **data);
 
 #endif

@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_link.c                                          :+:      :+:    :+:   */
+/*   is_commands.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 16:49:35 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/07/23 16:49:40 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/07/24 15:12:31 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/07/24 15:12:34 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-bool	valid_first_name_room(char **data)
+bool		is_start_command(char *data)
 {
-	while (**data && ft_isalnum(**data))
-		(*data)++;
-	if (**data == '-')
-	{
-		(*data)++;
-		return (VALID);
-	}
-	return (INVALID);
+	if (ft_strcmp(data, "##start") == 0)
+		return (TRUE)
+	return (FALSE);
 }
 
-bool	valid_second_name_room(char *data)
+bool		is_end_command(char *data)
 {
-	while (*data)
-	{
-		if (!ft_isalnum(*data))
-			return (INVALID);
-		data++;
-	}
-	return (VALID);
+	if (ft_strcmp(data, "##end") == 0)
+		return (TRUE)
+	return (FALSE);
 }
