@@ -21,7 +21,7 @@ static void	create_hashtable_of_rooms(t_map *map/*, t_hashtable *hashtable*/)
 			// add_data_to_hashtable(map/*, hashtable*/);
 		else if (map->flag == end_read_data)
 			break ;
-		valid_data(map, &(map->flag));
+		valid_data(map, &(map->flag), &(map->checks));
 	}
 }
 

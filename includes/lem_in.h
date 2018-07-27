@@ -126,7 +126,7 @@ void		errors_ants(const t_errors error);
 bool 		read_data_from_input(t_map *map);
 
 /*--------------------Validation--------------------*/
-void		valid_data(t_map *map, t_flags *flag);
+void		valid_data(t_map *map, t_flags *flag, t_checks *checks);
 
 void		check_ants(t_checks *checks, const char *data, intmax_t *ants);
 
