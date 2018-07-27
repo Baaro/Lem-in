@@ -11,30 +11,47 @@
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include <stdio.h>
 
-static bool		is_all_checked(const t_checks checks)
+// static void	check_room(const char *data)
+// {
+	// 
+// }
+
+static bool		is_end_checked(const t_checks checks)
 {
-	// if (map->checks.ants_check == UNCHECKED)
-		// errors_ants();
-	if (checks.comm_check[START] == UNCHECKED)
-		errors_commands(no_start_command);
-	else if (checks.comm_check[END] == UNCHECKED)
+	if (checks.comm_check[END] == UNCHECKED)
 		errors_commands(no_end_command);
-	// else if (map->checks.coord_check == UNCHECKED);
-		// return (UNCHECKED);
 	return (CHECKED);
 }
 
-static void		check_data(t_map *map)
+static void		check_data(t_map *map, t_flags *flag)
 {
 	if (map->checks.ants_check == UNCHECKED)
-		check_amount_of_ants(map->buffer.data, &map->checks);
-	// else if (map->checks.comm_check[START] == UNCHECKED)
-	// 	check_start_command(map->buffer.data, &map->checks);
-	// else if (map->checks.commands[END] == UNCHECKED)
-	// 	check_end_command(map->buffer.data, &map->checks);
-	// else if (map->checks.links == UNCHECKED)
-	// 	check_rooms(map->buffer.data, &map->checks);
+	{
+		check_ants(&map->checks, map->buffer.data, &map->ants);
+		*flag = read_next_data;
+		printf("PREPARE FOR RUN, ANTS ARE READY\n");
+	}
+	else if (map->checks.comm_check[START] == UNCHECKED)
+	{
+		check_start_command(map->buffer.data, &map->checks);
+		*flag = read_next_data;
+		printf("is a start command baby\n");
+	}
+	else if (map->checks.comm_check[END] == UNCHECKED)
+	{
+		check_end_command(map->buffer.data, &map->checks);
+		*flag = read_next_data;
+		printf("is an end command baby\n");
+	}
+	else if (is_link(map->buffer.data) && is_end_checked(map->checks))
+	{
+		*flag = end_read_data;
+		printf("THE END\n");
+	}
+	// else if (check_room(map->buffer.data))
+		// *flag = add_elem_to_hashtable;
 }
 
 static bool		is_comment(char *data)
@@ -44,24 +61,10 @@ static bool		is_comment(char *data)
 	return (FALSE);
 }
 
-// bool		is_link(char *data)
-// {
-// 	if (valid_first_name_room(&data))
-// 		if (valid_second_name_room(data))
-// 			return (TRUE);
-// 	return (FALSE);
-// }
-
-short			valid_data(t_map *map)
+void			valid_data(t_map *map, t_flags *flag)
 {
-	if (!is_link(map->buffer.data))
-	{
-		if (!is_comment(map->buffer.data))
-			printf("is work\n");
-			// check_data(map);
-		return (READ_DATA);
-	}
-	// else if (is_all_checked(map->checks))
-	// 	return (END_READ);
-	return (CAN_ADD_TO_HASHTABLE);
+	if (!is_comment(map->buffer.data))
+		check_data(map, flag);
+	else
+		*flag = read_next_data;
 }

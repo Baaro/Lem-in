@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-bool	valid_first_name_room(char **data)
+static bool	valid_first_name_room(char **data)
 {
-	while (**data && ft_isalnum(**data))
+	while (**data && ft_isprint(**data) && **data != '-')
 		(*data)++;
 	if (**data == '-')
 	{
@@ -24,13 +24,21 @@ bool	valid_first_name_room(char **data)
 	return (INVALID);
 }
 
-bool	valid_second_name_room(char *data)
+static bool	valid_second_name_room(char *data)
 {
 	while (*data)
 	{
-		if (!ft_isalnum(*data))
+		if (!ft_isprint(*data))
 			return (INVALID);
 		data++;
 	}
 	return (VALID);
+}
+
+bool		is_link(char *data)
+{
+	if (valid_first_name_room(&data))
+		if (valid_second_name_room(data))
+			return (TRUE);
+	return (FALSE);
 }

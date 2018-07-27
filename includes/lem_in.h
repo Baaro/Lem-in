@@ -24,24 +24,19 @@
 # define START 1
 # define END 0
 
-# define CHECKED 1
-# define UNCHECKED 0
-
-# define FOUND 1
-# define NOTFOUND 0
-
 # define VALID 1
 # define INVALID 0
+
+# define CHECKED 1
+# define UNCHECKED 0
 
 # define X 1
 # define Y 0
 
+# define ERROR 2
 # define OUTPUT 1
 # define INPUT 0
 
-# define READ_DATA 0
-# define CAN_ADD_TO_HASHTABLE -1
-# define END_READ 1
 
 typedef enum			e_errors
 {
@@ -59,25 +54,26 @@ typedef enum			e_errors
 	/* Commands */
 
 	/* Coordinates */
-
+	wrong_coordinates_x,
+	wrong_coordinates_y,
 	/* Coordinates */
 
 	/* Links */
-
+	wrong_links,
 	/* Links */
 }						t_errors;
 
-/* This structure is a coordinator for controller */
+typedef enum			e_flags
+{
+	read_next_data = 1,	
+	add_elem_to_hashtable,
+	end_read_data,
+}						t_flags;
+
 typedef struct			s_checks
 {
 	bool				ants_check;
 	bool				comm_check[2];
-	bool				comm_find[2];
-	// bool				comm_check[2];
-	// bool				coord_check;
-	// bool				rooms_check;
-	// bool				comm_find[2];
-	// bool				links_find;
 }						t_checks;
 
 typedef struct 			s_buffer
@@ -86,12 +82,13 @@ typedef struct 			s_buffer
 	char				*info;
 }						t_buffer;
 
-/* Brain of the programm */
+
 typedef struct			s_map
 {
 	intmax_t			ants;
 	struct s_buffer		buffer;
 	struct s_checks		checks;
+	t_flags				flag;
 	t_errors			errors;
 }						t_map;
 
@@ -120,24 +117,32 @@ typedef struct			s_map
 // 	bool            	end;
 // }                   	t_node;
 
-bool		is_link(const char *data);
-short		valid_data(t_map *map);
-
-/* Errors */
+/*--------------------Errors--------------------*/
 void		errors_commands(const t_errors error);
 void		errors_ants(const t_errors error);
-/* Errors */
+// void		errors_rooms(const t_errors error);
+/*--------------------Errors--------------------*/
 
 bool 		read_data_from_input(t_map *map);
 
-bool		is_start_command(char *data);
-bool		is_end_command(char *data);
+/*--------------------Validation--------------------*/
+void		valid_data(t_map *map, t_flags *flag);
+
+void		check_ants(t_checks *checks, const char *data, intmax_t *ants);
+
+bool		is_link(char *data);
+
+void		check_start_command(const char *data, t_checks *checks);
+void		check_end_command(const char *data, t_checks *checks);
+
+bool		is_start_command(const char *data);
+bool		is_end_command(const char *data);
+/*--------------------Validation--------------------*/
 
 
-// bool		valid_first_name_room(char **data);
-// bool		valid_second_name_room(char **data);
+
+/*--------------------Algorithm--------------------*/
+/*--------------------Algorithm--------------------*/
 
 
-void		check_start_coomand(t_map *map);
-void		check_amount_of_ants(t_map *map);
 #endif

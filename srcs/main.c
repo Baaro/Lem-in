@@ -1,9 +1,8 @@
 #include "../includes/lem_in.h"
-#include <stdio.h>
 
 static void	init_map(t_map *map)
 {
-	*map = (t_map){0, {NULL, ft_strnew(0)}, {0, {0, 0}, {0, 0}}, 0};
+	*map = (t_map){0, {NULL, ft_strnew(0)}, {0, {0, 0}}, 0, 0};
 }
 
 // static void	init_hashtable()
@@ -13,24 +12,16 @@ static void	init_map(t_map *map)
 
 static void	create_hashtable_of_rooms(t_map *map/*, t_hashtable *hashtable*/)
 {
-	short	flag;
-
-	flag = READ_DATA;
+	map->flag = read_next_data;
 	while (TRUE)
 	{
-		if (flag == READ_DATA)
-		{
+		if (map->flag == read_next_data)
 			read_data_from_input(map);
-			flag = valid_data(map);
-		}
-		flag = 0;
-		// if (flag == CAN_ADD_TO_HASHTABLE)
-		// {
-		// 	add_elem_to_hashtable(map/*, hashtable*/);
-		// 	flag = READ_DATA;
-		// }
-		// if (flag == END_READ)
-		// 	break ;
+		// else if (map->flag == add_elem_to_hashtable)
+			// add_data_to_hashtable(map/*, hashtable*/);
+		else if (map->flag == end_read_data)
+			break ;
+		valid_data(map, &(map->flag));
 	}
 }
 
