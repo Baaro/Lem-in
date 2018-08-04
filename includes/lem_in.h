@@ -58,6 +58,10 @@ typedef enum			e_errors
 	wrong_coordinates_y,
 	/* Coordinates */
 
+	/* Rooms */
+	wrong_name_of_rooms,
+	/* Rooms */
+
 	/* Links */
 	wrong_links,
 	/* Links */
@@ -120,13 +124,14 @@ typedef struct			s_map
 /*--------------------Errors--------------------*/
 void		errors_commands(const t_errors error);
 void		errors_ants(const t_errors error);
-// void		errors_rooms(const t_errors error);
+void		errors_rooms(const t_errors error);
+void		errors_coordinates(const t_errors error);
 /*--------------------Errors--------------------*/
 
 bool 		read_data_from_input(t_map *map);
 
 /*--------------------Validation--------------------*/
-void		valid_data(t_map *map, t_flags *flag, t_checks *checks);
+t_flags 		valid_data(t_map *map, t_checks *checks);
 
 void		check_ants(t_checks *checks, const char *data, intmax_t *ants);
 
@@ -137,6 +142,9 @@ void		check_end_command(const char *data, t_checks *checks);
 
 bool		is_start_command(const char *data);
 bool		is_end_command(const char *data);
+
+bool		room_is_valid(char *data);
+
 /*--------------------Validation--------------------*/
 
 

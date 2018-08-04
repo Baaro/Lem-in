@@ -25,17 +25,29 @@ void		errors_ants(const t_errors error)
 	exit(1);
 }
 
-// // void		errors_rooms(t_errors error)
-// // {
-// // }
+void		errors_rooms(const t_errors error)
+{
+	if (error == wrong_name_of_rooms)
+		ft_printf("\x1b[31mERROR:\x1b[0m Wrong name of rooms\n");
+	exit(1);
+}
+
+void		errors_coordinates(const t_errors error)
+{
+	if (error == wrong_coordinates_x)
+		ft_printf("\x1b[31mERROR:\x1b[0m Wrong X coordinates\n");
+	else if (error == wrong_coordinates_y)
+		ft_printf("\x1b[31mERROR:\x1b[0m Wrong Y coordinates\n");
+	exit(1);
+}
 
 void		errors_commands(const t_errors error)
 {
 	if (error == no_start_command)
-		ft_printf("\x1b[31mERROR:\x1b[0m No ##start command");
+		ft_printf("\x1b[31mERROR:\x1b[0m No ##start command\n");
 	else if (error == no_end_command)
-		ft_printf("\x1b[31mERROR:\x1b[0m No ##end command");
+		ft_printf("\x1b[31mERROR:\x1b[0m No ##end command\n");
 	else if (error == unknown_command)
-		ft_printf("\x1b[31mERROR:\x1b[0m The data has unknown command");
+		ft_printf("\x1b[31mERROR:\x1b[0m The data has unknown command\n");
 	exit(1);
 }

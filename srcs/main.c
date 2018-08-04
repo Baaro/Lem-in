@@ -15,13 +15,13 @@ static void	create_hashtable_of_rooms(t_map *map/*, t_hashtable *hashtable*/)
 	map->flag = read_next_data;
 	while (TRUE)
 	{
-		if (map->flag == read_next_data)
+		if (map->flag == read_next_data || map->flag == add_elem_to_hashtable)
 			read_data_from_input(map);
 		// else if (map->flag == add_elem_to_hashtable)
 			// add_data_to_hashtable(map/*, hashtable*/);
 		else if (map->flag == end_read_data)
 			break ;
-		valid_data(map, &(map->flag), &(map->checks));
+		map->flag = valid_data(map, &map->checks);
 	}
 }
 
