@@ -24,9 +24,6 @@
 # define START 1
 # define END 0
 
-# define VALID 1
-# define INVALID 0
-
 # define CHECKED 1
 # define UNCHECKED 0
 
@@ -36,6 +33,8 @@
 # define ERROR 2
 # define OUTPUT 1
 # define INPUT 0
+
+# define FAILURE 1
 
 
 typedef enum			e_errors
@@ -59,7 +58,8 @@ typedef enum			e_errors
 	/* Coordinates */
 
 	/* Rooms */
-	wrong_name_of_rooms,
+	l_char_at_the_start_of_room_name,
+	name_of_room_is_unprintable,
 	/* Rooms */
 
 	/* Links */
@@ -72,6 +72,7 @@ typedef enum			e_flags
 	read_next_data = 1,	
 	add_elem_to_hashtable,
 	end_read_data,
+	go_valid,
 }						t_flags;
 
 typedef struct			s_checks
@@ -90,36 +91,31 @@ typedef struct 			s_buffer
 typedef struct			s_map
 {
 	intmax_t			ants;
+	size_t				size_of_hashtable;
+	size_t				pos_start_elem;
+	size_t				pos_end_elem;
 	struct s_buffer		buffer;
 	struct s_checks		checks;
 	t_flags				flag;
 	t_errors			errors;
 }						t_map;
 
-/* */
-// typedef struct			s_rooms
-// {
-// 	char				*name;
-// 	size_t				ant;
-// 	struct s_links		*next;
-// }						t_rooms;
+typedef struct		s_elems
+{
+    char			*key;
+    size_t			keyLength;	
+    char			*value;
+	bool			checked;
+	bool			start;
+	bool			end;
+    struct s_elems *next;
+}					t_elems;
+typedef struct		s_hashtable
+{
+    size_t			size;
+    struct s_elems 	**elem;
+}					t_hashtable;
 
-// /* */
-// typedef struct			s_map
-// {
-// 	size_t				size;
-// 	struct s_rooms		**rooms;
-// }						t_map;
-
-// typedef struct      	s_node
-// {
-// 	struct s_node   	*next;
-// 	struct s_node   	*prev;
-// 	char            	*name;
-// 	bool				checked;
-// 	bool            	start;
-// 	bool            	end;
-// }                   	t_node;
 
 /*--------------------Errors--------------------*/
 void		errors_commands(const t_errors error);
@@ -128,28 +124,29 @@ void		errors_rooms(const t_errors error);
 void		errors_coordinates(const t_errors error);
 /*--------------------Errors--------------------*/
 
+
 bool 		read_data_from_input(t_map *map);
 
-/*--------------------Validation--------------------*/
-t_flags 		valid_data(t_map *map, t_checks *checks);
 
-void		check_ants(t_checks *checks, const char *data, intmax_t *ants);
+/*--------------------Validation--------------------*/
+t_flags		valid_data(t_map *map, t_checks *checks);
+
+bool		check_ants(t_checks *checks, const char *data, intmax_t *ants);
 
 bool		is_link(char *data);
 
-void		check_start_command(const char *data, t_checks *checks);
-void		check_end_command(const char *data, t_checks *checks);
-
+bool		check_start_command(t_map *map, t_checks *checks, const char *data);
 bool		is_start_command(const char *data);
+
+bool		check_end_command(t_map *map, t_checks *checks, const char *data);
 bool		is_end_command(const char *data);
 
 bool		room_is_valid(char *data);
-
 /*--------------------Validation--------------------*/
 
 
-
 /*--------------------Algorithm--------------------*/
+
 /*--------------------Algorithm--------------------*/
 
 

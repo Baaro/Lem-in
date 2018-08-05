@@ -24,8 +24,13 @@ static intmax_t count_ants(const char *data)
 	return (ants);
 }
 
-void		check_ants(t_checks *checks, const char *data, intmax_t *ants)
+bool		check_ants(t_checks *checks, const char *data, intmax_t *ants)
 {
-	*ants = count_ants(data);
-	checks->ants_check = CHECKED;
+	if (checks->ants_check == UNCHECKED)
+	{
+		*ants = count_ants(data);
+		checks->ants_check = CHECKED;
+		return (TRUE);
+	}
+	return (FALSE);
 }

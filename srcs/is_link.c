@@ -19,9 +19,9 @@ static bool	valid_first_name_room(char **data)
 	if (**data == '-')
 	{
 		(*data)++;
-		return (VALID);
+		return (TRUE);
 	}
-	return (INVALID);
+	return (FALSE);
 }
 
 static bool	valid_second_name_room(char *data)
@@ -29,10 +29,10 @@ static bool	valid_second_name_room(char *data)
 	while (*data)
 	{
 		if (!ft_isprint(*data))
-			return (INVALID);
+			return (FALSE);
 		data++;
 	}
-	return (VALID);
+	return (TRUE);
 }
 
 bool		is_link(char *data)
