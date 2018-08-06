@@ -13,7 +13,9 @@
 #ifndef LEM_IN
 # define LEM_IN
 # include "../libft/includes/libft.h"
+# include "table.h"
 # include <stdbool.h>
+# include <limits.h>
 # include <stdio.h> // delete it
 
 # define MAX_ANTS 100000
@@ -21,64 +23,64 @@
 # define TRUE 1
 # define FALSE 0
 
-# define START 1
-# define END 0
-
 # define CHECKED 1
 # define UNCHECKED 0
 
+# define NAME 0
 # define X 1
-# define Y 0
+# define Y 2
 
-# define ERROR 2
-# define OUTPUT 1
 # define INPUT 0
 
-# define FAILURE 1
-
+# define EXIT_FAILURE 1
 
 typedef enum			e_errors
 {
 	/* Ants */
-	wrong_value_ants = 1,
-	ants_is_zero,
-	ants_is_neg,
-	too_few_ants,
+	WRONG_VALUE_OF_ANTS = 1,
+	ANTS_IS_ZERO,
+	ANTS_IS_NEG,
+	TOO_FEW_ANTS,
 	/* Ants */
 
 	/* Commands */
-	no_start_command,
-	no_end_command,
-	unknown_command,
+	NO_START_COMMAND,
+	NO_END_COMMAND,
 	/* Commands */
 
 	/* Coordinates */
-	wrong_coordinates_x,
-	wrong_coordinates_y,
+	WRONG_X,
+	WRONG_Y,
+	X_BIGGER_THAN_INTMAX,
+	Y_BIGGER_THAN_INTMAX,
 	/* Coordinates */
 
 	/* Rooms */
-	l_char_at_the_start_of_room_name,
-	name_of_room_is_unprintable,
+	L_CHAR_AT_ROOM_NAME,
+	UNPRINTBALE_NAME,
+	NO_ROOMS,
 	/* Rooms */
 
 	/* Links */
-	wrong_links,
+	WRONG_LINKS,
 	/* Links */
+	WRONG_INPUT,
+	CANT_ALLOCATE_MEM,	
 }						t_errors;
 
-typedef enum			e_flags
+typedef enum			e_controller
 {
-	read_next_data = 1,	
-	add_elem_to_hashtable,
-	end_read_data,
-	go_valid,
-}						t_flags;
+	READ_DATA = 1,	
+	ADD_ELEM_TO_TABLE,
+	STOP_READ_DATA,
+	GO_VALID,
+}						t_controller;
 
 typedef struct			s_checks
 {
 	bool				ants_check;
-	bool				comm_check[2];
+	bool				start_check;
+	bool				end_check;
 }						t_checks;
 
 typedef struct 			s_buffer
@@ -91,58 +93,37 @@ typedef struct 			s_buffer
 typedef struct			s_map
 {
 	intmax_t			ants;
-	size_t				size_of_hashtable;
-	size_t				pos_start_elem;
-	size_t				pos_end_elem;
-	struct s_buffer		buffer;
-	struct s_checks		checks;
-	t_flags				flag;
+	size_t				amount_of_rooms;
+	size_t				num_start_elem;
+	size_t				num_end_elem;
+	t_buffer			buffer;
+	t_checks			checks;
+	t_controller		controller;
 	t_errors			errors;
 }						t_map;
 
-typedef struct		s_elems
-{
-    char			*key;
-    size_t			keyLength;	
-    char			*value;
-	bool			checked;
-	bool			start;
-	bool			end;
-    struct s_elems *next;
-}					t_elems;
-typedef struct		s_hashtable
-{
-    size_t			size;
-    struct s_elems 	**elem;
-}					t_hashtable;
 
+/*
+**-------------------Errors-------------------------
+*/
+void			errors_commands(const t_errors error);
+void			errors_ants(const t_errors error);
+void			errors_rooms(const t_errors error);
+void			errors_coordinates(const t_errors error);
+void			errors_input(const t_errors error);
+void			errors_memory(const t_errors error);
 
-/*--------------------Errors--------------------*/
-void		errors_commands(const t_errors error);
-void		errors_ants(const t_errors error);
-void		errors_rooms(const t_errors error);
-void		errors_coordinates(const t_errors error);
-/*--------------------Errors--------------------*/
-
-
-bool 		read_data_from_input(t_map *map);
-
-
-/*--------------------Validation--------------------*/
-t_flags		valid_data(t_map *map, t_checks *checks);
-
-bool		check_ants(t_checks *checks, const char *data, intmax_t *ants);
-
-bool		is_link(char *data);
-
-bool		check_start_command(t_map *map, t_checks *checks, const char *data);
-bool		is_start_command(const char *data);
-
-bool		check_end_command(t_map *map, t_checks *checks, const char *data);
-bool		is_end_command(const char *data);
-
-bool		room_is_valid(char *data);
-/*--------------------Validation--------------------*/
+/*
+**--------------------Validation--------------------
+*/
+void			valid_map(t_map *map);
+bool			valid_ants(t_checks *checks, const char *data, intmax_t *ants);
+bool			valid_commands(t_map *map, t_checks *checks, char *data);
+bool			valid_room(char *data);
+bool			is_comment(const char *data);
+bool			is_link(char *data);
+bool			is_start_command(const char *data);
+bool			is_end_command(const char *data);
 
 
 /*--------------------Algorithm--------------------*/

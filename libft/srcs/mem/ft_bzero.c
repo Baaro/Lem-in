@@ -18,8 +18,5 @@ void	ft_bzero(void *s, size_t nbyte)
 
 	j = 0;
 	while (j < nbyte)
-	{
-		((char *)s)[j] = '\0';
-		j++;
-	}
+		((char *)s)[j++] = '\0';
 }

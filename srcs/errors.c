@@ -14,40 +14,60 @@
 
 void		errors_ants(const t_errors error)
 {
-	if (error == too_few_ants)
+	if (error == TOO_FEW_ANTS)
 		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is bigger than [100 000]!\n");
-	else if (error == wrong_value_ants)
+	else if (error == WRONG_VALUE_OF_ANTS)
 		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is not a number!\n");
-	else if (error == ants_is_neg)
+	else if (error == ANTS_IS_NEG)
 		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is [negative]!\n");
-	else if (error == ants_is_zero)
+	else if (error == ANTS_IS_ZERO)
 		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is [zero]!\n");
-	exit(FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 void		errors_rooms(const t_errors error)
 {
-	if (error == l_char_at_the_start_of_room_name)
+	if (error == L_CHAR_AT_ROOM_NAME)
 		ft_printf("\x1b[31mERROR:\x1b[0m There is 'L' character at the start of a room name!\n");
-	else if (error == name_of_room_is_unprintable)
+	else if (error == UNPRINTBALE_NAME)
 		ft_printf("\x1b[31mERROR:\x1b[0m The name of room is unprintable!\n");
-	exit(FAILURE);
+	else if (NO_ROOMS)
+		ft_printf("\x1b[31mERROR:\x1b[0m There aren't rooms in map");
+	exit(EXIT_FAILURE);
 }
 
 void		errors_coordinates(const t_errors error)
 {
-	if (error == wrong_coordinates_x)
-		ft_printf("\x1b[31mERROR:\x1b[0m There is wrong [X] coordinates!\n");
-	else if (error == wrong_coordinates_y)
-		ft_printf("\x1b[31mERROR:\x1b[0m There is wrong [Y] coordinates!\n");
-	exit(FAILURE);
+	if (error == WRONG_X)
+		ft_printf("\x1b[31mERROR:\x1b[0m There is wrong [X] coordinate!\n");
+	else if (error == WRONG_Y)
+		ft_printf("\x1b[31mERROR:\x1b[0m There is wrong [Y] coordinate!\n");
+	else if (error == X_BIGGER_THAN_INTMAX)
+		ft_printf("\x1b[31mERROR:\x1b[0m The [X] coordinate is bigger than INT_MAX!\n");
+	else if (error == Y_BIGGER_THAN_INTMAX)
+		ft_printf("\x1b[31mERROR:\x1b[0m The [Y] coordinate is bigger than INT_MAX!\n");
+	exit(EXIT_FAILURE);
 }
 
 void		errors_commands(const t_errors error)
 {
-	if (error == no_start_command)
-		ft_printf("\x1b[31mERROR:\x1b[0m There is no [##start] command!\n");
-	else if (error == no_end_command)
-		ft_printf("\x1b[31mERROR:\x1b[0m There is no [##end] command!\n");
-	exit(FAILURE);
+	if (error == NO_START_COMMAND)
+		ft_printf("\x1b[31mERROR:\x1b[0m There isn't [##start] command!\n");
+	else if (error == NO_END_COMMAND)
+		ft_printf("\x1b[31mERROR:\x1b[0m There isn't [##end] command!\n");
+	exit(EXIT_FAILURE);
+}
+
+void		errors_input(const t_errors error)
+{
+	if (error == WRONG_INPUT)
+		ft_printf("\x1b[31mERROR:\x1b[0m There is wrong file on input!\n");
+	exit(EXIT_FAILURE);
+}
+
+void		errors_memory(const t_errors error)
+{
+	if (error == CANT_ALLOCATE_MEM)
+		ft_printf("\x1b[31mERROR:\x1b[0m Cannot acllocate memory for table!\n");
+	exit(EXIT_FAILURE);
 }
