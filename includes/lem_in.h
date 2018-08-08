@@ -113,6 +113,8 @@ void			errors_coordinates(const t_errors error);
 void			errors_input(const t_errors error);
 void			errors_memory(const t_errors error);
 
+char				*read_data(t_map *map, char *data);
+
 /*
 **--------------------Validation--------------------
 */

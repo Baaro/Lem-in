@@ -15,8 +15,6 @@ static void	init_path(t_path *path, size_t amount_of_rooms)
 		errors_rooms(CANT_ALLOCATE_MEM);
 	}
 	ft_bzero(path->rooms, amount_of_rooms);
-	// while (i < size_of_path)
-		// path->rooms[i++] = NULL;
 	path->size = amount_of_rooms;
 }
 
@@ -36,10 +34,20 @@ static bool		is_room(const char *data)
 
 static char		*get_next_data(char *data)
 {
-	pos = ft_strchr(*data, '\n')
-	while (*data != '\n')
-		data++;
-	return (++data);
+	static char	*tail;
+	char		*pos;
+	char		*new_data;
+
+	pos = NULL;
+	new_data = NULL;
+	if (tail == NULL)
+		tail = data;
+	if ((pos = ft_strchr(tail, '\n')))
+	{
+		new_data = ft_strsub(tail, 0, pos - tail);
+		tail = pos + 1;		
+	}
+	return (new_data);
 }
 
 static int		create_id(char *name, size_t path_size, size_t name_len)
@@ -49,7 +57,7 @@ static int		create_id(char *name, size_t path_size, size_t name_len)
 
 	i = 0;
 	hash = 0;
-	while (i < name_len)
+	while (++i < name_len)
 	{
 		hash += name[i];
 		hash += (hash << 10);
@@ -61,20 +69,25 @@ static int		create_id(char *name, size_t path_size, size_t name_len)
 	return (hash % path_size);
 }
 
-static void		put_room(t_path *path, char *data)
+static void		put_room_to_path(t_path *path, char *data)
 {
 	char		**room;
 	int			id;
-	static int	i = 0;
 
 	room = ft_strsplit(data, ' ');
 	id = create_id(room[NAME], path->size, ft_strlen(room[NAME]));
-	printf("id[%d]: %d\n",  i, id);
+	printf("%s -> [id:%d]\n",room[NAME], id);
 	// create_room(id, path->rooms[id], room);
 	// clear_room(room);
 }
 
-static void		create_path(const t_map *map, t_path *path)
+static void		skip_amount_of_ants(char **data, char *info)
+{
+	*data = get_next_data(info);
+	ft_strdel(data);
+}
+
+static void		create_path(t_map *map, t_path *path)
 {
 	/**							   **
 	*	/--makepath					*
@@ -87,25 +100,31 @@ static void		create_path(const t_map *map, t_path *path)
 	*			/--putLinks			*
 	**							  **/
 	char	*data;
-	size_t	i;
+	char	*test;
 
-	i = -1;
-	data = map->buffer.info;
-	while (++i < path->size)
+	skip_amount_of_ants(&data, map->buffer.info);
+	while (TRUE)
 	{
+		data = get_next_data(map->buffer.info);		
 		if (is_link(data))
 			break ;
 		if (is_room(data))
-			put_room(path, data);
-		data = get_next_data(data);
+			put_room_to_path(path, data);
+		ft_strdel(&data);
 	}
-	// printf("data: %s\n", data);
+	printf("Can make links: %s\n", data);
+	test = read_data(map, map->buffer.data);
+	test = read_data(map, map->buffer.data);
+	test = read_data(map, map->buffer.data);
+	test = read_data(map, map->buffer.data);	
+	printf("info: %s\n", map->buffer.info);
+	// create_links();
 }
 
 int				main(void)
 {
-	t_path			path;
-	t_map			map;
+	t_path	path;
+	t_map	map;
 
 	init_map(&map);
 	valid_map(&map);

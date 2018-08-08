@@ -35,12 +35,30 @@ static t_controller		valid_data(t_map *map, t_checks *checks, char *data)
 	return (READ_DATA);
 }
 
-static char				*read_data(t_map *map, char *data)
+static void			free_strings(char **one, char **two)
 {
+	if (*one)
+		ft_strdel(one);
+	if (*two)
+		ft_strdel(two);
+}
+
+char				*read_data(t_map *map, char *data)
+{
+	char	*tmp;
+
+	tmp = NULL;
 	if (get_next_line(INPUT, &data) > 0)
-		map->buffer.info = ft_strjoincl(map->buffer.info, data, 0);
+	{
+		map->buffer.info = ft_strcat(ft_strjoincl(map->buffer.info, data, 0),
+														tmp = ft_strdup("\n"));
+		free(tmp);
+	}
 	else
+	{
+		free_strings(&data, &map->buffer.info);
 		errors_input(WRONG_INPUT);
+	}
 	return (data);
 }
 
