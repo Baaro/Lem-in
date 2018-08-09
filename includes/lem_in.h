@@ -16,6 +16,7 @@
 # include "table.h"
 # include <stdbool.h>
 # include <limits.h>
+# include <stdarg.h>
 # include <stdio.h> // delete it
 
 # define MAX_ANTS 100000
@@ -59,13 +60,14 @@ typedef enum			e_errors
 	L_CHAR_AT_ROOM_NAME,
 	UNPRINTBALE_NAME,
 	NO_ROOMS,
+	TWO_ROOMS_AS_SAME_NAME,
 	/* Rooms */
 
 	/* Links */
 	WRONG_LINKS,
 	/* Links */
 	WRONG_INPUT,
-	CANT_ALLOCATE_MEM,	
+	CANT_ALLOCATE_MEM,
 }						t_errors;
 
 typedef enum			e_controller
@@ -89,7 +91,6 @@ typedef struct 			s_buffer
 	char				*info;
 }						t_buffer;
 
-
 typedef struct			s_map
 {
 	intmax_t			ants;
@@ -100,6 +101,7 @@ typedef struct			s_map
 	t_checks			checks;
 	t_controller		controller;
 	t_errors			errors;
+	t_path				path;
 }						t_map;
 
 
@@ -132,5 +134,8 @@ bool			is_end_command(const char *data);
 
 /*--------------------Algorithm--------------------*/
 
-
+/*
+**--------------------Auxiliary-------------------
+*/
+void				free_all(size_t numargs, ...);
 #endif

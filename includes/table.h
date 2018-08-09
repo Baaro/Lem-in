@@ -7,8 +7,6 @@ typedef struct		s_rooms
 {
     char			*name;
     size_t			name_len;
-    size_t          x;
-    size_t          y;
     int             id;
 	bool			visited;
 	bool			start;
