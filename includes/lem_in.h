@@ -31,6 +31,9 @@
 # define X 1
 # define Y 2
 
+# define FIRST 0
+# define SECOND 1
+
 # define INPUT 0
 
 # define EXIT_FAILURE 1
@@ -60,11 +63,12 @@ typedef enum			e_errors
 	L_CHAR_AT_ROOM_NAME,
 	UNPRINTBALE_NAME,
 	NO_ROOMS,
-	TWO_ROOMS_AS_SAME_NAME,
+	TWO_ROOMS_AS_THE_SAME_NAME,
 	/* Rooms */
 
 	/* Links */
 	WRONG_LINKS,
+	UNKNOWN_ROOM,
 	/* Links */
 	WRONG_INPUT,
 	CANT_ALLOCATE_MEM,
@@ -115,7 +119,11 @@ void			errors_coordinates(const t_errors error);
 void			errors_input(const t_errors error);
 void			errors_memory(const t_errors error);
 
-char				*read_data(t_map *map, char *data);
+// Need to figure out where put it
+bool			read_data(t_map *map, char **data);
+bool   	  		room_is_exist(t_path *path, int id, char *name);
+int 	     	get_id(t_path *path, char *name, size_t name_len);
+void			free_all(size_t numargs, ...);
 
 /*
 **--------------------Validation--------------------
@@ -129,6 +137,9 @@ bool			is_link(char *data);
 bool			is_start_command(const char *data);
 bool			is_end_command(const char *data);
 
+void		put_room_to_path(t_map *map, t_path *path, char *data, size_t *count_rooms);
+void		make_path(t_map *map, t_path *path);
+void		add_links(t_map *map, t_path *path);
 
 /*--------------------Algorithm--------------------*/
 
@@ -137,5 +148,4 @@ bool			is_end_command(const char *data);
 /*
 **--------------------Auxiliary-------------------
 */
-void				free_all(size_t numargs, ...);
 #endif

@@ -11,13 +11,14 @@ typedef struct		s_rooms
 	bool			visited;
 	bool			start;
 	bool			end;
-    struct s_rooms  *links;
+    struct s_rooms  *next_room;
 }					t_rooms;
 
-typedef struct      s_queue
+typedef struct          s_queue
 {
-        
-}                   t_queue;
+    struct s_rooms     *room;
+    struct s_rooms     *next;
+}                       t_queue;
 
 typedef struct		s_path
 {

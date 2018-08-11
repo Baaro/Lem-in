@@ -42,8 +42,8 @@ void					valid_map(t_map *map)
 	{
 		if (map->controller == READ_DATA)
 		{
-			map->buffer.data = read_data(map, map->buffer.data);
-			map->controller = GO_VALID;
+			if (read_data(map, &map->buffer.data))
+				map->controller = GO_VALID;
 		}
 		if (map->controller == GO_VALID)
 		{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid_room.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/10 15:58:11 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/08/10 15:58:12 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 static char	*shift_space(char **data)
@@ -11,7 +23,7 @@ static void	valid_x(char **data)
 
 	num = 0;
 	while (**data != ' ')
-    {
+    {		
 		if (!ft_isdigit(**data))
 			errors_coordinates(WRONG_X);
 		num = (num * 10) + (**data - '0');
