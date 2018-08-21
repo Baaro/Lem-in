@@ -50,7 +50,7 @@ void					valid_map(t_map *map)
 			map->controller = valid_data(map, &map->checks, map->buffer.data);
 			if (map->controller == ADD_ELEM_TO_TABLE)
 			{
-				map->amount_of_rooms++;
+				map->amnt_of_rooms++;
 				map->controller = READ_DATA;
 			}
 			else if (map->controller == STOP_READ_DATA)

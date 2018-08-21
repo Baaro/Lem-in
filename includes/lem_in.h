@@ -98,14 +98,14 @@ typedef struct 			s_buffer
 typedef struct			s_map
 {
 	intmax_t			ants;
-	size_t				amount_of_rooms;
+	size_t				amnt_of_rooms;
 	size_t				num_start_elem;
 	size_t				num_end_elem;
 	t_buffer			buffer;
 	t_checks			checks;
-	t_controller		controller;
-	t_errors			errors;
-	t_path				path;
+	t_adj_lists			adj_lists;
+	t_errors			errors;	
+	t_controller		controller;	
 }						t_map;
 
 
@@ -121,8 +121,8 @@ void			errors_memory(const t_errors error);
 
 // Need to figure out where put it
 bool			read_data(t_map *map, char **data);
-bool   	  		room_is_exist(t_path *path, int id, char *name);
-int 	     	get_id(t_path *path, char *name, size_t name_len);
+bool   	  		room_exists(t_adj_lists *s_adj_lists, int id, char *name);
+int 	     	get_id(t_adj_lists *s_adj_lists, char *name, size_t name_len);
 void			free_all(size_t numargs, ...);
 
 /*
@@ -137,10 +137,10 @@ bool			is_link(char *data);
 bool			is_start_command(const char *data);
 bool			is_end_command(const char *data);
 
-void		put_room_to_path(t_map *map, t_path *path, char *data, size_t *count_rooms);
-void		make_path(t_map *map, t_path *path);
-void		add_links(t_map *map, t_path *path);
-
+void		    put_room_to_adj_lists(t_map *map, t_adj_lists *s_adj_lists, char *data, size_t *cnt_rooms);
+void			make_adj_lists(t_map *map, t_adj_lists *s_adj_lists);
+void			add_links(t_map *map, t_adj_lists *s_adj_lists);
+void            use_bfs(t_map *map, t_adj_lists *adj_lists);
 /*--------------------Algorithm--------------------*/
 
 /*--------------------Algorithm--------------------*/

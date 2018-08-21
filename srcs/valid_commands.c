@@ -24,7 +24,7 @@ static bool		check_end_command(t_map *map, t_checks *checks, const char *data)
 		if (checks->start_check  == CHECKED)
 		{
 			checks->end_check = CHECKED;
-			map->num_end_elem = remember_num_of_command(map->amount_of_rooms);
+			map->num_end_elem = remember_num_of_command(map->amnt_of_rooms + 1);
 			return (TRUE);
 		}
 		else
@@ -38,7 +38,7 @@ static bool		check_start_command(t_map *map, t_checks *checks, const char *data)
 	if (checks->start_check == UNCHECKED && is_start_command(data))
 	{
 		checks->start_check = CHECKED;
-		map->num_start_elem = remember_num_of_command(map->amount_of_rooms);
+		map->num_start_elem = remember_num_of_command(map->amnt_of_rooms + 1);
 		return (TRUE);
 	}
 	return (FALSE);

@@ -12,27 +12,23 @@ static t_rooms 	*make_room(t_map *map, int id, char *name, size_t count_room)
 	new_room->id = id;
 	new_room->visited = 0;
 	if (map->num_start_elem == count_room)
-		new_room->start = 1;
-	else
-		new_room->start = 0;
+		new_room->start = TRUE;
 	if (map->num_end_elem == count_room)
-		new_room->end = 1;
-	else
-		new_room->end = 0;
+		new_room->end = TRUE;
 	new_room->next_room = NULL;
 	return (new_room);
 }
 
-bool     room_is_exist(t_path *path, int id, char *name)
+bool     room_exists(t_adj_lists *adj_lists, int id, char *name)
 {
-	if (path->rooms[id] != NULL)
-		if (path->rooms[id]->name != NULL)
-			if (ft_strcmp(path->rooms[id]->name, name) == 0)
+	if (adj_lists->rooms[id] != NULL)
+		if (adj_lists->rooms[id]->name != NULL)
+			if (ft_strcmp(adj_lists->rooms[id]->name, name) == 0)
 				return (TRUE);
 	return (FALSE);
 }
 
-int      get_id(t_path *path, char *name, size_t name_len)
+int      get_id(t_adj_lists *adj_lists, char *name, size_t name_len)
 {
 	size_t	hash;
 	size_t	i;
@@ -45,7 +41,7 @@ int      get_id(t_path *path, char *name, size_t name_len)
 		hash += (hash << 10);
 		hash ^= (hash >> 6);
 	}
-	return (hash % path->size);
+	return (hash % adj_lists->size);
 }
 
 static char     **get_data_of_room(char *data)
@@ -53,22 +49,38 @@ static char     **get_data_of_room(char *data)
 	return (ft_strsplit(data, ' '));
 }
 
-void		    put_room_to_path(t_map *map, t_path *path, char *data, size_t *count_rooms)
+static void		save_name_of_start_end_rooms(t_adj_lists *adj_lists, t_rooms *room, int id)
+{
+	if (room->start)
+	{
+		adj_lists->start = ft_strdup(room->name);
+		adj_lists->start_len = room->name_len;	
+	}
+	else if (room->end)
+	{
+		adj_lists->end = ft_strdup(room->name);	
+		adj_lists->end_len = room->name_len;
+	}
+}
+
+void		    put_room_to_adj_lists(t_map *map, t_adj_lists *adj_lists, char *data, size_t *cnt_rooms)
 {
 	char	**room;
 	int		id;
 
 	room = get_data_of_room(data);
-	id = get_id(path, room[NAME], ft_strlen(room[NAME]));
-	(*count_rooms)++;
-	if (!room_is_exist(path, id, room[NAME]))
+	id = get_id(adj_lists, room[NAME], ft_strlen(room[NAME]));
+	(*cnt_rooms)++;
+	if (!room_exists(adj_lists, id, room[NAME]))
 	{
-		path->rooms[id] = make_room(map, id, room[NAME], *count_rooms);
+		adj_lists->rooms[id] = make_room(map, id, room[NAME], *cnt_rooms);
+		if (adj_lists->start == NULL || adj_lists->end == NULL)
+			save_name_of_start_end_rooms(adj_lists, adj_lists->rooms[id], id);					
 		free_all(3, room[NAME], room[X], room[Y]);		
 	}
 	else
 	{
 		free_all(3, room[NAME], room[X], room[Y]);
 		errors_rooms(TWO_ROOMS_AS_THE_SAME_NAME);
-	}
+	}	
 }
