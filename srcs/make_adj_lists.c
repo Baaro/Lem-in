@@ -72,13 +72,16 @@ static void		init_adj_lists(t_adj_lists *adj_lists, size_t amnt_of_rooms)
 	adj_lists->end_len = 0;
 }
 
-static void	print_list(int id, t_adj_lists *adj_lists)
+static void	print_list(int i, t_adj_lists *adj_lists)
 {
-	printf("(%s)[s:%d][e:%d][id:%d] -> ", adj_lists->rooms[id]->name, adj_lists->rooms[id]->start, adj_lists->rooms[id]->end, id);
-	while (adj_lists->rooms[id]->next_room != NULL)
+	t_rooms	*tmp;
+
+	tmp =  adj_lists->rooms[i];
+	printf("%s-> ",tmp->name);
+	while (tmp->next_room != NULL)
 	{	
-		adj_lists->rooms[id] = adj_lists->rooms[id]->next_room;
-		printf("(%s)[s:%d][e:%d][id:%d] -> ", adj_lists->rooms[id]->name, adj_lists->rooms[id]->start, adj_lists->rooms[id]->end, adj_lists->rooms[id]->id);
+		tmp = tmp->next_room;
+		printf("%s -> ", tmp->name);
 	}
 	printf("\n");
 }
@@ -98,11 +101,11 @@ void		make_adj_lists(t_map *map, t_adj_lists *adj_lists)
 		if (is_link(data))
 			break ;
 		if (is_room(data))
-			put_room_to_adj_lists(map, adj_lists, data, &cnt_rooms);
+			put_to_adj_lists(map, adj_lists, data, &cnt_rooms);
 		ft_strdel(&data);
 	}
-	add_links(map, adj_lists);
-	// int id = 0;
-	// while (id < adj_lists->size)
-	// 	print_list(id++, adj_lists);
+	create_links(map, adj_lists);
+	int i = 0;
+	while (i < (int)adj_lists->size)
+		print_list(i++, adj_lists);
 }

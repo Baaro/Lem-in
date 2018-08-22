@@ -77,7 +77,7 @@ typedef enum			e_errors
 typedef enum			e_controller
 {
 	READ_DATA = 1,	
-	ADD_ELEM_TO_TABLE,
+	COUNT_ROOMS,
 	STOP_READ_DATA,
 	GO_VALID,
 }						t_controller;
@@ -119,12 +119,6 @@ void			errors_coordinates(const t_errors error);
 void			errors_input(const t_errors error);
 void			errors_memory(const t_errors error);
 
-// Need to figure out where put it
-bool			read_data(t_map *map, char **data);
-bool   	  		room_exists(t_adj_lists *s_adj_lists, int id, char *name);
-int 	     	get_id(t_adj_lists *s_adj_lists, char *name, size_t name_len);
-void			free_all(size_t numargs, ...);
-
 /*
 **--------------------Validation--------------------
 */
@@ -136,16 +130,24 @@ bool			is_comment(const char *data);
 bool			is_link(char *data);
 bool			is_start_command(const char *data);
 bool			is_end_command(const char *data);
+bool   	  		room_exists(t_adj_lists *s_adj_lists, int id, char *name);
 
-void		    put_room_to_adj_lists(t_map *map, t_adj_lists *s_adj_lists, char *data, size_t *cnt_rooms);
+/*
+**-------------------Make_adj_lists-----------------
+*/
 void			make_adj_lists(t_map *map, t_adj_lists *s_adj_lists);
-void			add_links(t_map *map, t_adj_lists *s_adj_lists);
-void            use_bfs(t_map *map, t_adj_lists *adj_lists);
-/*--------------------Algorithm--------------------*/
+void		    put_to_adj_lists(t_map *map, t_adj_lists *adj_lists, char *data, size_t *cnt_rooms);
+void			create_links(t_map *map, t_adj_lists *adj_lists);
+int 	     	get_id(t_adj_lists *adj_lists, char *name, size_t name_len);
 
-/*--------------------Algorithm--------------------*/
+/*
+**--------------------Algorithm---------------------
+*/
+void            use_bfs(t_adj_lists *adj_lists);
 
 /*
 **--------------------Auxiliary-------------------
 */
+bool			read_data(t_map *map, char **data);
+void			free_all(size_t numargs, ...);
 #endif

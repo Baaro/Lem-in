@@ -30,7 +30,7 @@ static t_controller		valid_data(t_map *map, t_checks *checks, char *data)
 		if (is_link(data) && end_is_checked(checks))
 			return (STOP_READ_DATA);
 		if (valid_room(data))
-			return (ADD_ELEM_TO_TABLE);
+			return (COUNT_ROOMS);
 	}
 	return (READ_DATA);
 }
@@ -48,7 +48,7 @@ void					valid_map(t_map *map)
 		if (map->controller == GO_VALID)
 		{
 			map->controller = valid_data(map, &map->checks, map->buffer.data);
-			if (map->controller == ADD_ELEM_TO_TABLE)
+			if (map->controller == COUNT_ROOMS)
 			{
 				map->amnt_of_rooms++;
 				map->controller = READ_DATA;

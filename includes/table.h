@@ -14,20 +14,23 @@ typedef struct		    s_rooms
 	bool			    end;
 	struct s_rooms      *next_room;
 }					    t_rooms;
+
 typedef struct		    s_adj_lists
 {
 	char				*start;
 	char				*end;
-	size_t			    size;
 	size_t				start_len;
 	size_t				end_len;
+	size_t			    size;
 	struct s_rooms 	    **rooms;
 }					    t_adj_lists;
+
 typedef struct			s_node
 {
-	struct s_rooms		*room;
+	int					vertex;
 	struct s_node		*next;
 }						t_node;
+
 typedef struct          s_queue
 {
 	struct s_node		*front;
@@ -35,15 +38,10 @@ typedef struct          s_queue
 	size_t				size;
 }                       t_queue;
 
-
-// typedef struct			s_paths
-// {
-// 	size_t				size;
-// 	struct s_rooms		**paths; 
-// }						t_path;
-// typedef struct			s_visited_table
-// {
-// 	struct	s_rooms		**rooms;
-// }						t_visited_table;
+typedef struct			s_paths
+{
+	size_t				size;
+	struct s_rooms		**paths;
+}						t_paths;
 
 #endif

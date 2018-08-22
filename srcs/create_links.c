@@ -44,13 +44,11 @@ static void		make_links(t_adj_lists *adj_lists, char **rooms)
 		add_elem(adj_lists->rooms[id_first],
 									new_elem(adj_lists->rooms[id_second]));
 		add_elem(adj_lists->rooms[id_second],
-									new_elem(adj_lists->rooms[id_first]));
-	// printf("%s -> %s\n", adj_lists->rooms[id_first]->name, adj_lists->rooms[id_second]->name);
-	// printf("%s -> %s\n", adj_lists->rooms[id_second]->name, adj_lists->rooms[id_first]->name);	
+									new_elem(adj_lists->rooms[id_first]));	
 	}
 }
 
-void			add_links(t_map *map, t_adj_lists *adj_lists)
+void			create_links(t_map *map, t_adj_lists *adj_lists)
 {
 	char	**room;
 
@@ -61,7 +59,7 @@ void			add_links(t_map *map, t_adj_lists *adj_lists)
 		{
 			if (is_link(map->buffer.data))
 				make_links(adj_lists, room = get_rooms(map->buffer.data));
-			else				
+			else // Use break and try to create path or just ignore this line
 				errors_rooms(UNKNOWN_ROOM);
 			free_all(2, room[FIRST], room[SECOND]);
 		}

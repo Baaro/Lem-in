@@ -15,7 +15,8 @@
 static void		init_map(t_map *map)
 {
 	// *map = (t_map){0, 0, 0, 0, {NULL, ft_strnew(0)}, {0, 0, 0}, 0, 0, {0, NULL}}
-	*map = (t_map){0, 0, 0, 0, {NULL, ft_strnew(0)}, {0, 0, 0}, {NULL, NULL, 0, 0, 0, NULL}};
+	*map = (t_map){0, 0, 0, 0, {NULL, ft_strnew(0)},
+								{0, 0, 0}, {NULL, NULL, 0, 0, 0, NULL}, 0, 0};
 }
 
 int				main(void)
@@ -25,7 +26,7 @@ int				main(void)
 	init_map(&map);
 	valid_map(&map);
 	make_adj_lists(&map, &map.adj_lists);
-	use_bfs(&map, &map.adj_lists);
+	use_bfs(&map.adj_lists);
 	// use_dfs();
 	// send_ants();
 	return (0);

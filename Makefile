@@ -14,9 +14,9 @@ NAME = lem-in
 CC := gcc
 # FLAGS := -Wall -Wextra -Werror -g
 INCLUDES := includes/
-source_dirs :=	srcs \
-srcs/checks \
-srcs/errors \
+source_dirs :=	srcs	\
+srcs/checks 			\
+srcs/errors 			\
 
 OBJ_DIR := objs
 INCLUDES := includes/
