@@ -12,21 +12,22 @@
 
 #include "lem_in.h"
 
-static void		init_map(t_map *map)
+static void		init_storage(t_storage *storage)
 {
-	// *map = (t_map){0, 0, 0, 0, {NULL, ft_strnew(0)}, {0, 0, 0}, 0, 0, {0, NULL}}
-	*map = (t_map){0, 0, 0, 0, {NULL, ft_strnew(0)},
+	*storage = (t_storage){{NULL, 0, 0, 0, 0, 0, 0}, {NULL, ft_strnew(0)},
 								{0, 0, 0}, {NULL, NULL, 0, 0, 0, NULL}, 0, 0};
 }
 
 int				main(void)
 {
-	t_map	map;
+	t_storage	storage;
 
-	init_map(&map);
-	valid_map(&map);
-	make_adj_lists(&map, &map.adj_lists);
-	use_bfs(&map.adj_lists);
+	init_storage(&storage);
+	valid_map(&storage);
+	create_hashtable(&storage.buffer, &storage.table, &storage.info);
+	system("leaks lem-in");	
+	// create_adjlists();
+	// use_bfs(&storage.adj_lists);
 	// use_dfs();
 	// send_ants();
 	return (0);

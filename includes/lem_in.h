@@ -76,9 +76,9 @@ typedef enum			e_errors
 
 typedef enum			e_controller
 {
-	READ_DATA = 1,	
-	COUNT_ROOMS,
-	STOP_READ_DATA,
+	READ = 1,	
+	VALID_ROOM,
+	STOP_READ,
 	GO_VALID,
 }						t_controller;
 
@@ -91,22 +91,31 @@ typedef struct			s_checks
 
 typedef struct 			s_buffer
 {
+	char				*line;
 	char				*data;
-	char				*info;
 }						t_buffer;
 
-typedef struct			s_map
+typedef struct			s_info
 {
+	char				**room;
+	char				*line;
+	int					id;
 	intmax_t			ants;
 	size_t				amnt_of_rooms;
 	size_t				num_start_elem;
 	size_t				num_end_elem;
+	size_t				cnt_rooms;
+}						t_info;
+
+typedef struct			s_storage
+{
+	t_info 				info;
 	t_buffer			buffer;
 	t_checks			checks;
-	t_adj_lists			adj_lists;
-	t_errors			errors;	
-	t_controller		controller;	
-}						t_map;
+	t_table				table;
+	t_controller		controller;
+	t_errors			errors;
+}						t_storage;
 
 
 /*
@@ -122,32 +131,32 @@ void			errors_memory(const t_errors error);
 /*
 **--------------------Validation--------------------
 */
-void			valid_map(t_map *map);
+void			valid_map(t_storage *storage);
 bool			valid_ants(t_checks *checks, const char *data, intmax_t *ants);
-bool			valid_commands(t_map *map, t_checks *checks, char *data);
+bool			valid_commands(t_storage *storage, t_checks *checks, char *data);
 bool			valid_room(char *data);
 bool			is_comment(const char *data);
 bool			is_link(char *data);
 bool			is_start_command(const char *data);
 bool			is_end_command(const char *data);
-bool   	  		room_exists(t_adj_lists *s_adj_lists, int id, char *name);
+bool    	 	room_exists(t_table *table, t_info *info);
 
 /*
-**-------------------Make_adj_lists-----------------
+**-------------------Hashtable-----------------
 */
-void			make_adj_lists(t_map *map, t_adj_lists *s_adj_lists);
-void		    put_to_adj_lists(t_map *map, t_adj_lists *adj_lists, char *data, size_t *cnt_rooms);
-void			create_links(t_map *map, t_adj_lists *adj_lists);
-int 	     	get_id(t_adj_lists *adj_lists, char *name, size_t name_len);
+void			create_hashtable(t_buffer *buff, t_table *tab, t_info *info);
+void			put_to_table(t_table *tab, t_info *info);
+void			create_links(t_storage *storage, t_table *tab);
+int				get_id(t_table *tab, t_info *info);
 
 /*
 **--------------------Algorithm---------------------
 */
-void            use_bfs(t_adj_lists *adj_lists);
+void            use_bfs(t_table *table);
 
 /*
 **--------------------Auxiliary-------------------
 */
-bool			read_data(t_map *map, char **data);
+bool			read_line(t_storage *storage, char **data);
 void			free_all(size_t numargs, ...);
 #endif

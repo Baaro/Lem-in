@@ -28,24 +28,27 @@ void				free_all(size_t numargs, ...)
 	va_end(ap);
 }
 
-bool				read_data(t_map *map, char **data)
+bool				read_line(t_storage *storage, char **line)
 {
 	char	*tmp;
 	int		flag;
 
 	tmp = NULL;
-	flag = get_next_line(INPUT, data);
+	if (*line)
+		free(*line);
+	flag = get_next_line(INPUT, line);
 	if (flag > 0)
 	{
-		map->buffer.info = ft_strcat(ft_strjoincl(map->buffer.info, *data, 0),
-														tmp = ft_strdup("\n"));
+		storage->buffer.data = ft_strcat(
+			ft_strjoincl(storage->buffer.data, *line, 0), 
+				tmp = ft_strdup("\n"));
 		free(tmp);
 	}
 	else if (flag == 0)
 		return (FALSE);
 	else if (flag < 0)
 	{
-		// free_all(2, &data, &map->buffer.info);
+		free_all(2, line, &storage->buffer.data);
 		errors_input(WRONG_INPUT);
 	}
 	return (TRUE);

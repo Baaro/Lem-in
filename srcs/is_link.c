@@ -12,33 +12,33 @@
 
 #include "lem_in.h"
 
-static bool	valid_first_name_room(char **data)
+static bool	valid_first_name_room(char **line)
 {
-	while (**data && ft_isprint(**data) && **data != '-')
-		(*data)++;
-	if (**data == '-')
+	while (**line && ft_isprint(**line) && **line != '-')
+		(*line)++;
+	if (**line == '-')
 	{
-		(*data)++;
+		(*line)++;
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-static bool	valid_second_name_room(char *data)
+static bool	valid_second_name_room(char *line)
 {
-	while (*data)
+	while (*line)
 	{
-		if (!ft_isprint(*data))
+		if (!ft_isprint(*line))
 			return (FALSE);
-		data++;
+		line++;
 	}
 	return (TRUE);
 }
 
-bool		is_link(char *data)
+bool		is_link(char *line)
 {
-	if (valid_first_name_room(&data))
-		if (valid_second_name_room(data))
+	if (valid_first_name_room(&line))
+		if (valid_second_name_room(line))
 			return (TRUE);
 	return (FALSE);
 }

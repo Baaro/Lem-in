@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_map.c                                       :+:      :+:    :+:   */
+/*   create_storage.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,41 +19,41 @@ static bool				end_is_checked(const t_checks *checks)
 	return (TRUE);
 }
 
-static t_controller		valid_data(t_map *map, t_checks *checks, char *data)
+static t_controller		valid_data(t_storage *storage, t_checks *checks, char *data)
 {
 	if (!is_comment(data))
 	{
-		if (valid_ants(checks, data, &map->ants))
-			return (READ_DATA);
-		if (valid_commands(map, checks, data))
-			return (READ_DATA);
+		if (valid_ants(checks, data, &storage->info.ants))
+			return (READ);
+		if (valid_commands(storage, checks, data))
+			return (READ);
 		if (is_link(data) && end_is_checked(checks))
-			return (STOP_READ_DATA);
+			return (STOP_READ);
 		if (valid_room(data))
-			return (COUNT_ROOMS);
+			return (VALID_ROOM);
 	}
-	return (READ_DATA);
+	return (READ);
 }
 
-void					valid_map(t_map *map)
+void					valid_map(t_storage *storage)
 {
-	map->controller = READ_DATA;
+	storage->controller = READ;
 	while (TRUE)
 	{
-		if (map->controller == READ_DATA)
+		if (storage->controller == READ)
 		{
-			if (read_data(map, &map->buffer.data))
-				map->controller = GO_VALID;
+			if (read_line(storage, &storage->buffer.line))
+				storage->controller = GO_VALID;
 		}
-		if (map->controller == GO_VALID)
+		if (storage->controller == GO_VALID)
 		{
-			map->controller = valid_data(map, &map->checks, map->buffer.data);
-			if (map->controller == COUNT_ROOMS)
+			storage->controller = valid_data(storage, &storage->checks, storage->buffer.line);
+			if (storage->controller == VALID_ROOM)
 			{
-				map->amnt_of_rooms++;
-				map->controller = READ_DATA;
+				storage->info.amnt_of_rooms++;
+				storage->controller = READ;
 			}
-			else if (map->controller == STOP_READ_DATA)
+			else if (storage->controller == STOP_READ)
 				break ;
 		}
 	}

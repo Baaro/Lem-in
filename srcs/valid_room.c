@@ -19,7 +19,7 @@ static char	*shift_space(char **data)
 
 static void	valid_x(char **data)
 {
-	intmax_t	num;
+	uintmax_t	num;
 
 	num = 0;
 	while (**data != ' ')
@@ -36,7 +36,7 @@ static void	valid_x(char **data)
 
 static void	valid_y(char *data)
 {
-	intmax_t	num;
+	uintmax_t	num;
 
 	num = 0;
 	while (*data)
