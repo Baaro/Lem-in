@@ -104,10 +104,9 @@ static void     free_room(char **room)
 
 void		    put_to_table(t_table *tab, t_info *info)
 {
-	// info->cnt_rooms++;
-	// info->room = get_room(info->line);
-	info->room = ft_strsplit("Hello lo",' ');
-	// info->id = get_id(tab, info);
+	info->cnt_rooms++;
+	info->room = get_room(info->line);
+	info->id = get_id(tab, info);
 	// if (!room_exists(tab, info))
 	// {
 	// 	add_room_to_hashtab(tab, info);

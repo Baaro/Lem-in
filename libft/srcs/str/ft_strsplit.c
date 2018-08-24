@@ -12,46 +12,43 @@
 
 #include "libft.h"
 
-static	size_t	count_words(const char *str, char delim)
-{
-	char	*tmp;
-	size_t	count;
+// static	int		ft_count(char const *s, char c)
+// {
+// 	int i;
+// 	int word;
 
-	tmp = str;
-	count = 0;
-	while (*tmp)
-	{
-		if (*tmp == delim && (*(tmp + 1) != delim && *(tmp + 1) != '\0'))
-			word++;
-		tmp++;
-	}
-	while ()
-	// while (s[i])
-	// {
-		if (s[i] == c && (s[i + 1] != c && s[i + 1] != '\0'))
-			word++;
-		i++;
-	// }
-	// if (s[0] != c)
-		// word++;
-	return (word);
-}
+// 	word = 0;
+// 	i = 0;
+// 	while (s[i])
+// 	{
+// 		if (s[i] == c && (s[i + 1] != c && s[i + 1] != '\0'))
+// 			word++;
+// 		i++;
+// 	}
+// 	if (s[0] != c)
+// 		word++;
+// 	return (word);
+// }
 
-static	char	*ft_put_word(char const *s, char c, int *i)
-{
-	char	*word;
-	int		d;
+// static	char	*ft_put_word(char const *s, char c, int *i)
+// {
+// 	char	*word;
+// 	int		d;
 
-	d = 0;
-	while (s[*i] == c)
-		(*i)++;
-	if (!(word = (char *)malloc(sizeof(char) * ft_strlen(s) + 1)))
-		return (NULL);
-	while (s[*i] && s[*i] != c)
-		word[d++] = s[(*i)++];
-	word[d] = '\0';
-	return (word);
-}
+// 	d = 0;
+// 	while (s[*i] == c)
+// 		(*i)++;
+// 	if (!(word = (char*)malloc(sizeof(char) * ft_strlen(s))))
+// 		return (NULL);
+// 	while (s[*i] != c && s[*i])
+// 	{
+// 		word[d] = s[*i];
+// 		d++;
+// 		(*i)++;
+// 	}
+// 	word[d] = '\0';
+// 	return (word);
+// }
 
 // char			**ft_strsplit(char const *s, char c)
 // {
@@ -64,9 +61,9 @@ static	char	*ft_put_word(char const *s, char c, int *i)
 // 	if (!s)
 // 		return (NULL);
 // 	count = ft_count(s, c);
-// 	if (!(arr = (char **)malloc(sizeof(char *) * count + 1)))
+// 	if (!(arr = (char**)malloc(sizeof(char*) * (count + 1))))
 // 		return (NULL);
-// 	if (*s == '\0')
+// 	if (s[0] == '\0')
 // 	{
 // 		arr[0] = NULL;
 // 		return (arr);
@@ -81,18 +78,73 @@ static	char	*ft_put_word(char const *s, char c, int *i)
 // 	return (arr);
 // }
 
-char		ft_strsplit(const char *str, char delim)
+static size_t	count_words(const char *str, char delim)
+{
+	char	*tmp;
+	size_t	count;
+
+	tmp = (char *)str;
+	count = 0;
+	while (*tmp)
+	{
+		if (*tmp == delim && (*(tmp + 1) != delim && *(tmp + 1) != '\0'))
+			count++;
+		tmp++;
+	}
+	return (count);
+}
+
+static size_t	len_current_word(char **str, char delim)
+{
+	size_t	len;
+
+	len = 0;   
+	while (**str && **str != delim)
+    {
+		len++;
+        (*str)++;
+    }
+	return (len);
+}
+
+static char		*put_word(const char *str, char delim)
+{
+	static char *tail;
+	char        *word;
+	char        *tmp;
+    size_t      i;
+
+    if (!tail)
+        tail = (char *)str;
+    while (*tail && *tail == delim)
+		tail++;
+    tmp = tail;
+	if (!(word = (char *)malloc(sizeof(char) * 
+						len_current_word(&tail, delim) + 1)))
+        return (NULL);
+    i = 0;
+	while (tmp[i] && tmp[i] != delim)
+	{
+        word[i] = tmp[i];
+        i++;
+	}
+    word[i] = '\0';
+    return (word);
+}
+
+char		**ft_strsplit(const char *str, char delim)
 {
 	char	**array;
 	size_t	amount_words;
 	size_t	i;
 
-	if (!s)
+	if (!str)
 		return (NULL);
 	i = -1;
-	amount_of_words = count_words(str, delim);
-	array = (char **)malloc(sizeof(char *) * ft_strlen(amount_of_words) + 1);
-	while (++i < amount_of_words)
+	amount_words = count_words(str, delim);
+	if (!(array = (char **)malloc(sizeof(char *) * amount_words + 1)))
+        return (NULL);
+	while (++i < amount_words)
 		array[i] = put_word(str, delim);
 	array[i] = NULL;
 	return (array);
