@@ -12,71 +12,74 @@
 
 #include "lem_in.h"
 
-static char	*shift_space(char **data)
+static char	*shift_space(char **line)
 {
-    return (++(*data));
+    return (++(*line));
 }
 
-static void	valid_x(char **data)
+static void	valid_x(char **line)
 {
 	uintmax_t	num;
 
 	num = 0;
-	while (**data != ' ')
+	while (**line != ' ')
     {		
-		if (!ft_isdigit(**data))
+		if (!ft_isdigit(**line))
 			errors_coordinates(WRONG_X);
-		num = (num * 10) + (**data - '0');
+		num = (num * 10) + (**line - '0');
 		if (num > INT_MAX)
 			errors_coordinates(X_BIGGER_THAN_INTMAX);
-        (*data)++;
+        (*line)++;
     }
-    *data = shift_space(data);
+    *line = shift_space(line);
 }
 
-static void	valid_y(char *data)
+static void	valid_y(char *line)
 {
 	uintmax_t	num;
 
 	num = 0;
-	while (*data)
+	while (*line)
 	{
-		if (!ft_isdigit(*data))
+		if (!ft_isdigit(*line))
 			errors_coordinates(WRONG_Y);
-		num = (num * 10) + (*data - '0');
+		num = (num * 10) + (*line - '0');
 		if (num > INT_MAX)
 			errors_coordinates(Y_BIGGER_THAN_INTMAX);
-		data++;
+		line++;
 	}
 }
 
-static bool	valid_coord_of_room(char *data)
+static bool	valid_coord_of_room(char *line)
 {
-	valid_x(&data);
-	valid_y(data);
+	valid_x(&line);
+	valid_y(line);
 	return (TRUE);
 }
 
-static bool	valid_name_of_room(char **data)
+static bool	valid_name_of_room(char **line)
 { 
-    if (**data == 'L')
+    if (**line == 'L')
 		errors_rooms(L_CHAR_AT_ROOM_NAME);
-    while (**data)
+    while (**line)
     {
-    	if (!ft_isprint(**data))
+    	if (!ft_isprint(**line))
 			errors_rooms(UNPRINTBALE_NAME);
-		if (**data == ' ')
+		if (**line == ' ')
 			break ;
-		(*data)++;
+		(*line)++;
     }
-    *data = shift_space(data);
+    *line = shift_space(line);
 	return (TRUE);
 }
 
-bool		valid_room(char *data)
+bool		valid_room(const char *line)
 {
-	if (valid_name_of_room(&data))
-		if (valid_coord_of_room(data))
+	char *tmp;
+
+	tmp = (char*) line;
+	if (valid_name_of_room(&tmp))
+		if (valid_coord_of_room(tmp))
 			return (TRUE);
 	return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 15:58:00 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/10 15:58:03 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/27 14:14:18 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void				free_all(size_t numargs, ...)
 	va_end(ap);
 }
 
-bool				read_line(t_storage *storage, char **line)
+bool				read_line(t_storage *strg, char **line)
 {
 	char	*tmp;
 	int		flag;
@@ -39,16 +39,18 @@ bool				read_line(t_storage *storage, char **line)
 	flag = get_next_line(INPUT, line);
 	if (flag > 0)
 	{
-		storage->buffer.data = ft_strcat(
-			ft_strjoincl(storage->buffer.data, *line, 0), 
+		strg->buff.data = ft_strcat(ft_strjoincl(strg->buff.data, *line, 0),
 				tmp = ft_strdup("\n"));
 		free(tmp);
 	}
 	else if (flag == 0)
+	{
+		free(*line);
 		return (FALSE);
+	}
 	else if (flag < 0)
 	{
-		free_all(2, line, &storage->buffer.data);
+		free_all(2, line, &strg->buff.data);
 		errors_input(WRONG_INPUT);
 	}
 	return (TRUE);

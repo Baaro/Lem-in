@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-bool				is_comment(const char *data)
+bool				is_comment(const char *line)
 {
-	if (*data == '#' && !is_start_command(data) && !is_end_command(data))
+	if (*line == '#' && !is_start_command(line) && !is_end_command(line))
 		return (TRUE);
 	return (FALSE);
 }

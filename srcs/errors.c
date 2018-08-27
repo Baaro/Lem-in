@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 16:59:15 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/07/23 16:59:16 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/27 13:52:41 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ void		errors_input(const t_errors error)
 	exit(EXIT_FAILURE);
 }
 
-void		errors_memory(const t_errors error)
+void		errors_memory(const t_errors error, const char *error_func)
 {
 	if (error == CANT_ALLOCATE_MEM)
-		ft_printf("\x1b[31mERROR:\x1b[0m Cannot acllocate memory for table!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m Cannot acllocate memory for table! Problem in: ( %s ) funcion", error_func);
+	else if (error == CANT_SETZERO)
+		ft_printf("\x1b[31mERROR:\x1b[0m Cannot use memset! Problem in: ( %s ) function", error_func);
 	exit(EXIT_FAILURE);
 }

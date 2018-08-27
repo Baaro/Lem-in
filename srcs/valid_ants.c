@@ -12,22 +12,22 @@
 
 #include "lem_in.h"
 
-static intmax_t count_ants(const char *data)
+static intmax_t count_ants(const char *line)
 {
 	intmax_t	ants;
 
 	ants = 0;
-	if (*data == '-')
+	if (*line == '-')
 		errors_ants(ANTS_IS_NEG);
-	else if (*data == 0)
+	else if (*line == 0)
 		errors_ants(ANTS_IS_ZERO);
-	while (*data && ants < MAX_ANTS)
+	while (*line && ants < MAX_ANTS)
 	{
-		if (ft_isdigit(*data))
-			ants = (ants * 10) + (*data) - '0';
+		if (ft_isdigit(*line))
+			ants = (ants * 10) + (*line) - '0';
 		else
 			errors_ants(WRONG_VALUE_OF_ANTS);
-		data++;
+		line++;
 	}
 	if (ants > MAX_ANTS)
 		errors_ants(TOO_FEW_ANTS);
@@ -36,11 +36,11 @@ static intmax_t count_ants(const char *data)
 	return (ants);
 }
 
-bool		valid_ants(t_checks *checks, const char *data, intmax_t *ants)
+bool		valid_ants(t_checks *checks, const char *line, intmax_t *ants)
 {
 	if (checks->ants_check == UNCHECKED)
 	{
-		*ants = count_ants(data);
+		*ants = count_ants(line);
 		checks->ants_check = CHECKED;
 		return (TRUE);
 	}

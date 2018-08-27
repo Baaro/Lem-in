@@ -35,10 +35,13 @@ static bool	valid_second_name_room(char *line)
 	return (TRUE);
 }
 
-bool		is_link(char *line)
+bool		is_link(const char *line)
 {
-	if (valid_first_name_room(&line))
-		if (valid_second_name_room(line))
+	char	*tmp;
+
+	tmp = (char *)line;
+	if (valid_first_name_room(&tmp))
+		if (valid_second_name_room(tmp))
 			return (TRUE);
 	return (FALSE);
 }
