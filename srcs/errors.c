@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 16:59:15 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/27 13:52:41 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/28 09:30:18 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		errors_commands(const t_errors error)
 void		errors_input(const t_errors error)
 {
 	if (error == WRONG_INPUT)
-		ft_printf("\x1b[31mERROR:\x1b[0m There is invalid file on input!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m There is an invalid file on input!\n");
 	exit(EXIT_FAILURE);
 }
 

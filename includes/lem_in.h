@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/10 12:58:05 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/27 14:23:33 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/28 17:23:31 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,17 +128,18 @@ typedef struct			s_storage
 /*
 **--------------------Hashtable--------------------
 */
-typedef struct		    s_rooms
+typedef struct		    s_room
 {
 	char			    *name;
 	size_t			    name_len;
-	unsigned long		id;
+	int					id;
+	size_t				index;
 	bool			    visited;
 	bool				in_queue;
 	bool			    start;
 	bool			    end;
-	struct s_rooms      *next;
-}					    t_rooms;
+	struct s_room      *next;
+}					    t_room;
 
 typedef struct		    s_htab
 {
@@ -147,7 +148,7 @@ typedef struct		    s_htab
 	size_t				start_len;
 	size_t				end_len;
 	size_t			    size;
-	struct s_rooms 	    **rooms;
+	struct s_room 	    **rooms;
 }					    t_htab;
 
 /*
@@ -155,24 +156,24 @@ typedef struct		    s_htab
 */
 typedef struct			s_adjelem
 {
-	struct s_rooms		*room;
-	struct s_rooms		*next;
+	struct s_room		*room;
+	struct s_adjelem	*next;
 }						t_adjelem;
 
 typedef struct			s_adjlists
 {
 	size_t				size;
-	struct s_rooms		**rooms;
+	struct s_adjelem	**elems;
 }						t_adjlists;
 
 /*
-**--------------------Queue---------------------
+**--------------------Queue-----------------------
 */
 typedef struct			s_node
 {
 //	char				*name;
 //	int					id;
-	struct s_rooms		*room;
+	struct s_room		*room;
 	struct s_node		*next;
 }						t_node;
 
@@ -194,7 +195,7 @@ bool	is_comment(const char *line);
 bool	is_link(const char *line);
 bool	is_start_command(const char *line);
 bool	is_end_command(const char *line);
-bool    room_exists(t_htab *htab, t_info *info);
+bool    room_exists(t_htab *htab, char *name, int id);
 
 /*
 **--------------------Errors-----------------------
@@ -210,11 +211,16 @@ void	errors_memory(const t_errors error, const char *error_func);
 **--------------------Hashtable--------------------
 */
 void	init_hashtable(t_htab *htab, t_storage *strg);
-int		get_id(t_htab *htab, char *room);
+int		get_id(t_htab *htab, char *name, size_t name_len);
 void    put_to_hashtable(t_htab *htab, t_buff *buff, t_info *info);
 void    create_hashtable(t_htab *htab, t_buff *buff, t_info *info);
 void	create_links(t_htab *htab, t_storage *strg);
 
+/*
+**-------------------Adjlists----------------------
+*/
+void	init_adjlists(t_adjlists *adjlists, t_htab *htab);
+void	create_adjlists(t_adjlists *adjlsts, t_htab *htab, t_buff *buff);
 /*
 **--------------------Queue------------------------
 */
@@ -231,6 +237,7 @@ void	use_bfs(t_htab *htab);
 /*
 **--------------------Auxiliary--------------------
 */
-bool	read_line(t_storage *strg, char **data);
+bool	read_line(t_buff *buff, char **line);
+void	free_room(char **room);
 void	free_all(size_t numargs, ...);
 #endif
