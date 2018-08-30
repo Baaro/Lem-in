@@ -14,6 +14,7 @@ start-room_2
 start-room_3
 room_2-room_4
 room_2-room_5
+room_8-room_5
 room_2-room_7
 room_4-end
 room_4-room_3
@@ -23,5 +24,5 @@ room_3-room_5
 room_6-room_7
 room_6-room_5
 room_6-end
-room_0-room_4
+room_7-room_4
 room_8-room_4

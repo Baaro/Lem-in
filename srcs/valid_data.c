@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 16:47:19 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/28 09:48:58 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/29 11:09:45 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void					valid_data(t_storage *strg)
 	{
 		if (strg->contrllr == READ)
 		{
-				if (read_line(&strg->buff, &strg->buff.line))
-					strg->contrllr = GO_VALID;
+			if (read_line(&strg->buff, &strg->buff.line))
+				strg->contrllr = GO_VALID;
 		}
 		if (strg->contrllr == GO_VALID)
 		{

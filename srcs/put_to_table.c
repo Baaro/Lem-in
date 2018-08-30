@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/27 14:32:25 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/28 17:56:31 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/29 13:35:56 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ static void		put_data(t_room *room, t_info *info)
 	room->name_len = ft_strlen(info->room[NAME]);
 	room->id = info->id;
 	room->index = info->cnt_rooms;
-//	room->visited = 0;
-//	room->in_queue = 0;
-//	room->start = 0;
-//	room->end = 0;
 	if (info->num_start_elem == info->cnt_rooms)
 		room->start = TRUE;
 	if (info->num_end_elem == info->cnt_rooms)
@@ -46,7 +42,7 @@ static void		add_room_to_hashtable(t_htab *htab, t_info *info)
 	}
 }
 
-bool		room_exists(t_htab *htab, char *name, int id)
+bool		room_exists(t_htab *htab, char *name, unsigned long id)
 {
 	t_room	*tmp;
 
@@ -63,7 +59,7 @@ bool		room_exists(t_htab *htab, char *name, int id)
 	return (FALSE);
 }
 
-int				get_id(t_htab *htab, char *name, size_t name_len)
+unsigned long	get_id(t_htab *htab, char *name, size_t name_len)
 {
 	size_t	hash;
 	size_t	i;
@@ -76,7 +72,8 @@ int				get_id(t_htab *htab, char *name, size_t name_len)
 		hash += (hash << 10);
 		hash ^= (hash >> 6);
 	}
-	return (hash % htab->size);
+	hash = hash % htab->size;
+	return (hash == 0 ? hash + 1 : hash);
 }
 
 static char		**get_room(char *line)

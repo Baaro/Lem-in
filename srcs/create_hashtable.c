@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/27 08:31:20 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/28 17:25:51 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/29 11:11:23 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,6 @@ static void		skip_amount_of_ants(const char *data)
 	ft_strdel(&tmp);
 }
 
-static void		print_list(t_htab *htab, int i)
-{
-	t_room	*tmp;
-
-	tmp = htab->rooms[i];
-	printf("[i:%zu]%s[id:%d]-> ", tmp->index, tmp->name, tmp->id);
-	while (tmp->next != NULL)
-	{
-		tmp = tmp->next;
-		printf("[%zu]%s[id:%d] -> ", tmp->index, tmp->name, tmp->id);
-	}
-	printf("\n");
-}
 
 void			create_hashtable(t_htab *htab, t_buff *buff, t_info *info)
 {
@@ -78,8 +65,4 @@ void			create_hashtable(t_htab *htab, t_buff *buff, t_info *info)
 			put_to_hashtable(htab, buff, info);
 		ft_strdel(&buff->line);
 	}
-	printf("counter: %zu\n", info->cnt_rooms);
-	int i = -1;
-	while (++i < (int)htab->size)
-		print_list(htab, i);
 }

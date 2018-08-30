@@ -6,7 +6,7 @@
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/10 12:58:05 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/28 17:23:31 by vsokolog         ###   ########.fr       */
+/*   Updated: 2018/08/29 12:35:00 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct			s_info
 {
 	char				**room;
 	char				*line;
-	int					id;
+	unsigned long		id;
 	intmax_t			ants;
 	size_t				amnt_of_rooms;
 	size_t				num_start_elem;
@@ -132,7 +132,7 @@ typedef struct		    s_room
 {
 	char			    *name;
 	size_t			    name_len;
-	int					id;
+	unsigned long		id;
 	size_t				index;
 	bool			    visited;
 	bool				in_queue;
@@ -171,9 +171,7 @@ typedef struct			s_adjlists
 */
 typedef struct			s_node
 {
-//	char				*name;
-//	int					id;
-	struct s_room		*room;
+	struct s_adjelem	*elem;
 	struct s_node		*next;
 }						t_node;
 
@@ -187,57 +185,65 @@ typedef struct          s_queue
 /*
 **--------------------Validation-------------------
 */
-void	valid_data(t_storage *strg);
-bool	valid_ants(t_checks *chcks, const char *line, intmax_t *ants);
-bool	valid_commands(t_storage *storage, t_checks *chcks, char *line);
-bool	valid_room(const char *line);
-bool	is_comment(const char *line);
-bool	is_link(const char *line);
-bool	is_start_command(const char *line);
-bool	is_end_command(const char *line);
-bool    room_exists(t_htab *htab, char *name, int id);
+void			valid_data(t_storage *strg);
+bool			valid_ants(t_checks *chcks, const char *line, intmax_t *ants);
+bool			valid_commands(t_storage *storage, t_checks *chcks, char *line);
+bool			valid_room(const char *line);
+bool			is_comment(const char *line);
+bool			is_link(const char *line);
+bool			is_start_command(const char *line);
+bool			is_end_command(const char *line);
+bool    		room_exists(t_htab *htab, char *name, unsigned long id);
 
 /*
 **--------------------Errors-----------------------
 */
-void	errors_commands(const t_errors error);
-void	errors_ants(const t_errors error);
-void	errors_rooms(const t_errors error);
-void	errors_coordinates(const t_errors error);
-void	errors_input(const t_errors error);
-void	errors_memory(const t_errors error, const char *error_func);
+void			errors_commands(const t_errors error);
+void			errors_ants(const t_errors error);
+void			errors_rooms(const t_errors error);
+void			errors_coordinates(const t_errors error);
+void			errors_input(const t_errors error);
+void			errors_memory(const t_errors error, const char *error_func);
 
 /*
 **--------------------Hashtable--------------------
 */
-void	init_hashtable(t_htab *htab, t_storage *strg);
-int		get_id(t_htab *htab, char *name, size_t name_len);
-void    put_to_hashtable(t_htab *htab, t_buff *buff, t_info *info);
-void    create_hashtable(t_htab *htab, t_buff *buff, t_info *info);
-void	create_links(t_htab *htab, t_storage *strg);
+void			init_hashtable(t_htab *htab, t_storage *strg);
+unsigned long	get_id(t_htab *htab, char *name, size_t name_len);
+void    		put_to_hashtable(t_htab *htab, t_buff *buff, t_info *info);
+void    		create_hashtable(t_htab *htab, t_buff *buff, t_info *info);
+void			create_links(t_htab *htab, t_storage *strg);
 
 /*
 **-------------------Adjlists----------------------
 */
-void	init_adjlists(t_adjlists *adjlists, t_htab *htab);
-void	create_adjlists(t_adjlists *adjlsts, t_htab *htab, t_buff *buff);
+void			init_adjlists(t_adjlists *adjlists, t_htab *htab);
+void			create_adjlists(t_adjlists *adjlsts, t_htab *htab, t_buff *buff, t_info *info);
 /*
 **--------------------Queue------------------------
 */
-t_queue *init_queue(void);
-void	enqueue(t_queue *queue, t_htab *htab, int vertex);
-int 	dequeue(t_queue *queue);
-bool	is_empty(t_queue *queue);
+t_queue 		*init_queue(void);
+void			enqueue(t_queue *queue, t_htab *htab, int vertex);
+int 			dequeue(t_queue *queue);
+bool			is_empty(t_queue *queue);
 
 /*
 **--------------------Algorithm--------------------
 */
-void	use_bfs(t_htab *htab);
+void			use_bfs(t_htab *htab);
 
 /*
 **--------------------Auxiliary--------------------
 */
-bool	read_line(t_buff *buff, char **line);
-void	free_room(char **room);
-void	free_all(size_t numargs, ...);
+bool			read_line(t_buff *buff, char **line);
+void			free_room(char **room);
+void			free_all(size_t numargs, ...);
+void			print_htab(t_htab *htab, int i);
+void			print_adjlists(t_adjlists *adjlsts, ssize_t i);
+void			init_elems(t_adjelem **elems, size_t size);
+void			init_elems(t_adjelem **elems, size_t size);
+void			init_hashtable(t_htab *htab, t_storage *strg);
+void			init_adjlists(t_adjlists *adjlsts, t_htab *htab);
+void			init_storage(t_storage *strg);
+
 #endif
