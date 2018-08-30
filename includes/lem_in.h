@@ -138,8 +138,16 @@ typedef struct		    s_room
 	bool				in_queue;
 	bool			    start;
 	bool			    end;
-	struct s_room      *next;
+	struct s_room      	*next;
 }					    t_room;
+
+typedef struct			s_coord
+{
+	char				*x_y;
+	size_t				name_len;
+	unsigned long		id;
+	struct s_coord		*next;
+}						t_coord;
 
 typedef struct		    s_htab
 {
@@ -149,6 +157,7 @@ typedef struct		    s_htab
 	size_t				end_len;
 	size_t			    size;
 	struct s_room 	    **rooms;
+	struct s_coord		**coords;
 }					    t_htab;
 
 /*
@@ -171,7 +180,7 @@ typedef struct			s_adjlists
 */
 typedef struct			s_node
 {
-	struct s_adjelem	*elem;
+	struct s_adjelem	*vertex;
 	struct s_node		*next;
 }						t_node;
 
@@ -179,7 +188,7 @@ typedef struct          s_queue
 {
 	struct s_node		*front;
 	struct s_node		*rear;
-	size_t				size;
+	size_t				size;	
 }                       t_queue;
 
 /*
@@ -193,8 +202,8 @@ bool			is_comment(const char *line);
 bool			is_link(const char *line);
 bool			is_start_command(const char *line);
 bool			is_end_command(const char *line);
-bool    		room_exists(t_htab *htab, char *name, unsigned long id);
-
+bool			room_exists(t_htab *htab, char *name);
+bool			coord_exists(t_htab *htab, char *x_y);
 /*
 **--------------------Errors-----------------------
 */
@@ -210,27 +219,34 @@ void			errors_memory(const t_errors error, const char *error_func);
 */
 void			init_hashtable(t_htab *htab, t_storage *strg);
 unsigned long	get_id(t_htab *htab, char *name, size_t name_len);
-void    		put_to_hashtable(t_htab *htab, t_buff *buff, t_info *info);
-void    		create_hashtable(t_htab *htab, t_buff *buff, t_info *info);
-void			create_links(t_htab *htab, t_storage *strg);
+void    		hashtable_put(t_htab *htab, t_buff *buff, t_info *info);
+t_room			*hashtable_get(t_htab *htab, unsigned long id, char *name);
+void    		hashtable_create(t_htab *htab, t_buff *buff, t_info *info);
 
 /*
 **-------------------Adjlists----------------------
 */
 void			init_adjlists(t_adjlists *adjlists, t_htab *htab);
-void			create_adjlists(t_adjlists *adjlsts, t_htab *htab, t_buff *buff, t_info *info);
+void			adjlists_create(t_adjlists *adjlsts, t_htab *htab, t_buff *buff, t_info *info);
+void			adjlists_put(t_adjlists *adjlsts, t_htab *htab, char **rooms);
+// bool			adjlists_find(t_adjlists *adjlsts, t_room *room);
+t_adjelem		*adjlists_find(t_adjlists *adjlsts, t_room *room);
+bool			list_find(const t_adjelem *elem, const t_room *room);
+void			*list_add(t_adjelem *elem, const t_room *room);
+
 /*
 **--------------------Queue------------------------
 */
-t_queue 		*init_queue(void);
-void			enqueue(t_queue *queue, t_htab *htab, int vertex);
-int 			dequeue(t_queue *queue);
+t_queue			*init_queue(void);
+// void			init_queue(t_queue **queue);
+void			enqueue(t_queue *queue, t_adjelem *curr_vertex);
+t_adjelem		*dequeue(t_queue *queue);
 bool			is_empty(t_queue *queue);
 
 /*
 **--------------------Algorithm--------------------
 */
-void			use_bfs(t_htab *htab);
+void			use_bfs(t_adjlists *adjlsts, t_htab *htab);
 
 /*
 **--------------------Auxiliary--------------------
@@ -242,7 +258,6 @@ void			print_htab(t_htab *htab, int i);
 void			print_adjlists(t_adjlists *adjlsts, ssize_t i);
 void			init_elems(t_adjelem **elems, size_t size);
 void			init_elems(t_adjelem **elems, size_t size);
-void			init_hashtable(t_htab *htab, t_storage *strg);
 void			init_adjlists(t_adjlists *adjlsts, t_htab *htab);
 void			init_storage(t_storage *strg);
 

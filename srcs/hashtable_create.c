@@ -52,8 +52,21 @@ static void		skip_amount_of_ants(const char *data)
 	ft_strdel(&tmp);
 }
 
+t_room			*hashtable_get(t_htab *htab, unsigned long id, char *name)
+{
+	t_room	*tmp;
 
-void			create_hashtable(t_htab *htab, t_buff *buff, t_info *info)
+	tmp = htab->rooms[id];
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, name) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void			hashtable_create(t_htab *htab, t_buff *buff, t_info *info)
 {
 	skip_amount_of_ants(buff->data);
 	while (TRUE)
@@ -62,7 +75,7 @@ void			create_hashtable(t_htab *htab, t_buff *buff, t_info *info)
 		if (is_link(buff->line))
 			break ;
 		if (is_room(buff->line))
-			put_to_hashtable(htab, buff, info);
+			hashtable_put(htab, buff, info);
 		ft_strdel(&buff->line);
 	}
 }

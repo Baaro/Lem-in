@@ -28,6 +28,17 @@ void				free_all(size_t numargs, ...)
 	va_end(ap);
 }
 
+void     		free_room(char **room)
+{
+    if (!room)
+        return ;
+	while (*room)
+    {
+		free(*room);
+		room++;
+    }
+}
+
 bool				read_line(t_buff *buff, char **line)
 {
 	char	*tmp;

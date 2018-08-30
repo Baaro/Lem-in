@@ -17,32 +17,32 @@ int			main(void)
 	t_storage		strg;
 	t_htab			htab;
 	t_adjlists		adjlsts;
-
+	
 	init_storage(&strg);
 	valid_data(&strg);
 
 	init_hashtable(&htab, &strg);
-	create_hashtable(&htab, &strg.buff, &strg.info);
+	hashtable_create(&htab, &strg.buff, &strg.info);
 
-	init_adjlists(&adjlsts, &htab);
-	create_adjlists(&adjlsts, &htab, &strg.buff, &strg.info);
+	// init_adjlists(&adjlsts, &htab);
+	// adjlists_create(&adjlsts, &htab, &strg.buff, &strg.info);
 
 	printf("HASHTABLE\n");
-	int i = 0;
-	while (++i <= (int)htab.size)
+	size_t i = 0;
+	while (++i <= (size_t)htab.size)
 		print_htab(&htab, i);
 	printf("\n");
 
- 	printf("ADJLISTS\n");
- 	ssize_t j = 0;
-	while (++j <= (ssize_t)adjlsts.size)
-		print_adjlists(&adjlsts, j);
+ 	// printf("ADJLISTS\n");
+ 	// size_t j = 0;
+	// while (++j <= (size_t)adjlsts.size)
+	// 	print_adjlists(&adjlsts, j);
 
-	system("leaks lem-in");
-	// use_bfs(&adj_lists);
+	// use_bfs(&adjlsts, &htab);
 	// free(strg.buffer.line);
 	// free(strg.buffer.data);
 	// use_dfs();
 	// send_ants();
+	// system("leaks lem-in");
 	return (0);
 }

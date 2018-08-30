@@ -46,7 +46,21 @@ void	init_rooms(t_room **rooms, size_t size)
 	}
 }
 
-void		init_hashtable(t_htab *htab, t_storage *strg)
+void	init_coord(t_coord **coord, size_t size)
+{
+	size_t	i;
+
+	i = -1;
+	while (++i <= size)
+	{
+		if (!(coord[i] = (t_coord *)malloc(sizeof(t_coord))))
+			errors_memory(CANT_ALLOCATE_MEM, "init_coord");
+		if (!(coord[i] = ft_memset(coord[i], 0, sizeof(t_coord))))
+			errors_memory(CANT_SETZERO, "init_coord");
+	}
+}
+
+void	init_hashtable(t_htab *htab, t_storage *strg)
 {
 	if (strg->info.amnt_of_rooms < 1)
 		errors_rooms(NO_ROOMS);
@@ -58,11 +72,18 @@ void		init_hashtable(t_htab *htab, t_storage *strg)
 		free(htab->rooms);
 		errors_memory(CANT_ALLOCATE_MEM, "init_htab");
 	}
+	// if (!(htab->coords = (t_coord **)malloc(sizeof(t_coord *)
+					// * strg->info.amnt_of_rooms + 1)))
+	// {
+		// free(htab->coords);
+		// errors_memory(CANT_ALLOCATE_MEM, "init_htab");
+	// }
 	htab->size = strg->info.amnt_of_rooms;
 	init_rooms(htab->rooms, htab->size);
+	// init_coord(htab->coords, htab->size);
 }
 
-void		init_adjlists(t_adjlists *adjlsts, t_htab *htab)
+void	init_adjlists(t_adjlists *adjlsts, t_htab *htab)
 {
 	if (!(adjlsts = ft_memset(adjlsts, 0, sizeof(t_adjlists))))
 	   errors_memory(CANT_SETZERO, "init_adjlists");

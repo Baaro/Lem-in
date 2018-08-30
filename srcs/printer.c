@@ -18,11 +18,11 @@ void			print_adjlists(t_adjlists *adjlsts, ssize_t i)
 	t_adjelem	*tmp;
 
 	tmp = adjlsts->elems[i];
-	printf("[i:%zu]%s[id:%lu] -> ", tmp->room->index, tmp->room->name, tmp->room->id);
+	printf("%s -> ", tmp->room->name);
 	while (tmp->next != NULL)
 	{
 		tmp = tmp->next;
-		printf("[i:%zu]%s[id:%lu] -> ", tmp->room->index, tmp->room->name, tmp->room->id);
+		printf("%s -> ", tmp->room->name);
 	}
 	printf("\n");
 }
