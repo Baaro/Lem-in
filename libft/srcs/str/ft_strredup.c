@@ -12,15 +12,13 @@
 
 #include "../../includes/libft.h"
 
-char		*ft_strredup(char *del, char *src)
+char		*ft_strredup(char *src)
 {
 	char	*dst;
-	size_t	len;
 
-	len = ft_strlen(src);
-	if (!(dst = (char*)malloc(sizeof(char) * len + 1)))
+	if (!(dst = (char *)malloc(sizeof(char) * ft_strlen(src) + 1)))
 		return (NULL);
-	ft_strdel(&del);
 	dst = ft_strcpy(dst, src);
+	ft_strdel(&src);
 	return (dst);
 }

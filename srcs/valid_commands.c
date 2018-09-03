@@ -24,8 +24,8 @@ static bool		chck_e_cmmnd(t_storage *strg, t_checks *chcks, const char *line)
 		if (chcks->start_check  == CHECKED)
 		{
 			chcks->end_check = CHECKED;
-			strg->info.num_end_elem = remember_num_of_command(
-											strg->info.amnt_of_rooms + 1);
+			strg->info->num_end_elem = remember_num_of_command(
+											strg->info->amnt_of_rooms + 1);
 			return (TRUE);
 		}
 		else
@@ -39,8 +39,8 @@ static bool		chck_s_cmmnd(t_storage *strg, t_checks *chcks, const char *line)
 	if (chcks->start_check == UNCHECKED && is_start_command(line))
 	{
 		chcks->start_check = CHECKED;
-		strg->info.num_start_elem = remember_num_of_command(
-										strg->info.amnt_of_rooms + 1);
+		strg->info->num_start_elem = remember_num_of_command(
+										strg->info->amnt_of_rooms + 1);
 		return (TRUE);
 	}
 	return (FALSE);

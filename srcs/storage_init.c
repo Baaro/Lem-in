@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/19 21:16:35 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/02/16 01:09:35 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/08/29 17:59:09 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/08/29 17:59:10 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <fcntl.h>
-# include "libft.h"
+#include "lem_in.h"
 
-# define BUFF_SIZE 100
-
-typedef struct		s_lst
+void	storage_init(t_storage *strg)
 {
-	char			*str;
-	int				fd;
-	struct s_lst	*next;
-}					t_lst;
-
-int					get_next_line(const int fd, char **line);
-#endif
+	ft_memset(strg, 0, sizeof(t_storage));
+	buff_init(&strg->buff);
+	info_init(&strg->info);
+}

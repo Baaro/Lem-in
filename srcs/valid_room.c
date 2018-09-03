@@ -77,7 +77,7 @@ bool		valid_room(const char *line)
 {
 	char *tmp;
 
-	tmp = (char*) line;
+	tmp = (char*)line;
 	if (valid_name_of_room(&tmp))
 		if (valid_coord_of_room(tmp))
 			return (TRUE);

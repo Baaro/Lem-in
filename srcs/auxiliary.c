@@ -12,34 +12,74 @@
 
 #include "lem_in.h"
 
-void				free_all(size_t numargs, ...)
-{
-	va_list	ap;
-	void	**to_free;
-	size_t	i;
+// void				free_all(size_t numargs, ...)
+// {
+// 	va_list	ap;
+// 	void	**to_free;
+// 	size_t	i;
 
-	i = -1;
-	va_start(ap, numargs);
-	while (++i < numargs)
+// 	i = -1;
+// 	va_start(ap, numargs);
+// 	while (++i < numargs)
+// 	{
+// 		to_free = va_arg(ap, void **);
+// 		free(to_free);
+// 	}
+// 	va_end(ap);
+// }
+
+void		remember_start_end(t_htab *htab, t_room *room)
+{
+	if (room->start == TRUE)
 	{
-		to_free = va_arg(ap, void **);
-		free(to_free);
+		htab->start = ft_strdup(room->name);
+		htab->start_len = room->name_len;
 	}
-	va_end(ap);
+	else if (room->end == TRUE)
+	{
+		htab->end = ft_strdup(room->name);
+		htab->end_len = room->name_len;
+	}
 }
 
-void     		free_room(char **room)
+void		skip_amount_of_ants(const char *data)
 {
-    if (!room)
+	char	*tmp;
+
+	tmp = get_line(data);
+	ft_strdel(&tmp);
+}
+
+void     	free_dblarray(char **str)
+{
+    if (!str)
         return ;
-	while (*room)
+	while (*str)
     {
-		free(*room);
-		room++;
+		ft_strdel(str);
+		str++;
     }
 }
 
-bool				read_line(t_buff *buff, char **line)
+char		*get_line(const char *data)
+{
+	static char	*tail;
+	char		*pos;
+	char		*line;
+
+	pos = NULL;
+	line = NULL;
+	if (tail == NULL)
+		tail = (char*)data;
+	if ((pos = ft_strchr(tail, '\n')))
+	{
+		line = ft_strsub(tail, 0, pos - tail);
+		tail = pos + 1;
+	}
+	return (line);
+}
+
+bool			read_line(t_buff *buff, char **line)
 {
 	char	*tmp;
 	ssize_t	flag;
@@ -65,3 +105,26 @@ bool				read_line(t_buff *buff, char **line)
 	}
 	return (TRUE);
 }
+
+char		**get_rooms(char *data)
+{
+ 	return (ft_strsplit(data, '-'));
+}
+
+bool		is_exists(t_htab *htab, char *name, unsigned long id)
+{
+	t_room	*tmp;
+
+	if (htab->rooms[id]->name)
+	{
+		tmp = htab->rooms[id];
+		while (tmp && tmp->name)
+		{
+			if (ft_strcmp(tmp->name, name) == 0)
+				return (TRUE);
+			tmp = tmp->next;
+		}
+	}
+	return (FALSE);
+}
+

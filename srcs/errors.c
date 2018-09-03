@@ -33,8 +33,10 @@ void		errors_rooms(const t_errors error)
 		ft_printf("\x1b[31mERROR:\x1b[0m The name of room is unprintable!\n");
 	else if (error == NO_ROOMS)
 		ft_printf("\x1b[31mERROR:\x1b[0m There are no rooms in the map\n");
-	else if (error == TWO_ROOMS_AS_THE_SAME_NAME)
+	else if (error == TWO_ROOMS_HAVE_THE_SAME_NAME)
 		ft_printf("\x1b[31mERROR:\x1b[0m Two rooms have the same name!\n");
+	else if (error == TWO_ROOMS_HAVE_THE_SAME_COORDS)
+		ft_printf("\x1b[31mERROR:\x1b[0m Two rooms have the same coordinates!\n");
 	else if (error == UNKNOWN_ROOM)
 		ft_printf("\x1b[31mERROR:\x1b[0m Some room is linked to unknown room!\n");
 	exit(EXIT_FAILURE);

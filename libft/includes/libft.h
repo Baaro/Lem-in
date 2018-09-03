@@ -50,6 +50,7 @@ int					ft_toupper(int c);
 int					ft_tolower(int c);
 
 char				*ft_strdup(const char *s1);
+char				*ft_strredup(char *src);
 size_t				ft_strlen(const char *str);
 char				*ft_strcpy(char *dst, const char *src);
 char				*ft_strncpy (char *dst, const char *src, size_t n);
@@ -76,7 +77,6 @@ char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strjoincl(char *s1, char *s2, int free_both);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
-char				*ft_strredup(char *del, char *src);
 
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);

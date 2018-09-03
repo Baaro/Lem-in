@@ -23,7 +23,7 @@ static t_controller		valid_line(t_storage *strg, t_checks *chcks, char *line)
 {
 	if (!is_comment(line))
 	{
-		if (valid_ants(chcks, line, &strg->info.ants))
+		if (valid_ants(chcks, line, &strg->info->ants))
 			return (READ);
 		if (valid_commands(strg, chcks, line))
 			return (READ);
@@ -42,20 +42,20 @@ void					valid_data(t_storage *strg)
 	{
 		if (strg->contrllr == READ)
 		{
-			if (read_line(&strg->buff, &strg->buff.line))
+			if (read_line(strg->buff, &strg->buff->line))
 				strg->contrllr = GO_VALID;
 		}
 		if (strg->contrllr == GO_VALID)
 		{
-			strg->contrllr = valid_line(strg, &strg->chcks, strg->buff.line);
+			strg->contrllr = valid_line(strg, &strg->chcks, strg->buff->line);
 			if (strg->contrllr == VALID_ROOM)
 			{
-				strg->info.amnt_of_rooms++;
+				strg->info->amnt_of_rooms++;
 				strg->contrllr = READ;
 			}
 			else if (strg->contrllr == STOP_READ)
 			{
-				free(strg->buff.line);
+				free(strg->buff->line);
 				break ;
 			}
 		}

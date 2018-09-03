@@ -66,7 +66,8 @@ typedef enum			e_errors
 	L_CHAR_AT_ROOM_NAME,
 	UNPRINTBALE_NAME,
 	NO_ROOMS,
-	TWO_ROOMS_AS_THE_SAME_NAME,
+	TWO_ROOMS_HAVE_THE_SAME_NAME,
+	TWO_ROOMS_HAVE_THE_SAME_COORDS,
 	/* Rooms */
 
 	/* Links */
@@ -85,7 +86,7 @@ typedef enum			e_errors
 */
 typedef enum			e_controller
 {
-	READ = 1,	
+	READ = 1,
 	VALID_ROOM,
 	STOP_READ,
 	GO_VALID,
@@ -106,9 +107,11 @@ typedef struct 			s_buff
 
 typedef struct			s_info
 {
-	char				**room;
-	char				*line;
-	unsigned long		id;
+	char				**line;
+	char				*room;
+	char				*coord;
+	unsigned long		id_room;
+	unsigned long		id_coord;
 	intmax_t			ants;
 	size_t				amnt_of_rooms;
 	size_t				num_start_elem;
@@ -118,15 +121,15 @@ typedef struct			s_info
 
 typedef struct			s_storage
 {
-	t_info 				info;
-	t_buff				buff;
 	t_checks			chcks;
 	t_controller		contrllr;
 	t_errors			errors;
+	struct s_info 		*info;
+	struct s_buff		*buff;
 }						t_storage;
 
 /*
-**--------------------Hashtable--------------------
+**--------------------Room---------------------------
 */
 typedef struct		    s_room
 {
@@ -141,14 +144,20 @@ typedef struct		    s_room
 	struct s_room      	*next;
 }					    t_room;
 
+/*
+**--------------------Coordinates---------------------
+*/
 typedef struct			s_coord
 {
 	char				*x_y;
-	size_t				name_len;
+	size_t				x_y_len;
 	unsigned long		id;
 	struct s_coord		*next;
 }						t_coord;
 
+/*
+**--------------------Hashtable-----------------------
+*/
 typedef struct		    s_htab
 {
 	char				*start;
@@ -161,49 +170,53 @@ typedef struct		    s_htab
 }					    t_htab;
 
 /*
-**--------------------Adjlists---------------------
+**--------------------Adjlists------------------------
 */
-typedef struct			s_adjelem
+typedef struct			s_adjlst
 {
 	struct s_room		*room;
-	struct s_adjelem	*next;
-}						t_adjelem;
-
-typedef struct			s_adjlists
+	struct s_adjlst		*next;
+}						t_adjlst;
+/*
+**--------------------Adjtable------------------------
+*/
+typedef struct			s_adjtab
 {
 	size_t				size;
-	struct s_adjelem	**elems;
-}						t_adjlists;
+	struct s_adjlst		**lsts;
+}						t_adjtab;
 
 /*
 **--------------------Queue-----------------------
 */
 typedef struct			s_node
 {
-	struct s_adjelem	*vertex;
+	struct s_adjlst		*vertex;
 	struct s_node		*next;
 }						t_node;
 
 typedef struct          s_queue
 {
+	size_t				size;
 	struct s_node		*front;
 	struct s_node		*rear;
-	size_t				size;	
 }                       t_queue;
 
 /*
-**--------------------Validation-------------------
+**--------------------Validation--------------------
 */
+void			storage_init(t_storage *strg);
 void			valid_data(t_storage *strg);
 bool			valid_ants(t_checks *chcks, const char *line, intmax_t *ants);
 bool			valid_commands(t_storage *storage, t_checks *chcks, char *line);
 bool			valid_room(const char *line);
 bool			is_comment(const char *line);
 bool			is_link(const char *line);
-bool			is_start_command(const char *line);
-bool			is_end_command(const char *line);
-bool			room_exists(t_htab *htab, char *name);
-bool			coord_exists(t_htab *htab, char *x_y);
+bool			is_commands(const char *line);
+bool			is_start_command(const char *data);
+bool			is_end_command(const char *data);
+bool			is_room(const char *line);
+
 /*
 **--------------------Errors-----------------------
 */
@@ -215,50 +228,105 @@ void			errors_input(const t_errors error);
 void			errors_memory(const t_errors error, const char *error_func);
 
 /*
-**--------------------Hashtable--------------------
+**--------------------Room-------------------------
 */
-void			init_hashtable(t_htab *htab, t_storage *strg);
-unsigned long	get_id(t_htab *htab, char *name, size_t name_len);
-void    		hashtable_put(t_htab *htab, t_buff *buff, t_info *info);
-t_room			*hashtable_get(t_htab *htab, unsigned long id, char *name);
-void    		hashtable_create(t_htab *htab, t_buff *buff, t_info *info);
+void			rooms_init(t_room **rooms, size_t size);
+void			room_create(t_htab *htab, t_info *info);
+bool			room_exists(t_htab *htab, char *name, unsigned long	id);
+void			room_set(t_room *room, t_info *info);
+char			**room_get(char *line);
+void			rooms_clear(t_room **rooms, size_t size);
 
 /*
-**-------------------Adjlists----------------------
+**--------------------Coordinates-------------------
 */
-void			init_adjlists(t_adjlists *adjlists, t_htab *htab);
-void			adjlists_create(t_adjlists *adjlsts, t_htab *htab, t_buff *buff, t_info *info);
-void			adjlists_put(t_adjlists *adjlsts, t_htab *htab, char **rooms);
-// bool			adjlists_find(t_adjlists *adjlsts, t_room *room);
-t_adjelem		*adjlists_find(t_adjlists *adjlsts, t_room *room);
-bool			list_find(const t_adjelem *elem, const t_room *room);
-void			*list_add(t_adjelem *elem, const t_room *room);
+void			coords_init(t_coord **coord, size_t size);
+void   		 	coord_create(t_htab *htab, t_info *info);
+bool    		coord_exists(t_htab *htab, char *x_y, unsigned long id);
+void			coord_set(t_coord *coord, t_info *info);
+char    		*coord_get(char *x, char *y);
+void			coords_clear(t_coord **coords, size_t size);
+
+/*
+**--------------------Hashtable---------------------
+*/
+void			hashtab_init(t_htab *htab, t_storage *strg);
+void    		hashtab_create(t_htab *htab, t_buff *buff, t_info *info);
+void		    hashtab_set(t_htab *htab, t_info *info);
+t_room			*hashtab_get(t_htab *htab, unsigned long id, char *name);
+unsigned long	get_id(t_htab *htab, char *name, size_t name_len);
+void			hashtab_clear(t_htab *htab);
+
+/*
+**--------------------Adjlist--------------------------
+*/
+void			adjlst_init(t_adjlst **lists, size_t size);
+bool			adjlst_exists(const t_adjlst *elem, const t_room *room);
+void			*adjlst_put(t_adjlst *elem, const t_room *room);
+// void			adjlist_clear();
+
+/*
+**--------------------Adjtable----------------------
+*/
+void			adjtab_init(t_adjtab *adjtab, t_htab *htab);
+void			adjtab_create(t_adjtab *at, t_htab *ht, t_buff *b, t_info *i);
+bool         	adjtab_exists(t_adjtab *adjtab, t_room *room);
+void			adjtab_set(t_adjtab *adjtab, t_htab *htab, char **rooms);
+void         	adjtab_put(t_adjtab *adjtab, const t_room *room);
+t_adjlst		*adjtab_get(t_adjtab *adjtab, t_room *room);
+void			adjtab_print(t_adjtab *adjtab, ssize_t i);
+void			adjtab_clear(t_adjtab *adjtab);
+
+/*
+**--------------------Info--------------------------
+*/
+void			info_init(t_info **info);
+void			info_get(t_info *info, t_htab *htab, t_buff *buff);
+void			info_clear(t_info *info);
+
+/*
+**--------------------Buff--------------------------
+*/
+void			buff_clear(t_buff *buff);
+void			buff_init(t_buff **buff);
 
 /*
 **--------------------Queue------------------------
 */
-t_queue			*init_queue(void);
-// void			init_queue(t_queue **queue);
-void			enqueue(t_queue *queue, t_adjelem *curr_vertex);
-t_adjelem		*dequeue(t_queue *queue);
+t_queue			*queue_init(void);
+void			enqueue(t_queue *queue, t_adjlst *curr_vertex);
+t_adjlst		*dequeue(t_queue *queue);
 bool			is_empty(t_queue *queue);
+bool			in_queue(t_adjlst *curr_vertex);
+void			print_queue(t_queue *queue);
 
 /*
-**--------------------Algorithm--------------------
+**--------------------Bfs--------------------
 */
-void			use_bfs(t_adjlists *adjlsts, t_htab *htab);
+void			bfs(t_adjtab *adjtab, t_htab *htab);
 
 /*
 **--------------------Auxiliary--------------------
 */
 bool			read_line(t_buff *buff, char **line);
 void			free_room(char **room);
+void     		free_dblarray(char **str);
+void			room_clear(t_room **rooms, size_t size);
 void			free_all(size_t numargs, ...);
-void			print_htab(t_htab *htab, int i);
-void			print_adjlists(t_adjlists *adjlsts, ssize_t i);
-void			init_elems(t_adjelem **elems, size_t size);
-void			init_elems(t_adjelem **elems, size_t size);
-void			init_adjlists(t_adjlists *adjlsts, t_htab *htab);
+
+void			hashtable_print_room(t_htab *htab, int i);
+void			hashtable_print_coord(t_htab *htab, int i);
+
+void			print_adjtable(t_adjtab *adjtab, ssize_t i);
+void			init_buff(t_buff **buff);
+
 void			init_storage(t_storage *strg);
+
+void			remember_start_end(t_htab *htab, t_room *room);
+void			skip_amount_of_ants(const char *data);
+char			*get_line(const char *data);
+void			remember_start_end(t_htab *htab, t_room *room);
+bool			is_exists(t_htab *htab, char *name, unsigned long id);
+char			**get_rooms(char *data);
 
 #endif

@@ -1,16 +1,18 @@
 3
-room_2 5 0
+room_1 5 0
 ##start
 start 1 2
 ##end
 end 9 2
-room_3 3 4
-room_5 5 4
-room_4 5 4
-room_6 5 4
-room_7 5 4
-room_8 5 4
+room_2 3 4
+room_3 5 4
+room_4 5 6
+room_5 5 1
+room_6 1 4
+room_7 3 6
+room_8 7 8
 start-room_2
+room_1-start
 start-room_3
 room_2-room_4
 room_2-room_5
@@ -26,3 +28,4 @@ room_6-room_5
 room_6-end
 room_7-room_4
 room_8-room_4
+room_4-room_7

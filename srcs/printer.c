@@ -10,33 +10,64 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "lem_in.h"
 
-void			print_adjlists(t_adjlists *adjlsts, ssize_t i)
+void			print_queue(t_queue *queue)
 {
-	t_adjelem	*tmp;
+	t_node	*tmp;
 
-	tmp = adjlsts->elems[i];
-	printf("%s -> ", tmp->room->name);
-	while (tmp->next != NULL)
+	printf("\nqueue contains := {");
+	tmp = queue->front;
+	while (tmp)
 	{
+		if (tmp->next != NULL)
+			printf("%s, ", tmp->vertex->room->name);
+		else
+			printf("%s", tmp->vertex->room->name);
 		tmp = tmp->next;
-		printf("%s -> ", tmp->room->name);
+	}
+	printf("}\n");
+	printf("\n");
+}
+
+void			adjtab_print(t_adjtab *adjtab, ssize_t i)
+{
+	t_adjlst	*tmp;
+
+	tmp = adjtab->lsts[i];
+	while (tmp && tmp->room)
+	{
+		if (tmp->room)
+			printf("%s -> ", tmp->room->name);
+		tmp = tmp->next;
 	}
 	printf("\n");
 }
 
-void		print_htab(t_htab *htab, int i)
+void		hashtable_print_room(t_htab *htab, int i)
 {
 	t_room	*tmp;
 
 	tmp = htab->rooms[i];
-	printf("[i:%zu]%s[id:%lu] -> ", tmp->index, tmp->name, tmp->id);
-	while (tmp->next != NULL)
+	printf("[%zu]%s[id:%lu] -> ", tmp->index, tmp->name, tmp->id);
+	while (tmp->next)
 	{
 		tmp = tmp->next;
 		printf("[%zu]%s[id:%lu] -> ", tmp->index, tmp->name, tmp->id);
+	}
+	printf("\n");
+}
+
+void		hashtable_print_coord(t_htab *htab, int i)
+{
+	t_coord	*tmp;
+
+	tmp = htab->coords[i];
+	printf("[%zu]%s -> ", tmp->id, tmp->x_y);
+	while (tmp->next)
+	{
+		tmp = tmp->next;
+		printf("[%zu]%s -> ", tmp->id, tmp->x_y);
 	}
 	printf("\n");
 }

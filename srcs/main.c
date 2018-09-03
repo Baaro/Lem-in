@@ -12,37 +12,49 @@
 
 #include "lem_in.h"
 
+void		clear(t_htab *htab, t_adjtab *adjtab, t_storage *strg)
+{
+	adjtab_clear(adjtab);
+	hashtab_clear(htab);
+	info_clear(strg->info);
+	buff_clear(strg->buff);
+}
+
 int			main(void)
 {
 	t_storage		strg;
 	t_htab			htab;
-	t_adjlists		adjlsts;
-	
-	init_storage(&strg);
+	t_adjtab		adjtab;
+
+	storage_init(&strg);
 	valid_data(&strg);
 
-	init_hashtable(&htab, &strg);
-	hashtable_create(&htab, &strg.buff, &strg.info);
+	hashtab_init(&htab, &strg);
+	hashtab_create(&htab, strg.buff, strg.info);
 
-	// init_adjlists(&adjlsts, &htab);
-	// adjlists_create(&adjlsts, &htab, &strg.buff, &strg.info);
+	adjtab_init(&adjtab, &htab);
+	adjtab_create(&adjtab, &htab, strg.buff, strg.info);
 
-	printf("HASHTABLE\n");
-	size_t i = 0;
-	while (++i <= (size_t)htab.size)
-		print_htab(&htab, i);
-	printf("\n");
+	// printf("HASHTABLE_ROOM\n");
+	// size_t i = -1;
+	// while (++i < (size_t)htab.size)
+	// 	hashtable_print_room(&htab, i);
 
- 	// printf("ADJLISTS\n");
- 	// size_t j = 0;
-	// while (++j <= (size_t)adjlsts.size)
-	// 	print_adjlists(&adjlsts, j);
+	// printf("HASHTABLE_COORDNATES\n");
+	// size_t k = -1;
+	// while (++k < (size_t)htab.size)
+	// 	hashtable_print_coord(&htab, k);
 
-	// use_bfs(&adjlsts, &htab);
-	// free(strg.buffer.line);
-	// free(strg.buffer.data);
-	// use_dfs();
+ 	//	printf("ADJLISTS\n");
+ 	//	size_t j = 0;
+	// printf("size: %zu\n", adjtab.size);
+	// while (++j <= (size_t)adjtab.size)
+	// 	adjtab_print(&adjtab, j);
+
+	// bfs(&adjlsts, &htab);
+	// dfs(&adjlsts, &htab);
 	// send_ants();
+	// clear(&htab, &adjtab, &strg);
 	// system("leaks lem-in");
 	return (0);
 }
