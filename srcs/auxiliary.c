@@ -50,16 +50,17 @@ void		skip_amount_of_ants(const char *data)
 	ft_strdel(&tmp);
 }
 
-void     	free_dblarray(char **str)
-{
-    if (!str)
-        return ;
-	while (*str)
-    {
-		ft_strdel(str);
-		str++;
-    }
-}
+// void     	free_dblarray(char **str)
+// {
+// 	size_t	i;
+
+//     if (!str)
+//         return ;
+//     i = 0;
+// 	while (str[i])
+// 		free(str[i++]);
+//     // free(str);
+// }
 
 char		*get_line(const char *data)
 {
@@ -79,7 +80,7 @@ char		*get_line(const char *data)
 	return (line);
 }
 
-bool			read_line(t_buff *buff, char **line)
+bool		read_line(t_buff *buff, char **line)
 {
 	char	*tmp;
 	ssize_t	flag;
@@ -104,11 +105,6 @@ bool			read_line(t_buff *buff, char **line)
 		errors_input(WRONG_INPUT);
 	}
 	return (TRUE);
-}
-
-char		**get_rooms(char *data)
-{
- 	return (ft_strsplit(data, '-'));
 }
 
 bool		is_exists(t_htab *htab, char *name, unsigned long id)

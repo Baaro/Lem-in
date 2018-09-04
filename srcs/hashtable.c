@@ -59,7 +59,7 @@ void			hashtab_set(t_htab *htab, t_info *info)
 
 void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
 {
-	skip_amount_of_ants(buff->data); // skip first line of data (contain all previous information which was read from file)
+	skip_amount_of_ants(buff->data);
 	while (TRUE)
 	{
 		buff->line = get_line(buff->data);
@@ -67,7 +67,7 @@ void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
 			break ;
 		if (is_room(buff->line))
 		{
-			info_get(info, htab, buff);
+			info_get_rooms(info, htab, buff);
 			hashtab_set(htab, info);
 		}
 		ft_strdel(&buff->line);

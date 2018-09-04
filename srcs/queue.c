@@ -1,10 +1,9 @@
 #include "lem_in.h"
 
-bool		in_queue(t_adjlst *curr_vertex)
+void		queue_clear(t_queue *queue)
 {
-	if (curr_vertex->room->in_queue == TRUE)
-		return (TRUE);
-	return (FALSE);
+	free(queue->front);
+	free(queue);
 }
 
 t_queue		*queue_init(void)
@@ -37,7 +36,7 @@ t_adjlst	*dequeue(t_queue *queue)
 	return (queue->front->vertex);
 }
 
-void		enqueue(t_queue *queue, t_adjlst *curr_vertex)
+void		enqueue(t_queue *queue, t_adjlst *curr_vertex, size_t level)
 {
 	if (queue->front == NULL)
 	{
@@ -47,7 +46,7 @@ void		enqueue(t_queue *queue, t_adjlst *curr_vertex)
 		queue->rear = queue->front;
 		queue->size++;
 	}
-	else if (!in_queue(curr_vertex))
+	else if (!curr_vertex->room->in_queue)
 	{
 		queue->rear->next = (t_node *)malloc(sizeof(t_node));
 		queue->rear->next->vertex = curr_vertex;
@@ -55,5 +54,6 @@ void		enqueue(t_queue *queue, t_adjlst *curr_vertex)
 		queue->rear = queue->rear->next;
 		queue->size++;
 	}
+	curr_vertex->room->level = level;
 	curr_vertex->room->in_queue = TRUE;
 }

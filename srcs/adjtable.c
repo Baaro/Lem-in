@@ -5,8 +5,8 @@ void		adjtab_clear(t_adjtab *adjtab)
 	t_adjlst	*tmp;
 	size_t		i;
 
-	i = 0;
-	while (++i < adjtab->size)
+	i = -1;
+	while (++i < adjtab->size + 1)
 	{
 		tmp = adjtab->lsts[i];
 		while (tmp)
@@ -41,42 +41,30 @@ t_adjlst	*adjtab_get(t_adjtab *adjtab, t_room *room)
 
 void		adjtab_put(t_adjtab *adjtab, const t_room *room)
 {
-	// t_room *tmp;
-
-	// tmp = (t_room *)room;
 	adjtab->lsts[room->index]->room = (t_room *)room;
-	printf("n: [%s]	", adjtab->lsts[room->index]->room->name);
-	printf("i: [%zu]\n", adjtab->lsts[room->index]->room->index);
-	// printf("name: %s\n", adjtab->lsts[room->index]->room->name);
 	adjtab->lsts[room->index]->next = NULL;
 }
 
-void		adjtab_set(t_adjtab *adjtab, t_htab *htab, char **rooms)
+void		adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info)
 {
 	unsigned long	id_first;
 	unsigned long	id_second;
 	t_room			*first_room;
 	t_room			*second_room;
 
- 	id_first = get_id(htab, rooms[FIRST], ft_strlen(rooms[FIRST]));
- 	id_second = get_id(htab, rooms[SECOND], ft_strlen(rooms[SECOND]));
- 	if (is_exists(htab, rooms[FIRST], id_first)
-	&& is_exists(htab, rooms[SECOND], id_second))
+ 	id_first = get_id(htab, info->first_room, ft_strlen(info->first_room));
+ 	id_second = get_id(htab, info->second_room, ft_strlen(info->second_room));
+ 	if (is_exists(htab, info->first_room, id_first)
+	&& is_exists(htab, info->second_room, id_second))
  	{
-		if (!(first_room = hashtab_get(htab, id_first, rooms[FIRST])))
+		if (!(first_room = hashtab_get(htab, id_first, info->first_room)))
 			return ;
-		if (!(second_room = hashtab_get(htab, id_second, rooms[SECOND])))
+		if (!(second_room = hashtab_get(htab, id_second, info->second_room)))
 			return ;
 		if (!adjtab_exists(adjtab, first_room))
-		{
-			printf("first: -> ");
 			adjtab_put(adjtab, first_room);
-		}
 		if (!adjtab_exists(adjtab, second_room))
-		{
-			printf("second: -> ");			
 			adjtab_put(adjtab, second_room);
-		}
 		if (!adjlst_exists(adjtab->lsts[first_room->index], second_room))
 			adjlst_put(adjtab->lsts[first_room->index], second_room);
 		if (!adjlst_exists(adjtab->lsts[second_room->index], first_room))
@@ -92,9 +80,9 @@ void		adjtab_create(t_adjtab *at, t_htab *ht, t_buff *b, t_info *i)
  		{
  			if (is_link(b->line))
 			{
-				i->line = get_rooms(b->line);
- 				adjtab_set(at, ht, i->line);
- 				free_dblarray(i->line);
+				info_get_links(i, b->line);
+ 				adjtab_set(at, ht, i);
+				info_clear_links(i);
 			}
  		}
  		if (!read_line(b, &b->line))

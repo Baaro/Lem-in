@@ -35,26 +35,25 @@ int			main(void)
 	adjtab_init(&adjtab, &htab);
 	adjtab_create(&adjtab, &htab, strg.buff, strg.info);
 
-	// printf("HASHTABLE_ROOM\n");
-	// size_t i = -1;
-	// while (++i < (size_t)htab.size)
-	// 	hashtable_print_room(&htab, i);
+	printf("\nHASHTABLE_ROOM\n");
+	size_t i = -1;
+	while (++i < (size_t)htab.size)
+		hashtable_print_room(&htab, i);
 
-	// printf("HASHTABLE_COORDNATES\n");
-	// size_t k = -1;
-	// while (++k < (size_t)htab.size)
-	// 	hashtable_print_coord(&htab, k);
+	printf("\nHASHTABLE_COORDNATES\n");
+	size_t k = -1;
+	while (++k < (size_t)htab.size)
+		hashtable_print_coord(&htab, k);
 
- 	//	printf("ADJLISTS\n");
- 	//	size_t j = 0;
-	// printf("size: %zu\n", adjtab.size);
-	// while (++j <= (size_t)adjtab.size)
-	// 	adjtab_print(&adjtab, j);
+ 	printf("\nADJLISTS\n");
+ 	size_t j = -1;
+	while (++j < (size_t)adjtab.size + 1)
+		adjtab_print(&adjtab, j);
 
-	// bfs(&adjlsts, &htab);
-	// dfs(&adjlsts, &htab);
+	bfs(&adjtab, &htab);
+	// dfs(&adjtab, &htab);
 	// send_ants();
-	// clear(&htab, &adjtab, &strg);
+	clear(&htab, &adjtab, &strg);
 	// system("leaks lem-in");
 	return (0);
 }

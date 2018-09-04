@@ -7,8 +7,8 @@ void	adjlst_init(t_adjlst **lsts, size_t size)
 	/*
 	** We don't use zero index because each null element in hashtable contain zero index
 	*/
-	i = 0;
-	while (++i <= size + 1)
+	i = -1;
+	while (++i < size + 1)
 	{
 		if (!(lsts[i] = (t_adjlst *)malloc(sizeof(t_adjlst))))
 			errors_memory(CANT_ALLOCATE_MEM, "adjlst_init");

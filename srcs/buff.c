@@ -2,8 +2,8 @@
 
 void    buff_clear(t_buff *buff)
 {
-	ft_strdel(&buff->data);
-	ft_strdel(&buff->line);
+	if (buff->data)
+		ft_strdel(&buff->data);
 	free(buff);
 	buff = NULL;
 }

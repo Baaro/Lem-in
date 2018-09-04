@@ -62,23 +62,23 @@ static	int		cntwords(char const *s, char c)
 static	char	*putword(char const *s, char c, int *last_pos)
 {
 	char	*word;
-	int		d;
+	int		j;
 	int		i;
 
 
-	d = 0;
+	if (!(word = (char *)malloc(sizeof(char) * ft_strlen(s))))
+		return (NULL);
+	j = 0;
 	i = *last_pos;
 	while (s[i] == c)
 		i++;
-	if (!(word = (char *)malloc(sizeof(char) * ft_strlen(s))))
-		return (NULL);
 	while (s[i] && s[i] != c)
 	{
-		word[d] = s[i];
-		d++;
+		word[j] = s[i];
+		j++;
 		i++;
 	}
-	word[d] = '\0';
+	word[j] = '\0';
 	*last_pos = i;
 	return (word);
 }
