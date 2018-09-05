@@ -35,17 +35,23 @@ void	rooms_init(t_room **rooms, size_t size)
 	}
 }
 
-void	room_set(t_room *room, t_info *info)
+void	room_set(t_htab *htab, t_room *room, t_info *info)
 {
-	if (!(room->name = ft_strredup(info->room)))
+	if (!(room->name = ft_strdup(info->room)))
 		errors_memory(CANT_ALLOCATE_MEM, "room_set");
 	room->name_len = ft_strlen(room->name);
 	room->id = info->id_room;
 	room->index = info->cnt_rooms;
 	if (info->num_start_elem == info->cnt_rooms)
+	{
 		room->start = TRUE;
+		htab->start = ft_strdup(info->room);
+	}
 	if (info->num_end_elem == info->cnt_rooms)
+	{
+		htab->end = ft_strdup(info->room);
 		room->end = TRUE;
+	}
 }
 
 bool	room_exists(t_htab *htab, char *name, unsigned long	id)
@@ -70,12 +76,12 @@ void	room_create(t_htab *htab, t_info *info)
 	t_room	*tmp;
 
 	if (!htab->rooms[info->id_room]->name)
-	 	room_set(htab->rooms[info->id_room], info);
+	 	room_set(htab, htab->rooms[info->id_room], info);
 	else
 	{
 		if (!(tmp = (t_room *)malloc(sizeof(t_room))))
 			errors_memory(CANT_ALLOCATE_MEM, "room_create");
-		room_set(tmp, info);
+		room_set(htab, tmp, info);
 		tmp->next = htab->rooms[info->id_room]->next;
 		htab->rooms[info->id_room]->next = tmp;
 		if (!htab->rooms[info->id_room]->next->next)

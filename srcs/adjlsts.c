@@ -8,12 +8,12 @@ void	adjlst_init(t_adjlst **lsts, size_t size)
 	** We don't use zero index because each null element in hashtable contain zero index
 	*/
 	i = -1;
-	while (++i < size + 1)
+	while (++i < size)
 	{
-		if (!(lsts[i] = (t_adjlst *)malloc(sizeof(t_adjlst))))
+		if (!(lsts[i] = (t_adjlst *)ft_memalloc(sizeof(t_adjlst))))
 			errors_memory(CANT_ALLOCATE_MEM, "adjlst_init");
-		if (!(lsts[i] = ft_memset(lsts[i], 0, sizeof(t_adjlst))))
-			errors_memory(CANT_SETZERO, "adjlst_init");
+		// if (!(lsts[i] = ft_memset(lsts[i], 0, sizeof(t_adjlst))))
+			// errors_memory(CANT_SETZERO, "adjlst_init");
 	}
 }
 

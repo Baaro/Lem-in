@@ -38,7 +38,7 @@ void			bfs(t_adjtab *adjtab, t_htab *htab)
 		}
 		curr_vertex = dequeue(queue);
 		curr_vertex = get_vertex(htab, adjtab, curr_vertex->room->name);
-		printf("%s level: %zu\n", curr_vertex->room->name, curr_vertex->room->level);
+		// printf("%s level: %zu\n", curr_vertex->room->name, curr_vertex->room->level);
 	}
 	queue_clear(queue);
 }

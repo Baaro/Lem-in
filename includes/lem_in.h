@@ -31,8 +31,8 @@
 # define X 1
 # define Y 2
 
-# define FIRST 0
-# define SECOND 1
+# define FIRST_ROOM 0
+# define SECOND_ROOM 1
 
 # define INPUT 0
 
@@ -107,13 +107,14 @@ typedef struct 			s_buff
 
 typedef struct			s_info
 {
-	char				**line;
+	char				**room_coord;
+	char				*line;
 	char				*room;
 	char				*first_room;
 	char				*second_room;
 	char				*coord;
 	unsigned int		id_coord;
-	unsigned int		id_room;	
+	unsigned int		id_room;
 	intmax_t			ants;
 	size_t				amnt_of_rooms;
 	size_t				num_start_elem;
@@ -236,7 +237,8 @@ void			errors_memory(const t_errors error, const char *error_func);
 void			rooms_init(t_room **rooms, size_t size);
 void			room_create(t_htab *htab, t_info *info);
 bool			room_exists(t_htab *htab, char *name, unsigned long	id);
-void			room_set(t_room *room, t_info *info);
+// void			room_set(t_room *room, t_info *info);
+void			room_set(t_htab *htab, t_room *room, t_info *info);
 char			**room_get(char *line);
 void			rooms_clear(t_room **rooms, size_t size);
 
@@ -286,6 +288,7 @@ void			info_init(t_info **info);
 void			info_get_rooms(t_info *info, t_htab *htab, t_buff *buff);
 void			info_get_links(t_info *info, char *line);
 void			info_clear_links(t_info *info);
+void			info_clear_rooms(t_info *info);
 void			info_clear(t_info *info);
 
 /*

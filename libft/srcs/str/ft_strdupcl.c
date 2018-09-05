@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strdupcl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/19 21:16:35 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/02/16 01:09:35 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/09/05 13:32:53 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/05 13:32:54 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <fcntl.h>
-# include "libft.h"
+#include "libft.h"
 
-# define BUFF_SIZE 2
-
-typedef struct		s_lst
+char		*ft_strdupcl(char *to_del, const char *to_copy)
 {
-	char			*str;
-	int				fd;
-	struct s_lst	*next;
-}					t_lst;
+	char *tmp;
 
-int				get_next_line(const int fd, char **line);
-#endif
+	if (!to_del || !to_copy)
+		return (NULL);
+	tmp = ft_strdup(to_copy);
+	ft_strdel(&to_del);
+	return (tmp);
+}

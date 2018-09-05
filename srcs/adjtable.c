@@ -21,10 +21,12 @@ void		adjtab_clear(t_adjtab *adjtab)
 
 bool		adjtab_exists(t_adjtab *adjtab, t_room *room)
 {
+	printf("%p\n", adjtab->lsts[room->index]->room);
 	if (adjtab->lsts[room->index]
 	&& adjtab->lsts[room->index]->room
 	&& adjtab->lsts[room->index]->room->name)
 	{
+		printf("name: %s \n");
 		if (ft_strcmp(adjtab->lsts[room->index]->room->name, room->name) == 0)
 			return (TRUE);
 	}

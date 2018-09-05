@@ -51,6 +51,7 @@ int					ft_tolower(int c);
 
 char				*ft_strdup(const char *s1);
 char				*ft_strredup(char *src);
+char				*ft_strdupcl(char *to_del, const char *to_copy);
 size_t				ft_strlen(const char *str);
 char				*ft_strcpy(char *dst, const char *src);
 char				*ft_strncpy (char *dst, const char *src, size_t n);

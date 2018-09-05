@@ -50,10 +50,14 @@ void		hashtable_print_room(t_htab *htab, int i)
 
 	tmp = htab->rooms[i];
 	printf("[%zu]%s[id:%lu] -> ", tmp->index, tmp->name, tmp->id);
-	while (tmp->next)
+	while (tmp && tmp->name)
 	{
-		tmp = tmp->next;
+		if (ft_strcmp(htab->start, tmp->name) == 0)
+			printf("\nS: %s[%lu]\n", tmp->name, tmp->id);
+		if (ft_strcmp(htab->end, tmp->name) == 0)
+			printf("\nE: %s[%lu]\n", tmp->name, tmp->id);
 		printf("[%zu]%s[id:%lu] -> ", tmp->index, tmp->name, tmp->id);
+		tmp = tmp->next;
 	}
 	printf("\n");
 }
@@ -64,10 +68,11 @@ void		hashtable_print_coord(t_htab *htab, int i)
 
 	tmp = htab->coords[i];
 	printf("[%zu]%s -> ", tmp->id, tmp->x_y);
-	while (tmp->next)
+	while (tmp && tmp->x_y)
 	{
-		tmp = tmp->next;
+
 		printf("[%zu]%s -> ", tmp->id, tmp->x_y);
+		tmp = tmp->next;
 	}
 	printf("\n");
 }

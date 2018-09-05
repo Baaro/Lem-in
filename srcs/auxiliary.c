@@ -28,26 +28,18 @@
 // 	va_end(ap);
 // }
 
-void		remember_start_end(t_htab *htab, t_room *room)
-{
-	if (room->start == TRUE)
-	{
-		htab->start = ft_strdup(room->name);
-		htab->start_len = room->name_len;
-	}
-	else if (room->end == TRUE)
-	{
-		htab->end = ft_strdup(room->name);
-		htab->end_len = room->name_len;
-	}
-}
-
 void		skip_amount_of_ants(const char *data)
 {
 	char	*tmp;
 
+	if (is_comment(data))
+	{
+		tmp = get_line(data);
+		ft_strdel(&tmp);
+	}
 	tmp = get_line(data);
-	ft_strdel(&tmp);
+	if (tmp)
+		ft_strdel(&tmp);
 }
 
 // void     	free_dblarray(char **str)

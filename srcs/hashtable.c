@@ -4,8 +4,8 @@ void			hashtab_clear(t_htab *htab)
 {
 	rooms_clear(htab->rooms, htab->size);
 	coords_clear(htab->coords, htab->size);
-	free(htab->start);
-	free(htab->end);
+	ft_strdel(&htab->start);
+	ft_strdel(&htab->end);
 }
 
 t_room			*hashtab_get(t_htab *htab, unsigned long id, char *name)
@@ -47,8 +47,6 @@ void			hashtab_set(t_htab *htab, t_info *info)
 		{
 			room_create(htab, info);
 			coord_create(htab, info);
-			if (htab->start == NULL || htab->end == NULL)
-				remember_start_end(htab, htab->rooms[info->id_room]);
 		}
 		else
 			errors_rooms(TWO_ROOMS_HAVE_THE_SAME_COORDS);
@@ -62,14 +60,16 @@ void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
 	skip_amount_of_ants(buff->data);
 	while (TRUE)
 	{
-		buff->line = get_line(buff->data);
-		if (is_link(buff->line))
+		info->line = get_line(buff->data);
+		if (is_link(info->line))
 			break ;
-		if (is_room(buff->line))
+		if (is_room(info->line))
 		{
 			info_get_rooms(info, htab, buff);
 			hashtab_set(htab, info);
+			info_clear_rooms(info);
 		}
-		ft_strdel(&buff->line);
+		ft_strdel(&info->line);
 	}
+	ft_strdel(&info->line);
 }

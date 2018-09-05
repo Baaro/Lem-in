@@ -15,13 +15,13 @@
 void		errors_ants(const t_errors error)
 {
 	if (error == TOO_FEW_ANTS)
-		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is bigger than [100 000]!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m The value of ants is bigger than [100 000]!\n");
 	else if (error == WRONG_VALUE_OF_ANTS)
-		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is not a number!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m The value of ants is not a number!\n");
 	else if (error == ANTS_IS_NEG)
-		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is negative!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m The value of ants is negative!\n");
 	else if (error == ANTS_IS_ZERO)
-		ft_printf("\x1b[31mERROR:\x1b[0m Value of ants is zero!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m The value of ants is zero!\n");
 	exit(EXIT_FAILURE);
 }
 
@@ -74,8 +74,8 @@ void		errors_input(const t_errors error)
 void		errors_memory(const t_errors error, const char *error_func)
 {
 	if (error == CANT_ALLOCATE_MEM)
-		ft_printf("\x1b[31mERROR:\x1b[0m Cannot acllocate memory for table! Problem in: ( %s ) funcion", error_func);
+		ft_printf("\x1b[31mERROR:\x1b[0m Cannot allocate memory! The Problem is in func: [%s]!\n", error_func);
 	else if (error == CANT_SETZERO)
-		ft_printf("\x1b[31mERROR:\x1b[0m Cannot use memset! Problem in: ( %s ) function", error_func);
+		ft_printf("\x1b[31mERROR:\x1b[0m Cannot use memset! The Problem is in func: [%s]!\n", error_func);
 	exit(EXIT_FAILURE);
 }

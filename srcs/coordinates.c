@@ -37,7 +37,7 @@ void	coords_init(t_coord **coord, size_t size)
 
 void	coord_set(t_coord *coord, t_info *info)
 {
-	if (!(coord->x_y = ft_strredup(info->coord)))
+	if (!(coord->x_y = ft_strdup(info->coord)))
 		errors_memory(CANT_ALLOCATE_MEM, "coord_set");
 	coord->x_y_len = ft_strlen(coord->x_y);
 	coord->id = info->id_coord;
