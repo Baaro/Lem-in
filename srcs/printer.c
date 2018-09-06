@@ -27,7 +27,6 @@ void			print_queue(t_queue *queue)
 		tmp = tmp->next;
 	}
 	printf("}\n");
-	printf("\n");
 }
 
 void			adjtab_print(t_adjtab *adjtab, ssize_t i)
@@ -35,13 +34,17 @@ void			adjtab_print(t_adjtab *adjtab, ssize_t i)
 	t_adjlst	*tmp;
 
 	tmp = adjtab->lsts[i];
-	while (tmp && tmp->room)
+	if (tmp->room && tmp->room->name)
 	{
-		if (tmp->room)
-			printf("%s -> ", tmp->room->name);
-		tmp = tmp->next;
+		printf("[%s] -> ", tmp->room->name);
+		while (tmp->next)
+		{
+			tmp = tmp->next;		
+			if (tmp->room && tmp->room->name)
+				printf("%s -> ", tmp->room->name);
+		}
+		printf("\n");		
 	}
-	printf("\n");
 }
 
 void		hashtable_print_room(t_htab *htab, int i)
@@ -49,17 +52,17 @@ void		hashtable_print_room(t_htab *htab, int i)
 	t_room	*tmp;
 
 	tmp = htab->rooms[i];
-	printf("[%zu]%s[id:%lu] -> ", tmp->index, tmp->name, tmp->id);
-	while (tmp && tmp->name)
+	if (tmp && tmp->name)
 	{
-		if (ft_strcmp(htab->start, tmp->name) == 0)
-			printf("\nS: %s[%lu]\n", tmp->name, tmp->id);
-		if (ft_strcmp(htab->end, tmp->name) == 0)
-			printf("\nE: %s[%lu]\n", tmp->name, tmp->id);
-		printf("[%zu]%s[id:%lu] -> ", tmp->index, tmp->name, tmp->id);
-		tmp = tmp->next;
+		printf("[id:%lu] %s -> ", tmp->id, tmp->name) ;
+		while (tmp->next)
+		{
+			if (tmp && tmp->name)		
+				printf("[id:%lu] %s -> ", tmp->id, tmp->name);
+			tmp = tmp->next;				
+		}
+		printf("\n");
 	}
-	printf("\n");
 }
 
 void		hashtable_print_coord(t_htab *htab, int i)
@@ -67,12 +70,15 @@ void		hashtable_print_coord(t_htab *htab, int i)
 	t_coord	*tmp;
 
 	tmp = htab->coords[i];
-	printf("[%zu]%s -> ", tmp->id, tmp->x_y);
-	while (tmp && tmp->x_y)
+	if (tmp && tmp->x_y)
 	{
-
-		printf("[%zu]%s -> ", tmp->id, tmp->x_y);
-		tmp = tmp->next;
+		printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);
+		while (tmp->next)
+		{
+			tmp = tmp->next;
+			if (tmp && tmp->x_y)
+				printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);
+		}
+		printf("\n");		
 	}
-	printf("\n");
 }

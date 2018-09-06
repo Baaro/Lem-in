@@ -16,7 +16,7 @@
 # include <fcntl.h>
 # include "libft.h"
 
-# define BUFF_SIZE 2
+# define BUFF_SIZE 8
 
 typedef struct		s_lst
 {

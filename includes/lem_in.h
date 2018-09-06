@@ -101,6 +101,7 @@ typedef struct			s_checks
 
 typedef struct 			s_buff
 {
+	int					fd;		
 	char				*line;
 	char				*data;
 }						t_buff;
@@ -273,7 +274,7 @@ void			*adjlst_put(t_adjlst *elem, const t_room *room);
 /*
 **--------------------Adjtable----------------------
 */
-void			adjtab_init(t_adjtab *adjtab, t_htab *htab);
+void			adjtab_init(t_adjtab *adjtab, size_t size);
 void			adjtab_create(t_adjtab *at, t_htab *ht, t_buff *b, t_info *i);
 bool         	adjtab_exists(t_adjtab *adjtab, t_room *room);
 void			adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info);

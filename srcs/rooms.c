@@ -44,14 +44,15 @@ void	room_set(t_htab *htab, t_room *room, t_info *info)
 	room->index = info->cnt_rooms;
 	if (info->num_start_elem == info->cnt_rooms)
 	{
-		room->start = TRUE;
-		htab->start = ft_strdup(info->room);
+		htab->start = ft_strdup(room->name);
+		room->start = TRUE;		
 	}
 	if (info->num_end_elem == info->cnt_rooms)
 	{
-		htab->end = ft_strdup(info->room);
+		htab->end = ft_strdup(room->name);
 		room->end = TRUE;
 	}
+	printf("room: %s\n", info->room);	
 }
 
 bool	room_exists(t_htab *htab, char *name, unsigned long	id)

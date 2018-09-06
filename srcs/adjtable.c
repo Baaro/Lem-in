@@ -21,12 +21,12 @@ void		adjtab_clear(t_adjtab *adjtab)
 
 bool		adjtab_exists(t_adjtab *adjtab, t_room *room)
 {
-	printf("%p\n", adjtab->lsts[room->index]->room);
+	// printf("%p\n", adjtab->lsts[room->index]->room);
 	if (adjtab->lsts[room->index]
 	&& adjtab->lsts[room->index]->room
 	&& adjtab->lsts[room->index]->room->name)
 	{
-		printf("name: %s \n");
+		// printf("name: %s \n");
 		if (ft_strcmp(adjtab->lsts[room->index]->room->name, room->name) == 0)
 			return (TRUE);
 	}
@@ -44,6 +44,7 @@ t_adjlst	*adjtab_get(t_adjtab *adjtab, t_room *room)
 void		adjtab_put(t_adjtab *adjtab, const t_room *room)
 {
 	adjtab->lsts[room->index]->room = (t_room *)room;
+	printf("room: %s\n", adjtab->lsts[room->index]->room->name);	
 	adjtab->lsts[room->index]->next = NULL;
 }
 
@@ -62,7 +63,7 @@ void		adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info)
 		if (!(first_room = hashtab_get(htab, id_first, info->first_room)))
 			return ;
 		if (!(second_room = hashtab_get(htab, id_second, info->second_room)))
-			return ;
+			return ;	
 		if (!adjtab_exists(adjtab, first_room))
 			adjtab_put(adjtab, first_room);
 		if (!adjtab_exists(adjtab, second_room))

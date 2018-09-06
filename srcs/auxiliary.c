@@ -87,9 +87,8 @@ bool		read_line(t_buff *buff, char **line)
 			errors_input(WRONG_INPUT);
 		if (flag == 0)
 				return (FALSE);
-		buff->data = ft_strcat(ft_strjoincl(buff->data, *line, 0),
-				tmp = ft_strdup("\n"));
-		free(tmp);
+		buff->data = ft_strjoincl(ft_strjoincl(buff->data, *line, 0), 
+				tmp = ft_strdup("\n"), 1);
 	}
 	else
 	{

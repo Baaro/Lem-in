@@ -60,7 +60,7 @@ void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
 	skip_amount_of_ants(buff->data);
 	while (TRUE)
 	{
-		info->line = get_line(buff->data);
+		info->line = get_line(buff->data);	
 		if (is_link(info->line))
 			break ;
 		if (is_room(info->line))
@@ -71,5 +71,4 @@ void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
 		}
 		ft_strdel(&info->line);
 	}
-	ft_strdel(&info->line);
 }
