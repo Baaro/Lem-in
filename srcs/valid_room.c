@@ -19,9 +19,11 @@ static char	*shift_space(char **line)
 
 static void	valid_x(char **line)
 {
-	uintmax_t	num;
+	intmax_t	num;
 
 	num = 0;
+	if (**line == '-')
+		line++;
 	while (**line != ' ')
     {		
 		if (!ft_isdigit(**line))
@@ -36,9 +38,11 @@ static void	valid_x(char **line)
 
 static void	valid_y(char *line)
 {
-	uintmax_t	num;
+	intmax_t	num;
 
 	num = 0;
+	if (*line == '-')
+		line++;
 	while (*line)
 	{
 		if (!ft_isdigit(*line))

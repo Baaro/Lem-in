@@ -43,40 +43,50 @@
 */
 typedef enum			e_errors
 {
-	/* Ants */
+	/*
+	** Ants
+	*/
 	WRONG_VALUE_OF_ANTS = 1,
 	ANTS_IS_ZERO,
 	ANTS_IS_NEG,
 	TOO_FEW_ANTS,
-	/* Ants */
 
-	/* Commands */
+	/* 
+	** Commands
+	*/
 	NO_START_COMMAND,
 	NO_END_COMMAND,
-	/* Commands */
+	TWO_START_COMMANDS,
+	TWO_END_COMMANDS,
 
-	/* Coordinates */
+	/*
+	** Coordinates
+	*/
 	WRONG_X,
 	WRONG_Y,
 	X_BIGGER_THAN_INTMAX,
 	Y_BIGGER_THAN_INTMAX,
-	/* Coordinates */
 
-	/* Rooms */
+	/* 
+	** Rooms
+	*/
 	L_CHAR_AT_ROOM_NAME,
 	UNPRINTBALE_NAME,
 	NO_ROOMS,
 	TWO_ROOMS_HAVE_THE_SAME_NAME,
 	TWO_ROOMS_HAVE_THE_SAME_COORDS,
-	/* Rooms */
 
-	/* Links */
+	/* 
+	** Links
+	*/
 	WRONG_LINKS,
 	UNKNOWN_ROOM,
-	/* Links */
 
 	WRONG_INPUT,
-	/* Mem */
+
+	/* 
+	** Memory
+	*/
 	CANT_ALLOCATE_MEM,
 	CANT_SETZERO,
 }						t_errors;
@@ -101,7 +111,7 @@ typedef struct			s_checks
 
 typedef struct 			s_buff
 {
-	int					fd;		
+	// int					fd;		
 	char				*line;
 	char				*data;
 }						t_buff;
@@ -208,6 +218,26 @@ typedef struct          s_queue
 }                       t_queue;
 
 /*
+**--------------------Path---------------------------
+*/
+typedef	struct			s_path
+{
+	size_t				steps;
+	struct s_rooms		*room;
+	struct s_rooms		*next;
+}						t_path;
+
+/*
+**--------------------Lstspaths-----------------------
+*/
+typedef struct			s_lstpaths
+{
+	size_t				amount;
+	struct s_path		*path;
+	struct s_lstpath	*next;
+}						t_lstpaths;
+
+/*
 **--------------------Validation--------------------
 */
 void			storage_init(t_storage *strg);
@@ -295,8 +325,8 @@ void			info_clear(t_info *info);
 /*
 **--------------------Buff--------------------------
 */
-void			buff_clear(t_buff *buff);
 void			buff_init(t_buff **buff);
+void			buff_clear(t_buff *buff);
 
 /*
 **--------------------Queue------------------------
@@ -307,15 +337,22 @@ t_adjlst		*dequeue(t_queue *queue);
 bool			is_empty(t_queue *queue);
 void			queue_clear(t_queue *queue);
 
+/*
+**--------------------Lstspaths---------------------
+*/
+void		    lstpaths_init(t_lstpaths *lp);
+void	    	lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht);
 
 /*
-**--------------------Bfs-------------------------
+**--------------------BFS--------------------------
 */
 void			bfs(t_adjtab *adjtab, t_htab *htab);
 
 /*
 **--------------------Auxiliary--------------------
 */
+t_adjlst		*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name);
+t_adjlst		*get_visited_vertexes(t_adjtab *at, t_htab *ht);
 bool			read_line(t_buff *buff, char **line);
 char			*get_line(const char *data);
 // void			free_room(char **room);

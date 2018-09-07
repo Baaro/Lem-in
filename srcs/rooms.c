@@ -28,10 +28,10 @@ void	rooms_init(t_room **rooms, size_t size)
 	i = -1;
 	while (++i < size)
 	{
-		if (!(rooms[i] = (t_room *)malloc(sizeof(t_room))))
+		if (!(rooms[i] = (t_room *)ft_memalloc(sizeof(t_room))))
 			errors_memory(CANT_ALLOCATE_MEM, "rooms_init");
-		if (!(rooms[i] = ft_memset(rooms[i], 0, sizeof(t_room))))
-			errors_memory(CANT_SETZERO, "rooms_init");
+		// if (!(rooms[i] = ft_memset(rooms[i], 0, sizeof(t_room))))
+		// 	errors_memory(CANT_SETZERO, "rooms_init");
 	}
 }
 
@@ -52,7 +52,6 @@ void	room_set(t_htab *htab, t_room *room, t_info *info)
 		htab->end = ft_strdup(room->name);
 		room->end = TRUE;
 	}
-	printf("room: %s\n", info->room);	
 }
 
 bool	room_exists(t_htab *htab, char *name, unsigned long	id)

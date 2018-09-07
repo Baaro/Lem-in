@@ -12,51 +12,54 @@
 
 #include "lem_in.h"
 
-void		clear(t_htab *htab, t_adjtab *adjtab, t_storage *strg)
+void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 {
-	adjtab_clear(adjtab);
-	hashtab_clear(htab);
+	adjtab_clear(at);
+	hashtab_clear(ht);
 	info_clear(strg->info);
 	buff_clear(strg->buff);
 }
 
+// Create usage in future
 int			main(void)
 {
 	t_storage		strg;
-	t_htab			htab;
-	t_adjtab		adjtab;
+	t_htab			ht;
+	t_adjtab		at;
+	t_lstpaths		lp;
 
 	storage_init(&strg);
-	// strg.buff->fd = open("./tests/unvalid/WTF", O_RDONLY);
 	valid_data(&strg);
 
-	hashtab_init(&htab, &strg);
-	hashtab_create(&htab, strg.buff, strg.info);
-	
-	adjtab_init(&adjtab, htab.size);	
-	adjtab_create(&adjtab, &htab, strg.buff, strg.info);
+	hashtab_init(&ht, &strg);
+	hashtab_create(&ht, strg.buff, strg.info);
 
-	printf("\nSTART: %s\n", htab.start);
-	printf("END: %s\n", htab.end);
+	printf("\nSTART: %s\n", ht.start);
+	printf("FINISH: %s\n", ht.end);
 	printf("\nHASHTABLE_ROOM\n");
 	size_t i = -1;
-	while (++i < (size_t)htab.size)
-		hashtable_print_room(&htab, i);
+	while (++i < (size_t)ht.size)
+		hashtable_print_room(&ht, i);
 
 	printf("\nHASHTABLE_COORDNATES\n");
 	size_t k = -1;
-	while (++k < (size_t)htab.size)
-		hashtable_print_coord(&htab, k);
+	while (++k < (size_t)ht.size)
+		hashtable_print_coord(&ht, k);
 
- 	printf("\nADJLISTS\n");
+	adjtab_init(&at, ht.size);
+	adjtab_create(&at, &ht, strg.buff, strg.info);
+
+ 	printf("\nADJLISTS\n");	
  	size_t j = -1;
-	while (++j < (size_t)adjtab.size + 1)
-		adjtab_print(&adjtab, j);
+	while (++j < (size_t)at.size + 1)
+		adjtab_print(&at, j);
 
-	bfs(&adjtab, &htab);
-	// // dfs(&adjtab, &htab);
-	// // send_ants();
-	clear(&htab, &adjtab, &strg);
+
+	lstpaths_init(&lp);
+	lstpaths_create(&lp, &at, &ht);
+	// send_ants(&lp);
+
+	clear(&ht, &at, &strg, &lp);
 	// system("leaks lem-in");
 	return (0);
 }

@@ -61,6 +61,10 @@ void		errors_commands(const t_errors error)
 		ft_printf("\x1b[31mERROR:\x1b[0m There is no [##start] command!\n");
 	else if (error == NO_END_COMMAND)
 		ft_printf("\x1b[31mERROR:\x1b[0m There is no [##end] command!\n");
+	else if (error == TWO_START_COMMANDS)
+		ft_printf("\x1b[31mERROR:\x1b[0m There are two [##start] commands!\n");
+	else if (error == TWO_END_COMMANDS)
+		ft_printf("\x1b[31mERROR:\x1b[0m There are two [##end] commands!\n");
 	exit(EXIT_FAILURE);
 }
 

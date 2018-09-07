@@ -28,10 +28,10 @@ void	coords_init(t_coord **coord, size_t size)
 	i = -1;
 	while (++i < size)
 	{
-		if (!(coord[i] = (t_coord *)malloc(sizeof(t_coord))))
+		if (!(coord[i] = (t_coord *)ft_memalloc(sizeof(t_coord))))
 			errors_memory(CANT_ALLOCATE_MEM, "coord_init");
-		if (!(coord[i] = ft_memset(coord[i], 0, sizeof(t_coord))))
-			errors_memory(CANT_SETZERO, "coord_init");
+		// if (!(coord[i] = ft_memset(coord[i], 0, sizeof(t_coord))))
+			// errors_memory(CANT_SETZERO, "coord_init");
 	}
 }
 

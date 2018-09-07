@@ -36,7 +36,7 @@ unsigned long	get_id(t_htab *htab, char *name, size_t name_len)
 		hash ^= (hash >> 6);
 	}
 	hash = hash % htab->size;
-	return (hash == 0 ? hash + 1 : hash);
+	return (hash == 0 ? 1 : hash);
 }
 
 void			hashtab_set(t_htab *htab, t_info *info)

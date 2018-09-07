@@ -12,8 +12,6 @@ void	adjlst_init(t_adjlst **lsts, size_t size)
 	{
 		if (!(lsts[i] = (t_adjlst *)ft_memalloc(sizeof(t_adjlst))))
 			errors_memory(CANT_ALLOCATE_MEM, "adjlst_init");
-		// if (!(lsts[i] = ft_memset(lsts[i], 0, sizeof(t_adjlst))))
-			// errors_memory(CANT_SETZERO, "adjlst_init");
 	}
 }
 

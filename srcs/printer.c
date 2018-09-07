@@ -54,12 +54,12 @@ void		hashtable_print_room(t_htab *htab, int i)
 	tmp = htab->rooms[i];
 	if (tmp && tmp->name)
 	{
-		printf("[id:%lu] %s -> ", tmp->id, tmp->name) ;
+		printf("[id:%lu] %s -> ", tmp->id, tmp->name);
 		while (tmp->next)
 		{
+			tmp = tmp->next;			
 			if (tmp && tmp->name)		
 				printf("[id:%lu] %s -> ", tmp->id, tmp->name);
-			tmp = tmp->next;				
 		}
 		printf("\n");
 	}

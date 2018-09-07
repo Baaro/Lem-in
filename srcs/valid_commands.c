@@ -19,6 +19,8 @@ static size_t	remember_num_of_command(size_t current_num)
 
 static bool		chck_e_cmmnd(t_storage *strg, t_checks *chcks, const char *line)
 {
+	if (chcks->end_check == CHECKED && is_end_command(line))
+		errors_commands(TWO_END_COMMANDS);
 	if (chcks->end_check == UNCHECKED && is_end_command(line))
 	{
 		if (chcks->start_check  == CHECKED)
@@ -36,6 +38,8 @@ static bool		chck_e_cmmnd(t_storage *strg, t_checks *chcks, const char *line)
 
 static bool		chck_s_cmmnd(t_storage *strg, t_checks *chcks, const char *line)
 {
+	if (chcks->start_check == CHECKED && is_start_command(line))
+		errors_commands(TWO_START_COMMANDS);
 	if (chcks->start_check == UNCHECKED && is_start_command(line))
 	{
 		chcks->start_check = CHECKED;
