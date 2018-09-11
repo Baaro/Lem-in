@@ -1,75 +1,111 @@
 #include "lem_in.h"
 
+// void		path_clear(t_path *p)
+// {
+// }
+
+void		lstpaths_put(t_lstpaths *lp, t_path *p, size_t steps) // Like queue
+{
+
+}
+
+void		print_path(t_path *p)
+{
+	t_path	*tmp;
+
+	tmp = p;
+	while (tmp && tmp->room)
+	{
+		printf("[%s] -> ", tmp->room->name);
+		tmp = tmp->next;
+	}
+	printf("\n");
+}
+
 void		lstpaths_init(t_lstpaths *lp)
 {
 	if (!(ft_memset(lp, 0, sizeof(t_lstpaths))))
 		errors_memory(CANT_SETZERO, "lstpaths_init");
 }
 
-t_adjlst	*get_visited_vertexes(t_adjtab *at, t_htab *ht)
+t_adjlst	*get_nearest_vertexes(t_adjtab *at, t_htab *ht, char *v)
 {
-	t_adjlst	*v;
+	t_adjlst	*tmp;
+	t_adjlst	*nearest_v;
+	size_t		level;
 
-	v = get_vertex(ht, at, ht->end); // we begin from the finish vertex
-	v = v->next;
-	while (v && !v->room->visited)
-		v = v->next;
-	return (v ? v : NULL);
+	level = 0;
+	tmp = get_vertex(ht, at, v);
+	nearest_v = NULL;
+	while (tmp && tmp->room)
+	{
+		if ((level == 0 || level <= tmp->room->level)
+		&& tmp->room-visited)
+			nearest_v = tmp;
+		tmp = tmp->next;
+	}
+	return (nearest_v ? nearest_v : NULL);
 }
 
 t_path		*path_init(void)
 {
-	t_path	*tmp;
+	t_path		*tmp;
 
 	if (!(tmp = ft_memalloc(sizeof(t_path))))
 		errors_memory(CANT_ALLOCATE_MEM, "path_init");
 	return (tmp);
 }
 
-void		path_create(t_path *p, t_adjlst *v, t_adjtab *at, t_htab *ht)
+void		path_put(t_path **p, t_adjlst *v) // Like stack
+{
+	t_path		*tmp;
+
+	if (p && v)
+	{
+		tmp = (t_path *)ft_memalloc(sizeof(t_path));
+		tmp->room = v->room;
+		tmp->room->visited = FALSE;
+		tmp->next = *p;
+		*p = tmp;
+	}
+}
+
+void		path_create(t_path *p, t_adjtab *at, t_htab *ht, size_t *steps)
 {
 	t_adjlst	*tmp;
+	t_adjlst	*end;
 
-	tmp = get_vertex(ht, at, v->room->name);
-	path_put(p, tmp);
-	while (tmp && tmp->room)
+	end = get_vertex(ht, at, ht->end);
+	tmp = end;
+	while (TRUE)
 	{
-		if (tmp->visited)
+		path_put(&p, tmp->room);
+		(*steps)++;
+		if (!(tmp = get_nearest_vertexes(at, ht, tmp)))
 		{
-			tmp->visited = FALSE;			
-			path_create(p, v, at, ht);
+			path_clear(p);
+			break ;
 		}
-		tmp = tmp->next;
 	}
+	if (tmp && tmp->room && ft_strcmp(tmp->room->name, ht->start) == 0)
+		return (TRUE);
+	return (FALSE);
 }
-
-void		lstpaths_put(t_lstpaths **lp, t_path *p)
-{
-	t_lstpaths	*tmp;
-
-	if (lp && p)
-	{
-		tmp = (t_lstpaths *)malloc(sizeof(t_lstpaths));
-		tmp->path = p;
-		tmp->next = *lp;
-		*lp = tmp;
-	}
-}
-
 
 void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 {
 	t_path		*p;
-	t_adjlst	*v;
+	size_t 		steps;
 
 	bfs(at, ht);
-	while ((v = get_visited_vertexes(at, ht))) // That means that "end" room still has the free visited vertex which we haven't come
+	q = queue_init();
+	while (TRUE) // That means that "end" room still has the free visited vertex which we haven't come
 	{
-		p = path_init(); // Init new path (malloc)
-		v->room->visited = FALSE;
-		path_create(p, v, at, ht);	// In this func will be DFS algorithm
-		lstpaths_put(&lp, p); // Put path to lists of path, dont forget that you put address of current path to that list
+		steps = 0;
+		p = path_init();
+		if (!path_create(p, at, ht, &steps))
+			break ;
+		lstpaths_put(lp, p, steps); // Put path to lists of path, dont forget that you put address of current path to that list
+		lp->paths++;
 	}
-	printf("After loop\n");
-	// lstpaths_sort(lp); // Sort paths by amount of steps
 }

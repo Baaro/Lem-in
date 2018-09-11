@@ -206,7 +206,7 @@ typedef struct			s_adjtab
 */
 typedef struct			s_node
 {
-	struct s_adjlst		*vertex;
+	struct s_void		*data;
 	struct s_node		*next;
 }						t_node;
 
@@ -218,13 +218,23 @@ typedef struct          s_queue
 }                       t_queue;
 
 /*
-**--------------------Path---------------------------
+**--------------------Stack---------------------------
+*/
+typedef struct 			s_stack
+{
+	struct s_room		*room;
+	struct s_stack		*next;
+}						t_stack;
+
+/*
+**--------------------Path----------------------------
 */
 typedef	struct			s_path
 {
-	size_t				steps;
-	struct s_rooms		*room;
-	struct s_rooms		*next;
+	size_t 				steps;
+	struct s_stack		*path;
+	struct s_path		*next;
+	
 }						t_path;
 
 /*
@@ -232,9 +242,9 @@ typedef	struct			s_path
 */
 typedef struct			s_lstpaths
 {
-	size_t				amount;
-	struct s_path		*path;
-	struct s_lstpath	*next;
+	size_t				paths;
+	struct s_path		*front;
+	struct s_path		*rear;
 }						t_lstpaths;
 
 /*

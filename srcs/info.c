@@ -51,7 +51,8 @@ void			info_get_rooms(t_info *info, t_htab *htab, t_buff *buff)
 		errors_memory(CANT_ALLOCATE_MEM, "info_get_rooms");
 	info->room = ft_strredup(info->room_coord[NAME]);
 	info->id_room = get_id(htab, info->room, ft_strlen(info->room));
-	info->coord = ft_strjoincl(info->room_coord[X], info->room_coord[Y], 1);
+	info->coord = ft_strjoincl(ft_strjoincl(info->room_coord[X], 
+					ft_strdup(" "), 1), info->room_coord[Y], 1);
 	info->id_coord = get_id(htab, info->coord, ft_strlen(info->coord));
 	free(info->room_coord);
 }

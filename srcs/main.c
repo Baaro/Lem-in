@@ -54,12 +54,10 @@ int			main(void)
 	while (++j < (size_t)at.size + 1)
 		adjtab_print(&at, j);
 
-
 	lstpaths_init(&lp);
 	lstpaths_create(&lp, &at, &ht);
-	// send_ants(&lp);
-
-	clear(&ht, &at, &strg, &lp);
+	send_ants(&lstpaths, strg.info->ants);
+	// clear(&ht, &at, &strg, &lp);
 	// system("leaks lem-in");
 	return (0);
 }
