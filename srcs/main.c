@@ -26,6 +26,7 @@ void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 * 2. ERROR: Segfault has occurs when room has negative coordinates.
 * 3. ERROR: There are no possbile ways from start to end;
 */
+//                DONE
 
 /*
 * CREATE SEND_ANTS func:
@@ -40,12 +41,47 @@ void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 * 5. Flag '-a' shows all info which we discussed above.
 */
 
+void		wave(t_queue *q, t_lstpaths *lp, t_path *p, intmax_t *ants)
+{
+	while (TRUE)
+	{
+		if (p->next)
+			ft_printf("L%d-%s ", q->front->room->ant, q->front->room->name);
+		else
+			ft_printf("L%d-%s", q->front->room->ant, q->front->room->name);
+		if (p->vertex->room->ant)
+			break ;
+		p = p->next;
+		enqueue(q, p->vertex, 0);
+		(*ants)++;
+	}
+}
+
+void		send_ants(t_lstpaths *lp, intmax_t ants)
+{
+	t_path		*p;
+	t_queue 	*q;
+
+	p = lp->front;
+	q = queue_init();
+	enqueue(q, p->vertex, 0);
+	while (!is_empty(q))
+	{
+		wave(q, p, &ants);
+		p = lp->front;
+	}
+}
+
 int			main(void)
 {
 	t_storage		strg;
 	t_htab			ht;
 	t_adjtab		at;
 	t_lstpaths		lp;
+	// t_usage		u;
+
+	// usage_init(&u);
+	// usage_analyze(&u, argc, argv);
 
 	storage_init(&strg);
 	valid_data(&strg);
@@ -68,14 +104,17 @@ int			main(void)
 	adjtab_init(&at, ht.size);
 	adjtab_create(&at, &ht, strg.buff, strg.info);
 
- 	printf("\nADJLISTS\n");	
+ 	printf("\nADJLISTS\n");
  	size_t j = -1;
 	while (++j < (size_t)at.size + 1)
 		adjtab_print(&at, j);
 
 	lstpaths_init(&lp);
 	lstpaths_create(&lp, &at, &ht);
-	// send_ants(&lp, strg.info->ants);
+
+	// usage_print(&u, &lp, &at, &ht);
+
+	send_ants(&lp, strg.info->ants);
 	clear(&ht, &at, &strg, &lp);
 	// system("leaks lem-in");
 	return (0);

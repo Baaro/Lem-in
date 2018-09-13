@@ -36,7 +36,6 @@
 
 # define INPUT 0
 
-# define EXIT_FAILURE 1
 
 /*
 **--------------------Errors-----------------------
@@ -91,6 +90,11 @@ typedef enum			e_errors
 	*/
 	CANT_ALLOCATE_MEM,
 	CANT_SETZERO,
+
+	/*
+	** Algorithm
+	*/
+	THERE_ARE_NO_POSSIBLE_WAYS,
 }						t_errors;
 
 /*
@@ -113,7 +117,7 @@ typedef struct			s_checks
 
 typedef struct 			s_buff
 {
-	// int					fd;		
+	// int					fd;
 	char				*line;
 	char				*data;
 }						t_buff;
@@ -155,6 +159,7 @@ typedef struct		    s_room
 	size_t				index;
 	size_t				level;
 	bool			    visited;
+	// size_t				ant;
 	bool				in_queue;
 	bool			    start;
 	bool			    end;
@@ -167,6 +172,8 @@ typedef struct		    s_room
 typedef struct			s_coord
 {
 	char				*x_y;
+	// intmax_t			x;
+	// intmax_t			y;
 	size_t				x_y_len;
 	unsigned long		id;
 	struct s_coord		*next;
@@ -224,7 +231,7 @@ typedef struct          s_queue
 */
 typedef struct 			s_stack
 {
-	struct s_room		*room;
+	struct s_adjlst		*vertex;
 	struct s_stack		*next;
 }						t_stack;
 
@@ -273,6 +280,7 @@ void			errors_rooms(const t_errors error);
 void			errors_coordinates(const t_errors error);
 void			errors_input(const t_errors error);
 void			errors_memory(const t_errors error, const char *error_func);
+void			errors_algorithm(const t_errors error);
 
 /*
 **--------------------Room-------------------------
@@ -362,7 +370,8 @@ void			lstpaths_put(t_lstpaths *lp, t_path *p); // Like queue
 t_path			*path_init(void);
 bool			path_create(t_path *p, t_adjtab *at, t_htab *ht);
 bool			paths_exists(t_adjtab *at, t_htab *ht);
-void			path_put(t_path *p, t_room *room); // Like stack
+// void			path_put(t_path *p, t_room *room); // Like stack
+void			path_put(t_path *p, t_adjlst *vertex);
 void			path_del(t_path *p);
 bool			found_start(char *start, char *name);
 
@@ -375,7 +384,6 @@ void			bfs(t_adjtab *adjtab, t_htab *htab);
 **--------------------Auxiliary--------------------
 */
 t_adjlst		*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name);
-// t_adjlst		*get_visited_vertexes(t_adjtab *at, t_htab *ht);
 t_adjlst		*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name);
 
 /*

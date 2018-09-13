@@ -27,16 +27,16 @@ t_path		*path_init(void)
 	return (p);
 }
 
-void		path_put(t_path *p, t_room *room)
+void		path_put(t_path *p, t_adjlst *vertex)
 {
 	t_stack		*tmp;
 
-	if (p && room)
+	if (p && vertex->room)
 	{
 		if (!(tmp = (t_stack *)ft_memalloc(sizeof(t_stack))))
 			errors_memory(CANT_ALLOCATE_MEM, "path_put");
-		tmp->room = room;
-		tmp->room->visited = FALSE;
+		tmp->vertex = vertex;
+		tmp->vertex->room->visited = FALSE;
 		tmp->next = p->path;
 		p->path = tmp;
 		p->steps++;
@@ -64,16 +64,16 @@ bool		path_create(t_path *p, t_adjtab *at, t_htab *ht)
 
 	found = FALSE;
 	vertex = get_vertex(ht, at, ht->end);
-	path_put(p, vertex->room);
+	path_put(p, vertex);
 	while ((vertex = get_nearest_vertex(at, ht, vertex->room->name)))
 	{
-		path_put(p, vertex->room);
 		if (found_start(ht->start, vertex->room->name))
 		{
 			vertex->room->visited = TRUE;
 			found = TRUE;
 			break ;
 		}
+		path_put(p, vertex);
 	}
 	if (!found)
 		path_del(p);

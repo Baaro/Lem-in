@@ -28,7 +28,7 @@ void		errors_ants(const t_errors error)
 void		errors_rooms(const t_errors error)
 {
 	if (error == L_CHAR_AT_ROOM_NAME)
-		ft_printf("\x1b[31mERROR:\x1b[0m There is 'L' character at the start of a room name!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m There is 'L' character at the beginning of name of room!\n");
 	else if (error == UNPRINTBALE_NAME)
 		ft_printf("\x1b[31mERROR:\x1b[0m The name of room is unprintable!\n");
 	else if (error == NO_ROOMS)
@@ -87,3 +87,11 @@ void		errors_memory(const t_errors error, const char *error_func)
 		ft_printf("\x1b[31mERROR:\x1b[0m Cannot use memset! The Problem is in func: [%s]!\n", error_func);
 	exit(EXIT_FAILURE);
 }
+
+void		errors_algorithm(const t_errors error)
+{
+	if (error == THERE_ARE_NO_POSSIBLE_WAYS)
+		ft_printf("\x1b[31mERROR:\x1b[0m There are no possible ways!\n");
+	exit(EXIT_FAILURE);
+}
+

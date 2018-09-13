@@ -12,9 +12,14 @@
 
 #include "lem_in.h"
 
+static bool	is_delim(char c)
+{
+	return  (c == ' ' || c == '\t' || c == '\n');
+}
+
 static bool	valid_first_name_room(char **line)
 {
-	while (**line && ft_isprint(**line) && **line != '-')
+	while (**line && ft_isprint(**line) && **line != '-' && !is_delim(**line))
 		(*line)++;
 	if (**line == '-')
 	{
@@ -28,7 +33,7 @@ static bool	valid_second_name_room(char *line)
 {
 	while (*line)
 	{
-		if (!ft_isprint(*line))
+		if (!ft_isprint(*line) || is_delim(*line))
 			return (FALSE);
 		line++;
 	}

@@ -19,9 +19,9 @@ void		path_print(t_path *p)
 	tmp = p->path;
 	if (tmp)
 	printf("steps: %zu\n", p->steps);
-	while (tmp && tmp->room)
+	while (tmp && tmp->vertex->room)
 	{
-		printf("|%s|\n", tmp->room->name);
+		printf("|%s|\n", tmp->vertex->room->name);
 		tmp = tmp->next;
 	}
 }

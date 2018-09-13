@@ -36,25 +36,25 @@ t_adjlst	*dequeue(t_queue *queue)
 	return (queue->front->vertex);
 }
 
-void		enqueue(t_queue *queue, t_adjlst *curr_vertex, size_t level)
+void		enqueue(t_queue *queue, t_adjlst *v, size_t level)
 {
 	if (queue->front == NULL)
 	{
 		queue->front = (t_node *)malloc(sizeof(t_node));
-		queue->front->vertex = curr_vertex;
+		queue->front->vertex = v;
 		queue->front->next = NULL;
 		queue->rear = queue->front;
 		queue->size++;
 	}
-	else if (!curr_vertex->room->in_queue)
+	else if (!v->room->in_queue)
 	{
 		queue->rear->next = (t_node *)malloc(sizeof(t_node));
-		queue->rear->next->vertex = curr_vertex;
+		queue->rear->next->vertex = v;
 		queue->rear->next->next = NULL;
 		queue->rear = queue->rear->next;
 		queue->size++;
 	}
-	curr_vertex->room->level = level;
-	curr_vertex->room->in_queue = TRUE;
-	curr_vertex->room->visited = TRUE;
+	v->room->level = level;
+	v->room->in_queue = TRUE;
+	v->room->visited = TRUE;
 }

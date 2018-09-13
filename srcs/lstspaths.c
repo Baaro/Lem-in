@@ -38,7 +38,7 @@ void		lstpaths_put(t_lstpaths *lp, t_path *p) // Like queue
 		lp->rear->next->next = NULL;
 		lp->rear = lp->rear->next;
 	}
-	// p->next = lp->front;
+	p->next = lp->front;
 }
 
 void		lstpaths_init(t_lstpaths *lp)
@@ -62,7 +62,6 @@ void		lstpaths_print(t_lstpaths *lp)
 void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 {
 	t_path		*p;
-	bool		found;
 
 	bfs(at, ht);
 	while (paths_exists(at, ht))
@@ -70,9 +69,9 @@ void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 		p = path_init();
 		if (path_create(p, at, ht))
 			lp->paths++;
-		lstpaths_put(lp, p); // Put path to lists of path, dont forget that you put address of current path to that list
+		lstpaths_put(lp, p);
 	}
-	if (lp->paths)
-		printf("paths: %zu\n", lp->paths);
+	if (!lp->paths)
+		errors_algorithm(THERE_ARE_NO_POSSIBLE_WAYS);
 	lstpaths_print(lp);
 }

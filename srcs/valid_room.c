@@ -20,10 +20,15 @@ static char	*shift_space(char **line)
 static void	valid_x(char **line)
 {
 	intmax_t	num;
+	bool		neg;
 
 	num = 0;
+	neg = FALSE;
 	if (**line == '-')
-		line++;
+	{
+		(*line)++;
+		neg = TRUE;	
+	}
 	while (**line != ' ')
     {		
 		if (!ft_isdigit(**line))
@@ -33,16 +38,23 @@ static void	valid_x(char **line)
 			errors_coordinates(X_BIGGER_THAN_INTMAX);
         (*line)++;
     }
+    if (neg)
+    	num *= -1;
     *line = shift_space(line);
 }
 
 static void	valid_y(char *line)
 {
 	intmax_t	num;
+	bool		neg;
 
 	num = 0;
+	neg = FALSE;
 	if (*line == '-')
+	{
 		line++;
+		neg = TRUE;
+	}
 	while (*line)
 	{
 		if (!ft_isdigit(*line))
@@ -52,6 +64,8 @@ static void	valid_y(char *line)
 			errors_coordinates(Y_BIGGER_THAN_INTMAX);
 		line++;
 	}
+	if (neg)
+    	num *= -1;
 }
 
 static bool	valid_coord_of_room(char *line)

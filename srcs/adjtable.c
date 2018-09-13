@@ -57,6 +57,8 @@ void		adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info)
  	if (room_exists(htab, info->first_room, id_first)
 	&& room_exists(htab, info->second_room, id_second))
  	{
+ 		// printf("first: %s\n", info->first_room);
+ 		// printf("second: %s\n", info->second_room);
 		if (!(first_room = hashtab_get(htab, id_first, info->first_room)))
 			return ;
 		if (!(second_room = hashtab_get(htab, id_second, info->second_room)))
