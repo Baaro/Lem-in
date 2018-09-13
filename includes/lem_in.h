@@ -206,7 +206,7 @@ typedef struct			s_adjtab
 */
 typedef struct			s_node
 {
-	struct s_void		*data;
+	struct s_adjlst		*vertex;
 	struct s_node		*next;
 }						t_node;
 

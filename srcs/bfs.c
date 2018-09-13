@@ -24,16 +24,14 @@ void			bfs(t_adjtab *adjtab, t_htab *htab)
 	enqueue(queue, curr_vertex, level);
 	while (!is_empty(queue))
 	{
+
 		print_queue(queue);
 		level = curr_vertex->room->level;
 		while (curr_vertex)
 		{
 			if (!curr_vertex->room->visited
 			&& !curr_vertex->room->in_queue)
-			{
-				curr_vertex->room->visited = TRUE;
 				enqueue(queue, curr_vertex, level + 1);
-			}
 			curr_vertex = curr_vertex->next;
 		}
 		curr_vertex = dequeue(queue);

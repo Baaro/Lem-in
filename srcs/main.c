@@ -56,8 +56,8 @@ int			main(void)
 
 	lstpaths_init(&lp);
 	lstpaths_create(&lp, &at, &ht);
-	send_ants(&lstpaths, strg.info->ants);
-	// clear(&ht, &at, &strg, &lp);
-	// system("leaks lem-in");
+	// send_ants(&lstpaths, strg.info->ants);
+	clear(&ht, &at, &strg, &lp);
+	system("leaks lem-in");
 	return (0);
 }

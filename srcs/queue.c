@@ -56,4 +56,5 @@ void		enqueue(t_queue *queue, t_adjlst *curr_vertex, size_t level)
 	}
 	curr_vertex->room->level = level;
 	curr_vertex->room->in_queue = TRUE;
+	curr_vertex->room->visited = TRUE;
 }
