@@ -12,6 +12,20 @@
 
 #include "lem_in.h"
 
+void		path_print(t_path *p)
+{
+	t_stack		*tmp;
+
+	tmp = p->path;
+	if (tmp)
+	printf("steps: %zu\n", p->steps);
+	while (tmp && tmp->room)
+	{
+		printf("|%s|\n", tmp->room->name);
+		tmp = tmp->next;
+	}
+}
+
 void			print_queue(t_queue *queue)
 {
 	t_node	*tmp;

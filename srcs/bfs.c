@@ -15,28 +15,28 @@ t_adjlst	*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name)
 void			bfs(t_adjtab *adjtab, t_htab *htab)
 {
 	t_queue		*queue;
-	t_adjlst	*curr_vertex;
+	t_adjlst	*v;
 	size_t		level;
 
 	level = 0;
-	queue = queue_init();	
-	curr_vertex = get_vertex(htab, adjtab, htab->start);
-	enqueue(queue, curr_vertex, level);
+	queue = queue_init();
+	if (!(v = get_vertex(htab, adjtab, htab->start)))
+			errors_rooms(THERE_ARE_NO_LINKS_WITH_START);
+	enqueue(queue, v, level);
 	while (!is_empty(queue))
 	{
-
 		print_queue(queue);
-		level = curr_vertex->room->level;
-		while (curr_vertex)
+		level = v->room->level;
+		while (v)
 		{
-			if (!curr_vertex->room->visited
-			&& !curr_vertex->room->in_queue)
-				enqueue(queue, curr_vertex, level + 1);
-			curr_vertex = curr_vertex->next;
+			if (!v->room->visited
+			&& !v->room->in_queue)
+				enqueue(queue, v, level + 1);
+			v = v->next;
 		}
-		curr_vertex = dequeue(queue);
-		curr_vertex = get_vertex(htab, adjtab, curr_vertex->room->name);
-		printf("room[%s] has level: %zu\n", curr_vertex->room->name, curr_vertex->room->level);
+		v = dequeue(queue);
+		v = get_vertex(htab, adjtab, v->room->name);
+		printf("room[%s] has level: %zu\n", v->room->name, v->room->level);
 	}
 	queue_clear(queue);
 }

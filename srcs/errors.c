@@ -39,6 +39,10 @@ void		errors_rooms(const t_errors error)
 		ft_printf("\x1b[31mERROR:\x1b[0m Two rooms have the same coordinates!\n");
 	else if (error == UNKNOWN_ROOM)
 		ft_printf("\x1b[31mERROR:\x1b[0m Some room is linked to unknown room!\n");
+	else if (error == THERE_ARE_NO_LINKS_WITH_START)
+		ft_printf("\x1b[31mERROR:\x1b[0m There are no links with start!\n");
+	else if (error == START_EQUAL_END)
+		ft_printf("\x1b[31mERROR:\x1b[0m The start and the end have the same room!\n");
 	exit(EXIT_FAILURE);
 }
 

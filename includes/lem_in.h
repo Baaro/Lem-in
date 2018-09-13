@@ -75,6 +75,8 @@ typedef enum			e_errors
 	NO_ROOMS,
 	TWO_ROOMS_HAVE_THE_SAME_NAME,
 	TWO_ROOMS_HAVE_THE_SAME_COORDS,
+	THERE_ARE_NO_LINKS_WITH_START,
+	START_EQUAL_END,
 
 	/* 
 	** Links
@@ -278,7 +280,6 @@ void			errors_memory(const t_errors error, const char *error_func);
 void			rooms_init(t_room **rooms, size_t size);
 void			room_create(t_htab *htab, t_info *info);
 bool			room_exists(t_htab *htab, char *name, unsigned long	id);
-// void			room_set(t_room *room, t_info *info);
 void			room_set(t_htab *htab, t_room *room, t_info *info);
 char			**room_get(char *line);
 void			rooms_clear(t_room **rooms, size_t size);
@@ -298,6 +299,7 @@ void			coords_clear(t_coord **coords, size_t size);
 */
 void			hashtab_init(t_htab *htab, t_storage *strg);
 void    		hashtab_create(t_htab *htab, t_buff *buff, t_info *info);
+bool			hashtab_exists(t_htab *htab, char *name, unsigned long id);
 void		    hashtab_set(t_htab *htab, t_info *info);
 t_room			*hashtab_get(t_htab *htab, unsigned long id, char *name);
 unsigned long	get_id(t_htab *htab, char *name, size_t name_len);
@@ -351,7 +353,18 @@ void			queue_clear(t_queue *queue);
 **--------------------Lstspaths---------------------
 */
 void		    lstpaths_init(t_lstpaths *lp);
-void	    	lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht);
+void			lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht);
+void			lstpaths_put(t_lstpaths *lp, t_path *p); // Like queue
+
+/*
+**--------------------Path------------------------
+*/
+t_path			*path_init(void);
+bool			path_create(t_path *p, t_adjtab *at, t_htab *ht);
+bool			paths_exists(t_adjtab *at, t_htab *ht);
+void			path_put(t_path *p, t_room *room); // Like stack
+void			path_del(t_path *p);
+bool			found_start(char *start, char *name);
 
 /*
 **--------------------BFS--------------------------
@@ -362,25 +375,31 @@ void			bfs(t_adjtab *adjtab, t_htab *htab);
 **--------------------Auxiliary--------------------
 */
 t_adjlst		*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name);
-t_adjlst		*get_visited_vertexes(t_adjtab *at, t_htab *ht);
+// t_adjlst		*get_visited_vertexes(t_adjtab *at, t_htab *ht);
+t_adjlst		*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name);
+
+/*
+**--------------------Reader--------------------
+*/
 bool			read_line(t_buff *buff, char **line);
 char			*get_line(const char *data);
 // void			free_room(char **room);
 // void     	free_dblarray(char **str);
 // void			free_all(size_t numargs, ...);
 
+/*
+**--------------------Printer--------------------
+*/
 void			hashtable_print_room(t_htab *htab, int i);
 void			hashtable_print_coord(t_htab *htab, int i);
 void			adjtab_print(t_adjtab *adjtab, ssize_t i);
 void			print_queue(t_queue *queue);
+void			path_print(t_path *p);
 
-void			init_buff(t_buff **buff);
+
 void			init_storage(t_storage *strg);
-
 void			remember_start_end(t_htab *htab, t_room *room);
 void			skip_amount_of_ants(const char *data);
-
-bool			is_exists(t_htab *htab, char *name, unsigned long id);
-
+void			clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp);
 
 #endif

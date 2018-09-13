@@ -20,7 +20,26 @@ void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 	buff_clear(strg->buff);
 }
 
-// Create usage in future
+/*-----------------TO DO-----------------*/
+/* HANDLE ERRORS: 
+* 1. ERROR: Segfault has occurs when room has '#' at the beginning;
+* 2. ERROR: Segfault has occurs when room has negative coordinates.
+* 3. ERROR: There are no possbile ways from start to end;
+*/
+
+/*
+* CREATE SEND_ANTS func:
+* 1. 
+*/
+
+/* CREATE USAGE:
+* 1. Flag '-u' shows usage;
+* 2. Flag '-ht' shows hashtable;
+* 3. Flag '-at' shows adjtable;
+* 4. Flag '-p' shows all possible ways which my algorithm was found.
+* 5. Flag '-a' shows all info which we discussed above.
+*/
+
 int			main(void)
 {
 	t_storage		strg;
@@ -56,8 +75,8 @@ int			main(void)
 
 	lstpaths_init(&lp);
 	lstpaths_create(&lp, &at, &ht);
-	// send_ants(&lstpaths, strg.info->ants);
+	// send_ants(&lp, strg.info->ants);
 	clear(&ht, &at, &strg, &lp);
-	system("leaks lem-in");
+	// system("leaks lem-in");
 	return (0);
 }

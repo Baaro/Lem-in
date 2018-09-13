@@ -30,8 +30,6 @@ void	rooms_init(t_room **rooms, size_t size)
 	{
 		if (!(rooms[i] = (t_room *)ft_memalloc(sizeof(t_room))))
 			errors_memory(CANT_ALLOCATE_MEM, "rooms_init");
-		// if (!(rooms[i] = ft_memset(rooms[i], 0, sizeof(t_room))))
-		// 	errors_memory(CANT_SETZERO, "rooms_init");
 	}
 }
 

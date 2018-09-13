@@ -54,8 +54,8 @@ void		adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info)
 
  	id_first = get_id(htab, info->first_room, ft_strlen(info->first_room));
  	id_second = get_id(htab, info->second_room, ft_strlen(info->second_room));
- 	if (is_exists(htab, info->first_room, id_first)
-	&& is_exists(htab, info->second_room, id_second))
+ 	if (room_exists(htab, info->first_room, id_first)
+	&& room_exists(htab, info->second_room, id_second))
  	{
 		if (!(first_room = hashtab_get(htab, id_first, info->first_room)))
 			return ;
