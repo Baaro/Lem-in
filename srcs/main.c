@@ -30,7 +30,7 @@ void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 
 /*
 * CREATE SEND_ANTS func:
-* 1. 
+* 1.
 */
 
 /* CREATE USAGE:
@@ -41,35 +41,58 @@ void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 * 5. Flag '-a' shows all info which we discussed above.
 */
 
-void		wave(t_queue *q, t_lstpaths *lp, t_path *p, intmax_t *ants)
+void		waves(t_lstpaths *lp, t_queue *q, intmax_t ants)
 {
-	while (TRUE)
+	t_path		*p;
+	size_t		i;
+
+	p = lp->front;
+	if (ants)
 	{
-		if (p->next)
-			ft_printf("L%d-%s ", q->front->room->ant, q->front->room->name);
+		if (room_is_free(p->vertex->room->ant))
+		{
+			while (p)
+			{
+				enqueue(q, p->vertex, 0);
+				if (p->next)
+					ft_printf("L%d-%s ",);
+				else
+					ft_printf("L%d-%s",);
+				lp->ants_in_graph++;
+				p = p->next;
+			}
+		}
 		else
-			ft_printf("L%d-%s", q->front->room->ant, q->front->room->name);
-		if (p->vertex->room->ant)
-			break ;
-		p = p->next;
-		enqueue(q, p->vertex, 0);
-		(*ants)++;
+		{
+			i = 0;
+			while (i < lp->paths)
+			{
+				if (ft_strcmp(q->front->vertex->room->name, ht->end) == 0)
+				{
+					dequeue(q);
+					ants--;
+				}
+				if (p->next)
+					ft_printf("L%d-%s ",);
+				else
+					ft_printf("L%d-%s",);
+				enqueue(q, q->front->vertex->next, 0);
+				i++;
+
+			}
+		}
+		waves(lp, p, q, ants);
 	}
 }
 
 void		send_ants(t_lstpaths *lp, intmax_t ants)
 {
-	t_path		*p;
-	t_queue 	*q;
+	t_queue		*q;
 
-	p = lp->front;
 	q = queue_init();
-	enqueue(q, p->vertex, 0);
-	while (!is_empty(q))
-	{
-		wave(q, p, &ants);
-		p = lp->front;
-	}
+	enqueue(p, p->vertex, 0);
+	waves(q, p, ants);
+	queue_clear(q);
 }
 
 int			main(void)

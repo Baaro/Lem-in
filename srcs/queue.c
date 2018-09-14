@@ -2,7 +2,8 @@
 
 void		queue_clear(t_queue *queue)
 {
-	free(queue->front);
+	if (queue->front)
+		free(queue->front);
 	free(queue);
 }
 

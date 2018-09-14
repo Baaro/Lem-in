@@ -252,6 +252,7 @@ typedef	struct			s_path
 typedef struct			s_lstpaths
 {
 	size_t				paths;
+	size_t				ants_in_graph;
 	struct s_path		*front;
 	struct s_path		*rear;
 }						t_lstpaths;

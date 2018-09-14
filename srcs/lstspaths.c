@@ -38,7 +38,7 @@ void		lstpaths_put(t_lstpaths *lp, t_path *p) // Like queue
 		lp->rear->next->next = NULL;
 		lp->rear = lp->rear->next;
 	}
-	p->next = lp->front;
+	// p->next = lp->front;
 }
 
 void		lstpaths_init(t_lstpaths *lp)
