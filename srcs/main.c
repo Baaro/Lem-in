@@ -41,58 +41,111 @@ void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 * 5. Flag '-a' shows all info which we discussed above.
 */
 
-void		waves(t_lstpaths *lp, t_queue *q, intmax_t ants)
+intmax_t		ants_exist(intmax_t ants)
 {
-	t_path		*p;
+	return (ants);
+}
+
+void		ants_put(t_path *p, size_t ant, t_stack *step, bool final)
+{
+	if (p->next && !final)
+	{
+		step->ant = ant;
+		ft_printf("L%d-%s ", step->ant, step->vertex->room->name);
+	}
+	else
+	{
+		step->ant = ant;
+		ft_printf("L%d-%s\n", step->ant, step->vertex->room->name);
+	}
+}
+
+bool		all_ants_in_graph(intmax_t ants, intmax_t ants_in_graph)
+{
+	if (ants == ants_in_graph)
+		return (TRUE);
+	return (FALSE);
+}
+
+bool			front_room_is_free(intmax_t ant)
+{
+	if (!ant)
+		return (TRUE);
+	return (FALSE);
+}
+
+void		own_sleep(void)
+{
+	ssize_t i = -1;
+
+	while (++i < 2147483641);
+}
+
+void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants, size_t ant)
+{
+	t_path		*path;
+	t_stack		*step;
+	bool		final;
 	size_t		i;
 
-	p = lp->front;
-	if (ants)
+	path = lp->front;
+	// own_sleep();
+	if (ants_exist(ants))
 	{
-		if (room_is_free(p->vertex->room->ant))
+		if (!all_ants_in_graph(ants, lp->ants_in_graph) && front_room_is_free(path->step->ant))
 		{
-			while (p)
+			while (path && ant != ants)
 			{
-				enqueue(q, p->vertex, 0);
-				if (p->next)
-					ft_printf("L%d-%s ",);
-				else
-					ft_printf("L%d-%s",);
+				final = 0;
+				if (!path->next)
+					final = 1;
+				step = path->step;
+				enqueue_st(q, step);
+				// queue_print_st(q);
+				ants_put(path, ++ant, step, final);
 				lp->ants_in_graph++;
-				p = p->next;
+				path = path->next;
 			}
 		}
 		else
 		{
-			i = 0;
-			while (i < lp->paths)
+			// own_sleep();
+			i = -1;
+			while (++i < lp->paths)
 			{
-				if (ft_strcmp(q->front->vertex->room->name, ht->end) == 0)
+				final = 0;
+				if (found_room(ht->end, q->front->step->vertex->room->name))
 				{
-					dequeue(q);
+					// printf("ant -> [%zu] finished\n", q->front->step->ant);
+					dequeue_st(q);
+					lp->ants_in_graph--;
 					ants--;
+					// printf("ants: %jd\n", ants);
 				}
-				if (p->next)
-					ft_printf("L%d-%s ",);
-				else
-					ft_printf("L%d-%s",);
-				enqueue(q, q->front->vertex->next, 0);
-				i++;
-
+				if (q->front->step->ant == ants)
+					final = 1;
+				// if (q->front->step->next)
+					// printf("IT'S A SEG MAN!!!\n");
+				enqueue_st(q, q->front->step->next);
+				ants_put(path, q->front->step->ant, q->front->step->next, final);
+				q->front->step->ant = 0;
+				dequeue_st(q);
+				// queue_print_st(q);
 			}
 		}
-		waves(lp, p, q, ants);
+		waves(lp, ht, q, ants, ant);
 	}
 }
 
-void		send_ants(t_lstpaths *lp, intmax_t ants)
+void		send_ants(t_lstpaths *lp, t_htab *ht, intmax_t ants)
 {
-	t_queue		*q;
+	t_queue_st		*q;
+	size_t			ant;
 
-	q = queue_init();
-	enqueue(p, p->vertex, 0);
-	waves(q, p, ants);
-	queue_clear(q);
+	ant = 0;
+	q = queue_init_st();
+	waves(lp, ht, q, ants, ant);
+	queue_clear_st(q);
 }
 
 int			main(void)
@@ -137,7 +190,7 @@ int			main(void)
 
 	// usage_print(&u, &lp, &at, &ht);
 
-	send_ants(&lp, strg.info->ants);
+	send_ants(&lp, &ht, strg.info->ants);
 	clear(&ht, &at, &strg, &lp);
 	// system("leaks lem-in");
 	return (0);

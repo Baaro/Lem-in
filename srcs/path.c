@@ -1,18 +1,18 @@
 #include "lem_in.h"
 
-bool		found_start(char *start, char *name)
+bool		found_room(char *to_find, char *found)
 {
-	if (ft_strcmp(start, name) == 0)
+	if (ft_strcmp(to_find, found) == 0)
 		return (TRUE);
 	return (FALSE);
 }
 
 void		path_del(t_path *p)
 {
-	while (p->path)
+	while (p->step)
 	{
-		free(p->path);
-		p->path = p->path->next;
+		free(p->step);
+		p->step = p->step->next;
 	}
 	free(p);
 }
@@ -37,13 +37,13 @@ void		path_put(t_path *p, t_adjlst *vertex)
 			errors_memory(CANT_ALLOCATE_MEM, "path_put");
 		tmp->vertex = vertex;
 		tmp->vertex->room->visited = FALSE;
-		tmp->next = p->path;
-		p->path = tmp;
+		tmp->next = p->step;
+		p->step = tmp;
 		p->steps++;
 	}
 }
 
-bool		paths_exists(t_adjtab *at, t_htab *ht)
+bool		paths_exist(t_adjtab *at, t_htab *ht)
 {
 	t_adjlst	*vertex;
 
@@ -67,7 +67,7 @@ bool		path_create(t_path *p, t_adjtab *at, t_htab *ht)
 	path_put(p, vertex);
 	while ((vertex = get_nearest_vertex(at, ht, vertex->room->name)))
 	{
-		if (found_start(ht->start, vertex->room->name))
+		if (found_room(ht->start, vertex->room->name))
 		{
 			vertex->room->visited = TRUE;
 			found = TRUE;

@@ -16,9 +16,9 @@ void		path_print(t_path *p)
 {
 	t_stack		*tmp;
 
-	tmp = p->path;
+	tmp = p->step;
 	if (tmp)
-	printf("steps: %zu\n", p->steps);
+		printf("steps: %zu\n", p->steps);
 	while (tmp && tmp->vertex->room)
 	{
 		printf("|%s|\n", tmp->vertex->room->name);
@@ -26,7 +26,7 @@ void		path_print(t_path *p)
 	}
 }
 
-void			print_queue(t_queue *queue)
+void			queue_print(t_queue *queue)
 {
 	t_node	*tmp;
 
@@ -38,6 +38,23 @@ void			print_queue(t_queue *queue)
 			printf("%s, ", tmp->vertex->room->name);
 		else
 			printf("%s", tmp->vertex->room->name);
+		tmp = tmp->next;
+	}
+	printf("}\n");
+}
+
+void			queue_print_st(t_queue_st *queue)
+{
+	t_node_st	*tmp;
+
+	printf("\nqueue contains := {");
+	tmp = queue->front;
+	while (tmp)
+	{
+		if (tmp->next != NULL)
+			printf("%s, ", tmp->step->vertex->room->name);
+		else
+			printf("%s", tmp->step->vertex->room->name);
 		tmp = tmp->next;
 	}
 	printf("}\n");

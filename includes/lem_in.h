@@ -154,15 +154,14 @@ typedef struct			s_storage
 typedef struct		    s_room
 {
 	char			    *name;
+	bool			    visited;
+	bool				in_queue;
+	bool			    start;
+	bool			    end;
 	size_t			    name_len;
 	unsigned long		id;
 	size_t				index;
 	size_t				level;
-	bool			    visited;
-	// size_t				ant;
-	bool				in_queue;
-	bool			    start;
-	bool			    end;
 	struct s_room      	*next;
 }					    t_room;
 
@@ -172,8 +171,6 @@ typedef struct		    s_room
 typedef struct			s_coord
 {
 	char				*x_y;
-	// intmax_t			x;
-	// intmax_t			y;
 	size_t				x_y_len;
 	unsigned long		id;
 	struct s_coord		*next;
@@ -211,6 +208,16 @@ typedef struct			s_adjtab
 }						t_adjtab;
 
 /*
+**--------------------Stack---------------------------
+*/
+typedef struct 			s_stack
+{
+	intmax_t			ant;
+	struct s_adjlst		*vertex;
+	struct s_stack		*next;
+}						t_stack;
+
+/*
 **--------------------Queue---------------------------
 */
 typedef struct			s_node
@@ -219,6 +226,12 @@ typedef struct			s_node
 	struct s_node		*next;
 }						t_node;
 
+typedef struct			s_node_st
+{
+	struct s_stack		*step;
+	struct s_node_st	*next;
+}						t_node_st;
+
 typedef struct          s_queue
 {
 	size_t				size;
@@ -226,14 +239,12 @@ typedef struct          s_queue
 	struct s_node		*rear;
 }                       t_queue;
 
-/*
-**--------------------Stack---------------------------
-*/
-typedef struct 			s_stack
+typedef struct          s_queue_st
 {
-	struct s_adjlst		*vertex;
-	struct s_stack		*next;
-}						t_stack;
+	size_t				size;
+	struct s_node_st	*front;
+	struct s_node_st	*rear;
+}                       t_queue_st;
 
 /*
 **--------------------Path----------------------------
@@ -241,9 +252,8 @@ typedef struct 			s_stack
 typedef	struct			s_path
 {
 	size_t 				steps;
-	struct s_stack		*path;
+	struct s_stack		*step;
 	struct s_path		*next;
-	
 }						t_path;
 
 /*
@@ -252,7 +262,7 @@ typedef	struct			s_path
 typedef struct			s_lstpaths
 {
 	size_t				paths;
-	size_t				ants_in_graph;
+	intmax_t			ants_in_graph;
 	struct s_path		*front;
 	struct s_path		*rear;
 }						t_lstpaths;
@@ -357,6 +367,14 @@ void			enqueue(t_queue *queue, t_adjlst *curr_vertex, size_t level);
 t_adjlst		*dequeue(t_queue *queue);
 bool			is_empty(t_queue *queue);
 void			queue_clear(t_queue *queue);
+void			queue_print(t_queue *queue);
+
+bool			is_empty_st(t_queue_st *queue);
+t_queue_st		*queue_init_st(void);
+void			enqueue_st(t_queue_st *queue, t_stack *v);
+t_stack			*dequeue_st(t_queue_st *queue);
+void			queue_clear_st(t_queue_st *queue);
+void			queue_print_st(t_queue_st *queue);
 
 /*
 **--------------------Lstspaths---------------------
@@ -364,17 +382,16 @@ void			queue_clear(t_queue *queue);
 void		    lstpaths_init(t_lstpaths *lp);
 void			lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht);
 void			lstpaths_put(t_lstpaths *lp, t_path *p); // Like queue
-
+void			lstpaths_print(t_lstpaths *lp);
 /*
 **--------------------Path------------------------
 */
 t_path			*path_init(void);
 bool			path_create(t_path *p, t_adjtab *at, t_htab *ht);
-bool			paths_exists(t_adjtab *at, t_htab *ht);
-// void			path_put(t_path *p, t_room *room); // Like stack
+bool			paths_exist(t_adjtab *at, t_htab *ht);
 void			path_put(t_path *p, t_adjlst *vertex);
 void			path_del(t_path *p);
-bool			found_start(char *start, char *name);
+bool			found_room(char *to_find, char *found);
 
 /*
 **--------------------BFS--------------------------
@@ -402,7 +419,6 @@ char			*get_line(const char *data);
 void			hashtable_print_room(t_htab *htab, int i);
 void			hashtable_print_coord(t_htab *htab, int i);
 void			adjtab_print(t_adjtab *adjtab, ssize_t i);
-void			print_queue(t_queue *queue);
 void			path_print(t_path *p);
 
 

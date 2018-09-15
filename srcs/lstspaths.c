@@ -17,7 +17,7 @@ t_adjlst	*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name)
 			level = tmp->room->level;
 			nearest_v = tmp;
 		}
-		if (nearest_v && found_start(ht->start, nearest_v->room->name))
+		if (nearest_v && found_room(ht->start, nearest_v->room->name))
 			break ;
 		tmp = tmp->next;
 	}
@@ -64,7 +64,7 @@ void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 	t_path		*p;
 
 	bfs(at, ht);
-	while (paths_exists(at, ht))
+	while (paths_exist(at, ht))
 	{
 		p = path_init();
 		if (path_create(p, at, ht))

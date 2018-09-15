@@ -18,14 +18,14 @@ void			bfs(t_adjtab *adjtab, t_htab *htab)
 	t_adjlst	*v;
 	size_t		level;
 
-	level = 0;
+	level = 1;
 	queue = queue_init();
 	if (!(v = get_vertex(htab, adjtab, htab->start)))
 			errors_rooms(THERE_ARE_NO_LINKS_WITH_START);
 	enqueue(queue, v, level);
 	while (!is_empty(queue))
 	{
-		print_queue(queue);
+		queue_print(queue);
 		level = v->room->level;
 		while (v)
 		{
