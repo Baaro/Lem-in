@@ -81,70 +81,147 @@ void		own_sleep(void)
 	while (++i < 2147483641);
 }
 
-void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants, size_t ant)
+// void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
+// {
+// 	size_t 	ant;
+// 	t_stack	*step;
+// 	t_path 	*path;
+
+
+// 	ant = 0;
+// 	while (ants_exist(ants))
+// 	{
+// 		path = lp->front;
+// 		if (!all_ants_in_graph(ants, lp->ants_in_graph) && front_room_is_free(path->step->ant))
+// 		{
+// 			step = path->step;
+// 			while (path && ant >= ants)
+// 			{
+// 				enqueue_st(q, step);
+// 				ants_put(path, ++ant, step);
+// 			}
+// 		}
+	// }
+// }
+
+void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 {
 	t_path		*path;
 	t_stack		*step;
-	bool		final;
+	intmax_t	final_ant;
+	bool		back_slashn;
+	size_t 		ant;
 	size_t		i;
 
-	path = lp->front;
-	// own_sleep();
-	if (ants_exist(ants))
+	ant = 0;
+	back_slashn = 0;
+	while (ants_exist(ants))
 	{
+		// own_sleep();
+		final_ant = ants;
+		path = lp->front;
 		if (!all_ants_in_graph(ants, lp->ants_in_graph) && front_room_is_free(path->step->ant))
 		{
 			while (path && ant != ants)
 			{
-				final = 0;
+				back_slashn = 0;
 				if (!path->next)
-					final = 1;
+					back_slashn = 1;
 				step = path->step;
 				enqueue_st(q, step);
 				// queue_print_st(q);
-				ants_put(path, ++ant, step, final);
+				ants_put(path, ++ant, step, back_slashn);
 				lp->ants_in_graph++;
 				path = path->next;
 			}
 		}
 		else
 		{
-			// own_sleep();
 			i = -1;
 			while (++i < lp->paths)
 			{
-				final = 0;
+				back_slashn = 0;
 				if (found_room(ht->end, q->front->step->vertex->room->name))
 				{
-					// printf("ant -> [%zu] finished\n", q->front->step->ant);
 					dequeue_st(q);
 					lp->ants_in_graph--;
 					ants--;
-					// printf("ants: %jd\n", ants);
 				}
-				if (q->front->step->ant == ants)
-					final = 1;
-				// if (q->front->step->next)
-					// printf("IT'S A SEG MAN!!!\n");
+				printf("ants: %jd", ants);
+				if (final_ant == q->front->step->ant)
+					back_slashn = 1;
 				enqueue_st(q, q->front->step->next);
-				ants_put(path, q->front->step->ant, q->front->step->next, final);
+				ants_put(path, q->front->step->ant, q->front->step->next, back_slashn);
 				q->front->step->ant = 0;
 				dequeue_st(q);
 				// queue_print_st(q);
 			}
 		}
-		waves(lp, ht, q, ants, ant);
 	}
 }
 
+// void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants, size_t ant)
+// {
+// 	t_path		*path;
+// 	t_stack		*step;
+// 	bool		final;
+// 	size_t		i;
+
+// 	path = lp->front;
+// 	// own_sleep();
+// 	if (ants_exist(ants))
+// 	{
+// 		if (!all_ants_in_graph(ants, lp->ants_in_graph) && front_room_is_free(path->step->ant))
+// 		{
+// 			while (path && ant != ants)
+// 			{
+// 				final = 0;
+// 				if (!path->next)
+// 					final = 1;
+// 				step = path->step;
+// 				enqueue_st(q, step);
+// 				// queue_print_st(q);
+// 				ants_put(path, ++ant, step, final);
+// 				lp->ants_in_graph++;
+// 				path = path->next;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			// own_sleep();
+// 			i = -1;
+// 			while (++i < lp->paths)
+// 			{
+// 				final = 0;
+// 				if (found_room(ht->end, q->front->step->vertex->room->name))
+// 				{
+// 					// printf("ant -> [%zu] finished\n", q->front->step->ant);
+// 					dequeue_st(q);
+// 					lp->ants_in_graph--;
+// 					ants--;
+// 					// printf("ants: %jd\n", ants);
+// 				}
+// 				if (q->front->step->ant == ants)
+// 					final = 1;
+// 				// if (q->front->step->next)
+// 					// printf("IT'S A SEG MAN!!!\n");
+// 				enqueue_st(q, q->front->step->next);
+// 				ants_put(path, q->front->step->ant, q->front->step->next, final);
+// 				q->front->step->ant = 0;
+// 				dequeue_st(q);
+// 				// queue_print_st(q);
+// 			}
+// 		}
+// 		waves(lp, ht, q, ants, ant);
+// 	}
+// }
+
 void		send_ants(t_lstpaths *lp, t_htab *ht, intmax_t ants)
 {
-	t_queue_st		*q;
-	size_t			ant;
+	t_queue_st		*q;;
 
-	ant = 0;
 	q = queue_init_st();
-	waves(lp, ht, q, ants, ant);
+	waves(lp, ht, q, ants);
 	queue_clear_st(q);
 }
 
@@ -158,40 +235,39 @@ int			main(void)
 
 	// usage_init(&u);
 	// usage_analyze(&u, argc, argv);
-
 	storage_init(&strg);
 	valid_data(&strg);
 
-	hashtab_init(&ht, &strg);
-	hashtab_create(&ht, strg.buff, strg.info);
+	// hashtab_init(&ht, &strg);
+	// hashtab_create(&ht, strg.buff, strg.info);
 
-	printf("\nSTART: %s\n", ht.start);
-	printf("FINISH: %s\n", ht.end);
-	printf("\nHASHTABLE_ROOM\n");
-	size_t i = -1;
-	while (++i < (size_t)ht.size)
-		hashtable_print_room(&ht, i);
+	// printf("\nSTART: %s\n", ht.start);
+	// printf("FINISH: %s\n", ht.end);
+	// printf("\nHASHTABLE_ROOM\n");
+	// size_t i = -1;
+	// while (++i < (size_t)ht.size)
+	// 	hashtable_print_room(&ht, i);
 
-	printf("\nHASHTABLE_COORDNATES\n");
-	size_t k = -1;
-	while (++k < (size_t)ht.size)
-		hashtable_print_coord(&ht, k);
+	// printf("\nHASHTABLE_COORDNATES\n");
+	// size_t k = -1;
+	// while (++k < (size_t)ht.size)
+	// 	hashtable_print_coord(&ht, k);
 
-	adjtab_init(&at, ht.size);
-	adjtab_create(&at, &ht, strg.buff, strg.info);
+	// adjtab_init(&at, ht.size);
+	// adjtab_create(&at, &ht, strg.buff, strg.info);
 
- 	printf("\nADJLISTS\n");
- 	size_t j = -1;
-	while (++j < (size_t)at.size + 1)
-		adjtab_print(&at, j);
+ // 	printf("\nADJLISTS\n");
+ // 	size_t j = -1;
+	// while (++j < (size_t)at.size + 1)
+	// 	adjtab_print(&at, j);
 
-	lstpaths_init(&lp);
-	lstpaths_create(&lp, &at, &ht);
+	// lstpaths_init(&lp);
+	// lstpaths_create(&lp, &at, &ht);
 
-	// usage_print(&u, &lp, &at, &ht);
+	// // usage_print(&u, &lp, &at, &ht);
 
-	send_ants(&lp, &ht, strg.info->ants);
-	clear(&ht, &at, &strg, &lp);
-	// system("leaks lem-in");
+	// send_ants(&lp, &ht, strg.info->ants);
+	// clear(&ht, &at, &strg, &lp);
+	// // system("leaks lem-in");
 	return (0);
 }

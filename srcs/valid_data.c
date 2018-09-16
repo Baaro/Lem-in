@@ -42,7 +42,7 @@ void					valid_data(t_storage *strg)
 	{
 		if (strg->contrllr == READ)
 		{
-			if (read_line(strg->buff, &strg->buff->line))
+			if (read_line(strg->buff, &strg->buff->line, strg->buff->fd))
 				strg->contrllr = GO_VALID;
 		}
 		if (strg->contrllr == GO_VALID)

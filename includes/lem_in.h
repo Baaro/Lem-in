@@ -34,7 +34,7 @@
 # define FIRST_ROOM 0
 # define SECOND_ROOM 1
 
-# define INPUT 0
+# define FD open("./tests/unvalid/graph", O_RDONLY);
 
 
 /*
@@ -117,7 +117,7 @@ typedef struct			s_checks
 
 typedef struct 			s_buff
 {
-	// int					fd;
+	int					fd;
 	char				*line;
 	char				*data;
 }						t_buff;
@@ -407,7 +407,8 @@ t_adjlst		*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name);
 /*
 **--------------------Reader--------------------
 */
-bool			read_line(t_buff *buff, char **line);
+// bool			read_line(t_buff *buff, char **line);
+bool		read_line(t_buff *buff, char **line, int fd);
 char			*get_line(const char *data);
 // void			free_room(char **room);
 // void     	free_dblarray(char **str);

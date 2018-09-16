@@ -4,8 +4,10 @@ void			hashtab_clear(t_htab *htab)
 {
 	rooms_clear(htab->rooms, htab->size);
 	coords_clear(htab->coords, htab->size);
-	ft_strdel(&htab->start);
-	ft_strdel(&htab->end);
+	if (htab->start)
+		ft_strdel(&htab->start);
+	if (htab->end)
+		ft_strdel(&htab->end);
 }
 
 // bool		hashtab_exists(t_htab *htab, char *name, unsigned long id)
