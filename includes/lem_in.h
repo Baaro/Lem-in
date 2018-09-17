@@ -34,7 +34,7 @@
 # define FIRST_ROOM 0
 # define SECOND_ROOM 1
 
-# define FD open("./tests/unvalid/graph", O_RDONLY);
+# define INPUT 0
 
 
 /*
@@ -408,7 +408,7 @@ t_adjlst		*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name);
 **--------------------Reader--------------------
 */
 // bool			read_line(t_buff *buff, char **line);
-bool		read_line(t_buff *buff, char **line, int fd);
+bool			read_line(t_buff *buff, char **line);
 char			*get_line(const char *data);
 // void			free_room(char **room);
 // void     	free_dblarray(char **str);

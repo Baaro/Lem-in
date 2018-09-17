@@ -48,15 +48,19 @@ intmax_t		ants_exist(intmax_t ants)
 
 void		ants_put(t_path *p, size_t ant, t_stack *step, bool final)
 {
-	if (p->next && !final)
-	{
-		step->ant = ant;
-		ft_printf("L%d-%s ", step->ant, step->vertex->room->name);
-	}
-	else
-	{
-		step->ant = ant;
-		ft_printf("L%d-%s\n", step->ant, step->vertex->room->name);
+
+	if (step)
+	{	
+		if (p->next && !final)
+		{
+			step->ant = ant;
+			ft_printf("L%d-%s ", step->ant, step->vertex->room->name);
+		}
+		else
+		{
+			step->ant = ant;
+			ft_printf("L%d-%s\n", step->ant, step->vertex->room->name);
+		}
 	}
 }
 
@@ -74,12 +78,66 @@ bool			front_room_is_free(intmax_t ant)
 	return (FALSE);
 }
 
-void		own_sleep(void)
+void			own_sleep(void)
 {
 	ssize_t i = -1;
 
 	while (++i < 2147483641);
 }
+
+bool			ants_exist(intmax_t ants)
+{
+	return (ants);
+}
+
+void			ants_shift(t_lstpaths *lp, t_queue_st *q, t_htab *ht, intmax_t *ants)
+{
+	intmax_t final_ant;
+
+	final_ant = -1;
+	while (++final_ant != ants)
+	{
+		if (found_room(ht->end, q->front->step->vertex->room->name))
+		{
+			dequeue_st(q);
+			lp->ants_in_graph--;
+			ants--;
+		}
+		else if (q->front->step->next)
+		{
+			q->front->step->next->ant = q->front->step->ant;
+			enqueue_st(q, q->front->step->next);
+			ft_printf("L%d-%s ", q->front->step->ant, q->front->step->vertex->room->name);
+			dequeue_st(q);
+		}
+	}
+}
+
+void			waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
+{
+	t_stack	*step;
+
+	while (ants_exist(ants))
+	{
+		if (all_ants_in_graph(ants, lp->ants_in_graph))
+			ants_shift(lp, q, ht, &ants);
+		if (path_free(lp->front->step->ant))
+		{
+			ants_put(lp, q, &ants);
+			continue ;
+		}
+		ft_printf("\n");
+	}
+}
+
+// void		send_ants(t_lstpaths *lp, t_htab *ht, intmax_t ants)
+// {	
+// 	t_queue_st		*q;
+
+// 	q = queue_init_st();
+// 	waves(lp, ht, q, ants);
+// 	queue_clear_st(q);			
+// }
 
 // void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 // {
@@ -114,7 +172,7 @@ void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 	size_t		i;
 
 	ant = 0;
-	back_slashn = 0;
+	back_slashn = FALSE;
 	while (ants_exist(ants))
 	{
 		// own_sleep();
@@ -124,9 +182,9 @@ void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 		{
 			while (path && ant != ants)
 			{
-				back_slashn = 0;
+				back_slashn = FALSE;
 				if (!path->next)
-					back_slashn = 1;
+					back_slashn = TRUE;
 				step = path->step;
 				enqueue_st(q, step);
 				// queue_print_st(q);
@@ -147,14 +205,12 @@ void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 					lp->ants_in_graph--;
 					ants--;
 				}
-				printf("ants: %jd", ants);
 				if (final_ant == q->front->step->ant)
 					back_slashn = 1;
-				enqueue_st(q, q->front->step->next);
+				enqueue_st(q, q->front->step->next);									
 				ants_put(path, q->front->step->ant, q->front->step->next, back_slashn);
 				q->front->step->ant = 0;
 				dequeue_st(q);
-				// queue_print_st(q);
 			}
 		}
 	}
@@ -218,7 +274,7 @@ void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 
 void		send_ants(t_lstpaths *lp, t_htab *ht, intmax_t ants)
 {
-	t_queue_st		*q;;
+	t_queue_st		*q;
 
 	q = queue_init_st();
 	waves(lp, ht, q, ants);
@@ -238,36 +294,36 @@ int			main(void)
 	storage_init(&strg);
 	valid_data(&strg);
 
-	// hashtab_init(&ht, &strg);
-	// hashtab_create(&ht, strg.buff, strg.info);
+	hashtab_init(&ht, &strg);
+	hashtab_create(&ht, strg.buff, strg.info);
 
-	// printf("\nSTART: %s\n", ht.start);
-	// printf("FINISH: %s\n", ht.end);
-	// printf("\nHASHTABLE_ROOM\n");
-	// size_t i = -1;
-	// while (++i < (size_t)ht.size)
-	// 	hashtable_print_room(&ht, i);
+	printf("\nSTART: %s\n", ht.start);
+	printf("FINISH: %s\n", ht.end);
+	printf("\nHASHTABLE_ROOM\n");
+	size_t i = -1;
+	while (++i < (size_t)ht.size)
+		hashtable_print_room(&ht, i);
 
-	// printf("\nHASHTABLE_COORDNATES\n");
-	// size_t k = -1;
-	// while (++k < (size_t)ht.size)
-	// 	hashtable_print_coord(&ht, k);
+	printf("\nHASHTABLE_COORDNATES\n");
+	size_t k = -1;
+	while (++k < (size_t)ht.size)
+		hashtable_print_coord(&ht, k);
 
-	// adjtab_init(&at, ht.size);
-	// adjtab_create(&at, &ht, strg.buff, strg.info);
+	adjtab_init(&at, ht.size);
+	adjtab_create(&at, &ht, strg.buff, strg.info);
 
- // 	printf("\nADJLISTS\n");
- // 	size_t j = -1;
-	// while (++j < (size_t)at.size + 1)
-	// 	adjtab_print(&at, j);
+ 	printf("\nADJLISTS\n");
+ 	size_t j = -1;
+	while (++j < (size_t)at.size + 1)
+		adjtab_print(&at, j);
 
-	// lstpaths_init(&lp);
-	// lstpaths_create(&lp, &at, &ht);
+	lstpaths_init(&lp);
+	lstpaths_create(&lp, &at, &ht);
 
-	// // usage_print(&u, &lp, &at, &ht);
+	// usage_print(&u, &lp, &at, &ht);
 
-	// send_ants(&lp, &ht, strg.info->ants);
-	// clear(&ht, &at, &strg, &lp);
+	send_ants(&lp, &ht, strg.info->ants);
+	clear(&ht, &at, &strg, &lp);
 	// // system("leaks lem-in");
 	return (0);
 }

@@ -72,7 +72,7 @@ char		*get_line(const char *data)
 	return (line);
 }
 
-bool		read_line(t_buff *buff, char **line, int fd)
+bool		read_line(t_buff *buff, char **line)
 {
 	char	*tmp;
 	ssize_t	flag;
@@ -81,7 +81,7 @@ bool		read_line(t_buff *buff, char **line, int fd)
 	flag = 0;
 	if (*line)
 		free(*line);
-	if ((flag = get_next_line(fd, line)) != -1)
+	if ((flag = get_next_line(INPUT, line)) != -1)
 	{
 		if (*line == NULL)
 			errors_input(WRONG_INPUT);
