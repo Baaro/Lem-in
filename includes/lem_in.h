@@ -46,55 +46,55 @@ typedef enum			e_errors
 	** Ants
 	*/
 	WRONG_VALUE_OF_ANTS = 1,
-	ANTS_IS_ZERO,
-	ANTS_IS_NEG,
-	TOO_FEW_ANTS,
+	ANTS_IS_ZERO = 2,
+	ANTS_IS_NEG = 3,
+	TOO_FEW_ANTS = 4,
 
 	/* 
 	** Commands
 	*/
-	NO_START_COMMAND,
-	NO_END_COMMAND,
-	TWO_START_COMMANDS,
-	TWO_END_COMMANDS,
+	NO_START_COMMAND = 5,
+	NO_END_COMMAND = 6,
+	TWO_START_COMMANDS = 7,
+	TWO_END_COMMANDS = 8,
 
 	/*
 	** Coordinates
 	*/
-	WRONG_X,
-	WRONG_Y,
-	X_BIGGER_THAN_INTMAX,
-	Y_BIGGER_THAN_INTMAX,
+	WRONG_X = 9,
+	WRONG_Y = 10,
+	X_BIGGER_THAN_INTMAX = 11,
+	Y_BIGGER_THAN_INTMAX = 12,
 
 	/* 
 	** Rooms
 	*/
-	L_CHAR_AT_ROOM_NAME,
-	UNPRINTBALE_NAME,
-	NO_ROOMS,
-	TWO_ROOMS_HAVE_THE_SAME_NAME,
-	TWO_ROOMS_HAVE_THE_SAME_COORDS,
-	THERE_ARE_NO_LINKS_WITH_START,
-	START_EQUAL_END,
+	L_CHAR_AT_ROOM_NAME = 13,
+	UNPRINTBALE_NAME = 14,
+	NO_ROOMS = 15,
+	TWO_ROOMS_HAVE_THE_SAME_NAME = 16,
+	TWO_ROOMS_HAVE_THE_SAME_COORDS = 17,
+	THERE_ARE_NO_LINKS_WITH_START = 18,
+	START_EQUAL_END = 19,
 
 	/* 
 	** Links
 	*/
-	WRONG_LINKS,
-	UNKNOWN_ROOM,
+	WRONG_LINKS = 20,
+	UNKNOWN_ROOM = 21,
 
-	WRONG_INPUT,
+	WRONG_INPUT = 22,
 
 	/* 
 	** Memory
 	*/
-	CANT_ALLOCATE_MEM,
-	CANT_SETZERO,
+	CANT_ALLOCATE_MEM = 23,
+	CANT_SETZERO = 24,
 
 	/*
 	** Algorithm
 	*/
-	THERE_ARE_NO_POSSIBLE_WAYS,
+	THERE_ARE_NO_POSSIBLE_WAYS = 25,
 }						t_errors;
 
 /*
@@ -103,11 +103,17 @@ typedef enum			e_errors
 typedef enum			e_controller
 {
 	READ = 1,
-	VALID_ROOM,
-	STOP_READ,
-	GO_VALID,
+	VALID_ROOM = 2,
+	STOP_READ = 3,
+	GO_VALID = 4,
 }						t_controller;
-
+typedef enum			e_ants_contrl
+{
+	PUT = 1,
+	SHIFT = 2,
+	STEP = 3,
+	SLASH_N = 4,
+} 						t_ants_contrl;
 typedef struct			s_checks
 {
 	bool				ants_check;

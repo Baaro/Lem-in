@@ -46,48 +46,65 @@ intmax_t		ants_exist(intmax_t ants)
 	return (ants);
 }
 
-void		ants_put(t_path *p, size_t ant, t_stack *step, bool final)
-{
+// void		ants_put(t_path *p, size_t ant, t_stack *step, bool final)
+// {
 
-	if (step)
-	{	
-		if (p->next && !final)
+// 	if (step)
+// 	{	
+// 		if (p->next && !final)
+// 		{
+// 			step->ant = ant;
+// 			ft_printf("L%d-%s ", step->ant, step->vertex->room->name);
+// 		}
+// 		else
+// 		{
+// 			step->ant = ant;
+// 			ft_printf("L%d-%s\n", step->ant, step->vertex->room->name);
+// 		}
+// 	}
+// }
+
+// bool		all_ants_in_graph(intmax_t ants, intmax_t ants_in_graph)
+// {
+// 	if (ants == ants_in_graph)
+// 		return (TRUE);
+// 	return (FALSE);
+// }
+
+// bool			front_room_is_free(intmax_t ant)
+// {
+// 	if (!ant)
+// 		return (TRUE);
+// 	return (FALSE);
+// }
+
+// void			own_sleep(void)
+// {
+// 	ssize_t i = -1;
+
+// 	while (++i < 2147483641);
+// }
+
+void			ants_steps(t_queue_st *q, t_htab *ht, intmax_t *ants)
+{
+	intmax_t final_ant;
+
+	final_ant = -1;
+	while (++final_ant != *ants && *ants != 0)
+	{
+		if (found_room(ht->end, q->front->step->vertex->room->name))
 		{
-			step->ant = ant;
-			ft_printf("L%d-%s ", step->ant, step->vertex->room->name);
+			dequeue_st(q);
+			(*ants)--;
 		}
-		else
+		if (q->front->step->next)
 		{
-			step->ant = ant;
-			ft_printf("L%d-%s\n", step->ant, step->vertex->room->name);
+			q->front->step->next->ant = q->front->step->ant;
+			enqueue_st(q, q->front->step->next);
+			ft_printf("L%d-%s ", q->front->step->ant, q->front->step->next->vertex->room->name);
+			dequeue_st(q);
 		}
 	}
-}
-
-bool		all_ants_in_graph(intmax_t ants, intmax_t ants_in_graph)
-{
-	if (ants == ants_in_graph)
-		return (TRUE);
-	return (FALSE);
-}
-
-bool			front_room_is_free(intmax_t ant)
-{
-	if (!ant)
-		return (TRUE);
-	return (FALSE);
-}
-
-void			own_sleep(void)
-{
-	ssize_t i = -1;
-
-	while (++i < 2147483641);
-}
-
-bool			ants_exist(intmax_t ants)
-{
-	return (ants);
 }
 
 void			ants_shift(t_lstpaths *lp, t_queue_st *q, t_htab *ht, intmax_t *ants)
@@ -95,126 +112,133 @@ void			ants_shift(t_lstpaths *lp, t_queue_st *q, t_htab *ht, intmax_t *ants)
 	intmax_t final_ant;
 
 	final_ant = -1;
-	while (++final_ant != ants)
+	while (++final_ant != lp->ants_in_graph)
 	{
 		if (found_room(ht->end, q->front->step->vertex->room->name))
 		{
-			dequeue_st(q);
-			lp->ants_in_graph--;
-			ants--;
+			dequeue_st(q);		
+			(*ants)--;
 		}
-		else if (q->front->step->next)
+		if (q->front->step->next)
 		{
 			q->front->step->next->ant = q->front->step->ant;
+			q->front->step->ant = 0;
 			enqueue_st(q, q->front->step->next);
-			ft_printf("L%d-%s ", q->front->step->ant, q->front->step->vertex->room->name);
+			ft_printf("L%d-%s ", q->front->step->next->ant, q->front->step->next->vertex->room->name);
 			dequeue_st(q);
 		}
 	}
+}
+
+t_ants_contrl			ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t ants, bool *all_ants_in_graph)
+{
+	static intmax_t	ant;	
+	t_path			*p;
+	
+	p = lp->front;
+	if (!p->step->ant && !(*all_ants_in_graph))
+	{
+		while (p)
+		{
+			p->step->ant = ++ant;
+			enqueue_st(q, p->step);
+			ft_printf("L%d-%s ", p->step->ant, p->step->vertex->room->name);
+			lp->ants_in_graph++;
+			p = p->next;
+		}
+		return (SLASH_N);
+	}
+	if (ant == ants)
+	{
+		*all_ants_in_graph = TRUE;
+		return (STEP);
+	}
+	return (SHIFT);
 }
 
 void			waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 {
-	t_stack	*step;
+	t_stack			*step;
+	t_ants_contrl	contrl;
+	bool			all_ants_in_graph;
 
-	while (ants_exist(ants))
+	contrl = PUT;
+	all_ants_in_graph = FALSE;
+	while (ants)
 	{
-		if (all_ants_in_graph(ants, lp->ants_in_graph))
-			ants_shift(lp, q, ht, &ants);
-		if (path_free(lp->front->step->ant))
+		if (contrl == PUT)
+			contrl = ants_put(lp, q, ants, &all_ants_in_graph);
+		if (contrl == SHIFT)
 		{
-			ants_put(lp, q, &ants);
-			continue ;
+			ants_shift(lp, q, ht, &ants);
+			contrl = PUT; 			
 		}
-		ft_printf("\n");
+		if (all_ants_in_graph && contrl == STEP)
+		{
+			ants_steps(q, ht, &ants);
+			contrl = SLASH_N;
+		}
+		if (contrl == SLASH_N && ants != 0)
+		{
+			ft_printf("\n");
+			contrl = all_ants_in_graph ? STEP : SHIFT;
+		}
 	}
 }
-
-// void		send_ants(t_lstpaths *lp, t_htab *ht, intmax_t ants)
-// {	
-// 	t_queue_st		*q;
-
-// 	q = queue_init_st();
-// 	waves(lp, ht, q, ants);
-// 	queue_clear_st(q);			
-// }
 
 // void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
 // {
-// 	size_t 	ant;
-// 	t_stack	*step;
-// 	t_path 	*path;
-
+// 	t_path		*path;
+// 	t_stack		*step;
+// 	intmax_t	final_ant;
+// 	bool		back_slashn;
+// 	size_t 		ant;
+// 	size_t		i;
 
 // 	ant = 0;
+// 	back_slashn = FALSE;
 // 	while (ants_exist(ants))
 // 	{
+// 		// own_sleep();
+// 		final_ant = ants;
 // 		path = lp->front;
 // 		if (!all_ants_in_graph(ants, lp->ants_in_graph) && front_room_is_free(path->step->ant))
 // 		{
-// 			step = path->step;
-// 			while (path && ant >= ants)
+// 			while (path && ant != ants)
 // 			{
+// 				back_slashn = FALSE;
+// 				if (!path->next)
+// 					back_slashn = TRUE;
+// 				step = path->step;
 // 				enqueue_st(q, step);
-// 				ants_put(path, ++ant, step);
+// 				// queue_print_st(q);
+// 				ants_put(path, ++ant, step, back_slashn);
+// 				lp->ants_in_graph++;
+// 				path = path->next;
 // 			}
 // 		}
-	// }
+// 		else
+// 		{
+// 			i = -1;
+// 			while (++i < lp->paths)
+// 			{
+// 				back_slashn = 0;
+// 				if (found_room(ht->end, q->front->step->vertex->room->name))
+// 				{
+// 					dequeue_st(q);
+// 					lp->ants_in_graph--;
+// 					ants--;
+// 				}
+// 				if (final_ant == q->front->step->ant)
+// 					back_slashn = 1;
+// 				enqueue_st(q, q->front->step->next);									
+// 				ants_put(path, q->front->step->ant, q->front->step->next, back_slashn);
+// 				q->front->step->ant = 0;
+// 				dequeue_st(q);
+// 			}
+// 		}
+// 	}
 // }
-
-void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants)
-{
-	t_path		*path;
-	t_stack		*step;
-	intmax_t	final_ant;
-	bool		back_slashn;
-	size_t 		ant;
-	size_t		i;
-
-	ant = 0;
-	back_slashn = FALSE;
-	while (ants_exist(ants))
-	{
-		// own_sleep();
-		final_ant = ants;
-		path = lp->front;
-		if (!all_ants_in_graph(ants, lp->ants_in_graph) && front_room_is_free(path->step->ant))
-		{
-			while (path && ant != ants)
-			{
-				back_slashn = FALSE;
-				if (!path->next)
-					back_slashn = TRUE;
-				step = path->step;
-				enqueue_st(q, step);
-				// queue_print_st(q);
-				ants_put(path, ++ant, step, back_slashn);
-				lp->ants_in_graph++;
-				path = path->next;
-			}
-		}
-		else
-		{
-			i = -1;
-			while (++i < lp->paths)
-			{
-				back_slashn = 0;
-				if (found_room(ht->end, q->front->step->vertex->room->name))
-				{
-					dequeue_st(q);
-					lp->ants_in_graph--;
-					ants--;
-				}
-				if (final_ant == q->front->step->ant)
-					back_slashn = 1;
-				enqueue_st(q, q->front->step->next);									
-				ants_put(path, q->front->step->ant, q->front->step->next, back_slashn);
-				q->front->step->ant = 0;
-				dequeue_st(q);
-			}
-		}
-	}
-}
 
 // void		waves(t_lstpaths *lp, t_htab *ht, t_queue_st *q, intmax_t ants, size_t ant)
 // {
