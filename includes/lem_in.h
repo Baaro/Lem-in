@@ -19,7 +19,7 @@
 # include <stdint.h>
 # include <stdio.h> // delete it
 
-# define MAX_ANTS 100000
+# define MAX_ANTS 10000000
 
 # define TRUE 1
 # define FALSE 0
@@ -107,13 +107,7 @@ typedef enum			e_controller
 	STOP_READ = 3,
 	GO_VALID = 4,
 }						t_controller;
-typedef enum			e_ants_contrl
-{
-	PUT = 1,
-	SHIFT = 2,
-	STEP = 3,
-	SLASH_N = 4,
-} 						t_ants_contrl;
+
 typedef struct			s_checks
 {
 	bool				ants_check;
@@ -204,6 +198,7 @@ typedef struct			s_adjlst
 	struct s_room		*room;
 	struct s_adjlst		*next;
 }						t_adjlst;
+
 /*
 **--------------------Adjtable------------------------
 */
@@ -269,6 +264,7 @@ typedef struct			s_lstpaths
 {
 	size_t				paths;
 	intmax_t			ants_in_graph;
+	intmax_t			final_ant;
 	struct s_path		*front;
 	struct s_path		*rear;
 }						t_lstpaths;
@@ -397,7 +393,7 @@ bool			path_create(t_path *p, t_adjtab *at, t_htab *ht);
 bool			paths_exist(t_adjtab *at, t_htab *ht);
 void			path_put(t_path *p, t_adjlst *vertex);
 void			path_del(t_path *p);
-bool			found_room(char *to_find, char *found);
+bool			found_room(const char *to_find, const char *found);
 
 /*
 **--------------------BFS--------------------------
@@ -413,12 +409,8 @@ t_adjlst		*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name);
 /*
 **--------------------Reader--------------------
 */
-// bool			read_line(t_buff *buff, char **line);
 bool			read_line(t_buff *buff, char **line);
 char			*get_line(const char *data);
-// void			free_room(char **room);
-// void     	free_dblarray(char **str);
-// void			free_all(size_t numargs, ...);
 
 /*
 **--------------------Printer--------------------

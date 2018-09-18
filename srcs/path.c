@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-bool		found_room(char *to_find, char *found)
+bool		found_room(const char *to_find, const char *found)
 {
 	if (ft_strcmp(to_find, found) == 0)
 		return (TRUE);

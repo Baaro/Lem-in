@@ -21,18 +21,16 @@ static intmax_t count_ants(const char *line)
 		errors_ants(ANTS_IS_NEG);
 	else if (*line == 0)
 		errors_ants(ANTS_IS_ZERO);
-	while (*line && ants < MAX_ANTS)
+	while (*line)
 	{
+		if (ants > MAX_ANTS)
+			errors_ants(TOO_FEW_ANTS);
 		if (ft_isdigit(*line))
 			ants = (ants * 10) + (*line) - '0';
 		else
 			errors_ants(WRONG_VALUE_OF_ANTS);
 		line++;
 	}
-	if (ants > MAX_ANTS)
-		errors_ants(TOO_FEW_ANTS);
-	else if (ants == 0)
-		errors_ants(ANTS_IS_ZERO);
 	return (ants);
 }
 
