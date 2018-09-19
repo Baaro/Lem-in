@@ -25,7 +25,7 @@ void			bfs(t_adjtab *adjtab, t_htab *htab)
 	enqueue(queue, v, level);
 	while (!is_empty(queue))
 	{
-		queue_print(queue);
+		// queue_print(queue);
 		level = v->room->level;
 		while (v)
 		{
@@ -36,7 +36,7 @@ void			bfs(t_adjtab *adjtab, t_htab *htab)
 		}
 		v = dequeue(queue);
 		v = get_vertex(htab, adjtab, v->room->name);
-		printf("room[%s] has level: %zu\n", v->room->name, v->room->level);
+		// printf("room[%s] has level: %zu\n", v->room->name, v->room->level);
 	}
 	queue_clear(queue);
 }

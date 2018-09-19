@@ -44,41 +44,48 @@ void		clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp)
 void			ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
 	intmax_t	final_ant;
-
+	intmax_t	del;
+	
 	final_ant = -1;
-	while (*ants && ++final_ant != *ants)
+	del = 0;
+	while (*ants && ++final_ant < *ants)
 	{
 		if (found_room(end, q->front->step->vertex->room->name))
 		{
 			dequeue_st(q);
-			lp->ants_in_graph--;
+			del++;
 			(*ants)--;
 		}
 		if (q->front->step->next)
 		{
 			q->front->step->next->ant = q->front->step->ant;
 			enqueue_st(q, q->front->step->next);
-			ft_printf("L%jd-%s ", q->front->step->ant, q->front->step->next->vertex->room->name);
+			ft_printf("L%jd-%s ", q->front->step->ant,
+						q->front->step->next->vertex->room->name);
 			dequeue_st(q);
 		}
 	}
-	if (q->front->next)
-		ft_printf("\n");
-	else if (found_room(end, q->front->step->vertex->room->name))
-		ft_printf("\n");		
+	if ((lp->ants_in_graph -= del) > 0)
+		ft_printf("\n");			
+	// if (q->front->next)
+		// ft_printf("\n");
+	// if (!found_room(end, q->front->step->vertex->room->name))
+		// ft_printf("\n");		
 }
 
 void			ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
 	intmax_t final_ant;
+	intmax_t del;
 
 	final_ant = -1;
+	del = 0;
 	while (++final_ant < lp->ants_in_graph)
-	{
+	{	
 		if (found_room(end, q->front->step->vertex->room->name))
 		{
 			dequeue_st(q);
-			lp->ants_in_graph--;			
+			del++;
 			(*ants)--;
 		}
 		if (q->front->step->next)
@@ -91,19 +98,22 @@ void			ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end
 			dequeue_st(q);
 		}
 	}
+	lp->ants_in_graph -= del;
 }
 
 void			ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in_graph)
 {
-	static intmax_t	ant;	
+	static intmax_t	ant;
 	t_path			*p;
+	intmax_t 		i;
 
 	p = lp->front;
+	i = -1;
 	if (!(*all_ants_in_graph) && *ants && !p->step->ant)
 	{
-		while (p && ++ant <= lp->final_ant)
+		while (p && ant <= lp->final_ant && ++i < lp->paths)
 		{
-			p->step->ant = ant;
+			p->step->ant = ++ant;
 			lp->ants_in_graph++;
 			enqueue_st(q, p->step);
 			ft_printf("L%jd-%s ", p->step->ant, p->step->vertex->room->name);
@@ -118,7 +128,6 @@ void			ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in
 void			put_all_ants_in_graph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
 	bool	all_ants_in_graph;
-	int i;
 
 	all_ants_in_graph = FALSE;
 	while (!all_ants_in_graph && *ants)
@@ -135,8 +144,9 @@ void			send_ants(t_lstpaths *lp, intmax_t ants, const char *end)
 	q = queue_init_st();
 	lp->final_ant = ants;
 	put_all_ants_in_graph(lp, q, &ants, end);
-	// while (ants)
-		// ants_step(lp, q, &ants, end);
+	while (ants)
+		ants_step(lp, q, &ants, end);
+	// ft_printf("\n");		
 	queue_clear_st(q);
 }
 
@@ -163,10 +173,10 @@ int			main(void)
 	while (++i < (size_t)ht.size)
 		hashtable_print_room(&ht, i);
 
-	printf("\nHASHTABLE_COORDNATES\n");
-	size_t k = -1;
-	while (++k < (size_t)ht.size)
-		hashtable_print_coord(&ht, k);
+	// printf("\nHASHTABLE_COORDNATES\n");
+	// size_t k = -1;
+	// while (++k < (size_t)ht.size)
+	// 	hashtable_print_coord(&ht, k);
 
 	adjtab_init(&at, ht.size);
 	adjtab_create(&at, &ht, strg.buff, strg.info);

@@ -10,23 +10,6 @@ void			hashtab_clear(t_htab *htab)
 		ft_strdel(&htab->end);
 }
 
-// bool		hashtab_exists(t_htab *htab, char *name, unsigned long id)
-// {
-// 	t_room	*tmp;
-
-// 	if (htab->rooms[id]->name)
-// 	{
-// 		tmp = htab->rooms[id];
-// 		while (tmp && tmp->name)
-// 		{
-// 			if (ft_strcmp(tmp->name, name) == 0)
-// 				return (TRUE);
-// 			tmp = tmp->next;
-// 		}
-// 	}
-// 	return (FALSE);
-// }
-
 unsigned long	get_id(t_htab *htab, char *name, size_t name_len)
 {
 	size_t	hash;

@@ -12,22 +12,6 @@
 
 #include "lem_in.h"
 
-// void				free_all(size_t numargs, ...)
-// {
-// 	va_list	ap;
-// 	void	**to_free;
-// 	size_t	i;
-
-// 	i = -1;
-// 	va_start(ap, numargs);
-// 	while (++i < numargs)
-// 	{
-// 		to_free = va_arg(ap, void **);
-// 		free(to_free);
-// 	}
-// 	va_end(ap);
-// }
-
 void		skip_amount_of_ants(const char *data)
 {
 	char	*tmp;
@@ -41,18 +25,6 @@ void		skip_amount_of_ants(const char *data)
 	if (tmp)
 		ft_strdel(&tmp);
 }
-
-// void     	free_dblarray(char **str)
-// {
-// 	size_t	i;
-
-//     if (!str)
-//         return ;
-//     i = 0;
-// 	while (str[i])
-// 		free(str[i++]);
-//     // free(str);
-// }
 
 char		*get_line(const char *data)
 {
