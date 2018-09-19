@@ -24,7 +24,7 @@ t_adjlst	*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name)
 	return (nearest_v ? nearest_v : NULL);
 }
 
-void		lstpaths_put(t_lstpaths *lp, t_path *p) // Like queue
+void		lstpaths_put(t_lstpaths *lp, t_path *p)
 {
 	if (lp->front == NULL)
 	{
@@ -38,7 +38,6 @@ void		lstpaths_put(t_lstpaths *lp, t_path *p) // Like queue
 		lp->rear->next->next = NULL;
 		lp->rear = lp->rear->next;
 	}
-	// p->next = lp->front;
 }
 
 void		lstpaths_init(t_lstpaths *lp)

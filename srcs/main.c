@@ -45,16 +45,16 @@ void			ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
 	intmax_t	final_ant;
 	intmax_t	del;
-	
+
+	del = 0;	 	
 	final_ant = -1;
-	del = 0;
 	while (*ants && ++final_ant < *ants)
 	{
 		if (found_room(end, q->front->step->vertex->room->name))
 		{
 			dequeue_st(q);
-			del++;
 			(*ants)--;
+			del++;	
 		}
 		if (q->front->step->next)
 		{
@@ -65,12 +65,9 @@ void			ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 			dequeue_st(q);
 		}
 	}
-	if ((lp->ants_in_graph -= del) > 0)
-		ft_printf("\n");			
-	// if (q->front->next)
-		// ft_printf("\n");
-	// if (!found_room(end, q->front->step->vertex->room->name))
-		// ft_printf("\n");		
+	if (!is_empty_st(q) && found_room(end, q->front->step->vertex->room->name))
+		ft_printf("\n");	
+	lp->ants_in_graph -= del;
 }
 
 void			ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
@@ -78,8 +75,8 @@ void			ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end
 	intmax_t final_ant;
 	intmax_t del;
 
+	del = 0;	
 	final_ant = -1;
-	del = 0;
 	while (++final_ant < lp->ants_in_graph)
 	{	
 		if (found_room(end, q->front->step->vertex->room->name))
@@ -111,7 +108,7 @@ void			ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in
 	i = -1;
 	if (!(*all_ants_in_graph) && *ants && !p->step->ant)
 	{
-		while (p && ant <= lp->final_ant && ++i < lp->paths)
+		while (p && ant < lp->final_ant && ++i < lp->paths)
 		{
 			p->step->ant = ++ant;
 			lp->ants_in_graph++;
@@ -145,8 +142,7 @@ void			send_ants(t_lstpaths *lp, intmax_t ants, const char *end)
 	lp->final_ant = ants;
 	put_all_ants_in_graph(lp, q, &ants, end);
 	while (ants)
-		ants_step(lp, q, &ants, end);
-	// ft_printf("\n");		
+		ants_step(lp, q, &ants, end);			
 	queue_clear_st(q);
 }
 
@@ -173,10 +169,10 @@ int			main(void)
 	while (++i < (size_t)ht.size)
 		hashtable_print_room(&ht, i);
 
-	// printf("\nHASHTABLE_COORDNATES\n");
-	// size_t k = -1;
-	// while (++k < (size_t)ht.size)
-	// 	hashtable_print_coord(&ht, k);
+	printf("\nHASHTABLE_COORDNATES\n");
+	size_t k = -1;
+	while (++k < (size_t)ht.size)
+		hashtable_print_coord(&ht, k);
 
 	adjtab_init(&at, ht.size);
 	adjtab_create(&at, &ht, strg.buff, strg.info);
@@ -190,9 +186,9 @@ int			main(void)
 	lstpaths_create(&lp, &at, &ht);
 
 	// usage_print(&u, &lp, &at, &ht);
-
+	printf("\n%s\n", strg.buff->data);
 	send_ants(&lp, strg.info->ants, ht.end);
 	clear(&ht, &at, &strg, &lp);
-	// // system("leaks lem-in");
+	// system("leaks lem-in");
 	return (0);
 }
