@@ -14,7 +14,7 @@
 
 static bool				end_is_checked(const t_checks *chcks)
 {
-	if (chcks->start_check == UNCHECKED)
+	if (chcks->end_check == UNCHECKED)
 		errors_commands(NO_END_COMMAND);
 	return (TRUE);
 }

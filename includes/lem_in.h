@@ -269,6 +269,14 @@ typedef struct			s_lstpaths
 	struct s_path		*rear;
 }						t_lstpaths;
 
+typedef struct			s_printer
+{
+	bool				ht;
+	bool				at;
+	bool				p;
+	bool				u;	
+	bool				a;
+}						t_printer;
 /*
 **--------------------Validation--------------------
 */
@@ -383,7 +391,7 @@ void			queue_print_st(t_queue_st *queue);
 */
 void		    lstpaths_init(t_lstpaths *lp);
 void			lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht);
-void			lstpaths_put(t_lstpaths *lp, t_path *p); // Like queue
+void			lstpaths_put(t_lstpaths *lp, t_path *p);
 void			lstpaths_print(t_lstpaths *lp);
 /*
 **--------------------Path------------------------
@@ -399,9 +407,17 @@ bool			found_room(const char *to_find, const char *found);
 **--------------------BFS--------------------------
 */
 void			bfs(t_adjtab *adjtab, t_htab *htab);
+/*
+**--------------------Send_ants--------------------------
+*/
+void			send_ants(t_lstpaths *lp, intmax_t ants, const char *end);
+void			put_all_ants_in_graph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end);
+void			ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in_graph);
+void			ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end);
+void			ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end);
 
 /*
-**--------------------Auxiliary--------------------
+**--------------------Vertexes--------------------
 */
 t_adjlst		*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name);
 t_adjlst		*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name);
@@ -415,15 +431,27 @@ char			*get_line(const char *data);
 /*
 **--------------------Printer--------------------
 */
-void			hashtable_print_room(t_htab *htab, int i);
-void			hashtable_print_coord(t_htab *htab, int i);
-void			adjtab_print(t_adjtab *adjtab, ssize_t i);
-void			path_print(t_path *p);
+void			printer_init(t_printer *prt);
+void			printer_analyze(t_printer *prt, int argc, char **argv);
+void			printer_print(t_printer *prt, t_lstpaths *lp, t_adjtab *at, t_htab *ht);
+void			print_all(t_lstpaths *lp, t_adjtab *at, t_htab *ht);
+
+void			hashtable_print_room(t_htab *htab);
+void			hashtable_print_coord(t_htab *htab);
+void			adjtab_print(t_adjtab *adjtab);
+void			lstpaths_print(t_lstpaths *lp);
+
+bool			is_a(char *argv);
+bool			is_ht(char *argv);
+bool			is_at(char *argv);
+bool			is_p(char *argv);
+bool			is_u(char *argv);
 
 
 void			init_storage(t_storage *strg);
 void			remember_start_end(t_htab *htab, t_room *room);
 void			skip_amount_of_ants(const char *data);
 void			clear(t_htab *ht, t_adjtab *at, t_storage *strg, t_lstpaths *lp);
+
 
 #endif

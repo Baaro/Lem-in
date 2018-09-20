@@ -1,24 +1,5 @@
 #include "lem_in.h"
 
-void		adjtab_clear(t_adjtab *adjtab)
-{
-	t_adjlst	*tmp;
-	size_t		i;
-
-	i = -1;
-	while (++i < adjtab->size + 1)
-	{
-		tmp = adjtab->lsts[i];
-		while (tmp)
-		{
-			tmp = adjtab->lsts[i]->next;
-			free(adjtab->lsts[i]);
-			adjtab->lsts[i] = tmp;
-		}
-	}
-	free(adjtab->lsts);
-}
-
 bool		adjtab_exists(t_adjtab *adjtab, t_room *room)
 {
 	if (adjtab->lsts[room->index]

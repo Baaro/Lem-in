@@ -12,104 +12,105 @@
 
 #include "lem_in.h"
 
-void		path_print(t_path *p)
+void		usage_print(void)
 {
+	ft_printf("usage:\n");
+	ft_printf("[-at] adjacency table;\n");
+	ft_printf("[-ht] hash table;\n");
+	ft_printf("[-p]  paths which were found;\n");
+	ft_printf("[-a]  show all info.\n");
+	printf("\n");
+}
+
+void		lstpaths_print(t_lstpaths *lp)
+{
+	t_path		*p;
 	t_stack		*tmp;
 
-	tmp = p->step;
-	if (tmp)
-		printf("steps: %zu\n", p->steps);
-	while (tmp && tmp->vertex->room)
+	p = lp->front;
+	while (p)
 	{
-		printf("|%s|\n", tmp->vertex->room->name);
-		tmp = tmp->next;
+		tmp = p->step;		
+		if (tmp)
+			ft_printf("steps: %zu\n", p->steps);
+		while (tmp && tmp->vertex->room)
+		{
+			ft_printf("|%s|\n", tmp->vertex->room->name);
+			tmp = tmp->next;
+		}
+		p = p->next;
 	}
 }
 
-void			queue_print(t_queue *queue)
-{
-	t_node	*tmp;
-
-	printf("\nqueue contains := {");
-	tmp = queue->front;
-	while (tmp)
-	{
-		if (tmp->next != NULL)
-			printf("%s, ", tmp->vertex->room->name);
-		else
-			printf("%s", tmp->vertex->room->name);
-		tmp = tmp->next;
-	}
-	printf("}\n");
-}
-
-void			queue_print_st(t_queue_st *queue)
-{
-	t_node_st	*tmp;
-
-	printf("\nqueue contains := {");
-	tmp = queue->front;
-	while (tmp)
-	{
-		if (tmp->next != NULL)
-			printf("%s, ", tmp->step->vertex->room->name);
-		else
-			printf("%s", tmp->step->vertex->room->name);
-		tmp = tmp->next;
-	}
-	printf("}\n");
-}
-
-void			adjtab_print(t_adjtab *adjtab, ssize_t i)
+void			adjtab_print(t_adjtab *adjtab)
 {
 	t_adjlst	*tmp;
+	ssize_t		i;
 
-	tmp = adjtab->lsts[i];
-	if (tmp->room && tmp->room->name)
+	i = -1;
+	ft_printf("\n\x1b[35mADJLISTS\x1b[0m\n");	
+	while (++i < adjtab->size)
 	{
-		printf("[%s] -> ", tmp->room->name);
-		while (tmp->next)
+		tmp = adjtab->lsts[i];
+		if (tmp->room && tmp->room->name)
 		{
-			tmp = tmp->next;		
-			if (tmp->room && tmp->room->name)
-				printf("%s -> ", tmp->room->name);
+			ft_printf("[%s] -> ", tmp->room->name);
+			while (tmp->next)
+			{
+				tmp = tmp->next;		
+				if (tmp->room && tmp->room->name)
+					ft_printf("%s -> ", tmp->room->name);
+			}
+			ft_printf("\n");		
 		}
-		printf("\n");		
+	}
+	ft_printf("\n");	
+}
+
+void		hashtable_print_room(t_htab *htab)
+{
+	t_room		*tmp;
+	ssize_t		i;
+
+	i = -1;
+	ft_printf("\n\x1b[33mHASHTABLE_ROOM\x1b[0m\n");
+	while (++i < htab->size)
+	{
+		tmp = htab->rooms[i];
+		if (tmp && tmp->name)
+		{
+			ft_printf("[id:%lu] %s -> ", tmp->id, tmp->name);
+			while (tmp->next)
+			{
+				tmp = tmp->next;			
+				if (tmp && tmp->name)		
+					ft_printf("[id:%lu] %s -> ", tmp->id, tmp->name);
+			}
+			ft_printf("\n");
+		}
 	}
 }
 
-void		hashtable_print_room(t_htab *htab, int i)
+void		hashtable_print_coord(t_htab *htab)
 {
-	t_room	*tmp;
+	t_coord		*tmp;
+	ssize_t		i;
 
-	tmp = htab->rooms[i];
-	if (tmp && tmp->name)
+	i = -1;
+	ft_printf("\n\x1b[33mHASHTABLE_COORDNATES\x1b[0m\n");
+	while (++i < htab->size)
 	{
-		printf("[id:%lu] %s -> ", tmp->id, tmp->name);
-		while (tmp->next)
+		tmp = htab->coords[i];
+		if (tmp && tmp->x_y)
 		{
-			tmp = tmp->next;			
-			if (tmp && tmp->name)		
-				printf("[id:%lu] %s -> ", tmp->id, tmp->name);
+			ft_printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);
+			while (tmp->next)
+			{
+				tmp = tmp->next;
+				if (tmp && tmp->x_y)
+					ft_printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);
+			}
+			ft_printf("\n");		
 		}
-		printf("\n");
-	}
-}
-
-void		hashtable_print_coord(t_htab *htab, int i)
-{
-	t_coord	*tmp;
-
-	tmp = htab->coords[i];
-	if (tmp && tmp->x_y)
-	{
-		printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);
-		while (tmp->next)
-		{
-			tmp = tmp->next;
-			if (tmp && tmp->x_y)
-				printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);
-		}
-		printf("\n");		
 	}
 }

@@ -1,5 +1,11 @@
 #include "lem_in.h"
 
+void		lstpaths_init(t_lstpaths *lp)
+{
+	if (!(ft_memset(lp, 0, sizeof(t_lstpaths))))
+		errors_memory(CANT_SETZERO, "lstpaths_init");
+}
+
 t_adjlst	*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name)
 {
 	t_adjlst	*tmp;
@@ -40,24 +46,6 @@ void		lstpaths_put(t_lstpaths *lp, t_path *p)
 	}
 }
 
-void		lstpaths_init(t_lstpaths *lp)
-{
-	if (!(ft_memset(lp, 0, sizeof(t_lstpaths))))
-		errors_memory(CANT_SETZERO, "lstpaths_init");
-}
-
-void		lstpaths_print(t_lstpaths *lp)
-{
-	t_path	*p;
-
-	p = lp->front;
-	while (p)
-	{
-		path_print(p);
-		p = p->next;
-	}
-}
-
 void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 {
 	t_path		*p;
@@ -72,5 +60,4 @@ void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 	}
 	if (!lp->paths)
 		errors_algorithm(THERE_ARE_NO_POSSIBLE_WAYS);
-	lstpaths_print(lp);
 }
