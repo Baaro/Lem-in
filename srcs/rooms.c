@@ -1,26 +1,5 @@
 #include "lem_in.h"
 
-void	rooms_clear(t_room **rooms, size_t size)
-{
-	t_room		*tmp;
-	size_t		i;
-
-	i = -1;
-	while (++i < size)
-	{
-		tmp = rooms[i];
-		while (tmp)
-		{
-			tmp = rooms[i]->next;
-			if (rooms[i]->name)
-				free(rooms[i]->name);
-			free(rooms[i]);
-			rooms[i] = tmp;
-		}
-	}
-	free(rooms);
-}
-
 void	rooms_init(t_room **rooms, size_t size)
 {
 	size_t	i;

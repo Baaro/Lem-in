@@ -14,7 +14,7 @@
 
 bool				is_comment(const char *line)
 {
-	if (*line == '#' && !is_commands(line))
+	if (*line == '#' && *(line + 1) != '#' && !is_commands(line))
 		return (TRUE);
 	return (FALSE);
 }

@@ -1,15 +1,5 @@
 #include "lem_in.h"
 
-void			hashtab_clear(t_htab *htab)
-{
-	rooms_clear(htab->rooms, htab->size);
-	coords_clear(htab->coords, htab->size);
-	if (htab->start)
-		ft_strdel(&htab->start);
-	if (htab->end)
-		ft_strdel(&htab->end);
-}
-
 unsigned long	get_id(t_htab *htab, char *name, size_t name_len)
 {
 	size_t	hash;
@@ -66,18 +56,21 @@ bool			start_equal_end(t_htab *htab)
 }
 
 void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
-{
+{	
 	skip_amount_of_ants(buff->data);
 	while (TRUE)
 	{
-		info->line = get_line(buff->data);	
-		if (is_link(info->line))
-			break ;
-		if (is_room(info->line))
+		info->line = get_line(buff->data);
+		if (!is_comment(info->line))
 		{
-			info_get_rooms(info, htab, buff);
-			hashtab_set(htab, info);
-			info_clear_rooms(info);
+			if (is_link(info->line))
+				break ;
+			if (is_room(info->line))
+			{
+				info_get_rooms(info, htab, buff);
+				hashtab_set(htab, info);
+				info_clear_rooms(info);
+			}
 		}
 		ft_strdel(&info->line);
 	}

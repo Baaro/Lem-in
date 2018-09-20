@@ -19,7 +19,7 @@
 # include <stdint.h>
 # include <stdio.h> // delete it
 
-# define MAX_ANTS 10000000
+// # define MAX_ANTS 10000000
 
 # define TRUE 1
 # define FALSE 0
@@ -46,55 +46,55 @@ typedef enum			e_errors
 	** Ants
 	*/
 	WRONG_VALUE_OF_ANTS = 1,
-	ANTS_IS_ZERO = 2,
-	ANTS_IS_NEG = 3,
-	TOO_FEW_ANTS = 4,
+	ANTS_IS_ZERO,
+	ANTS_IS_NEG,
+	TOO_FEW_ANTS,
 
 	/* 
 	** Commands
 	*/
-	NO_START_COMMAND = 5,
-	NO_END_COMMAND = 6,
-	TWO_START_COMMANDS = 7,
-	TWO_END_COMMANDS = 8,
-
+	NO_START_COMMAND,
+	NO_END_COMMAND,
+	TWO_START_COMMANDS,
+	TWO_END_COMMANDS,
+	UNKNOWN_COMMAND,
 	/*
 	** Coordinates
 	*/
-	WRONG_X = 9,
-	WRONG_Y = 10,
-	X_BIGGER_THAN_INTMAX = 11,
-	Y_BIGGER_THAN_INTMAX = 12,
+	WRONG_X,
+	WRONG_Y,
+	X_BIGGER_THAN_INTMAX,
+	Y_BIGGER_THAN_INTMAX,
 
 	/* 
 	** Rooms
 	*/
-	L_CHAR_AT_ROOM_NAME = 13,
-	UNPRINTBALE_NAME = 14,
-	NO_ROOMS = 15,
-	TWO_ROOMS_HAVE_THE_SAME_NAME = 16,
-	TWO_ROOMS_HAVE_THE_SAME_COORDS = 17,
-	THERE_ARE_NO_LINKS_WITH_START = 18,
-	START_EQUAL_END = 19,
-
+	L_CHAR_AT_ROOM_NAME,
+	UNPRINTBALE_NAME,
+	NO_ROOMS,
+	TWO_ROOMS_HAVE_THE_SAME_NAME,
+	TWO_ROOMS_HAVE_THE_SAME_COORDS,
+	THERE_ARE_NO_LINKS_WITH_START,
+	START_EQUAL_END,
+	UNKNOWN_ROOM,	
 	/* 
 	** Links
 	*/
-	WRONG_LINKS = 20,
-	UNKNOWN_ROOM = 21,
+	WRONG_LINKS,
+	THERE_ARE_NO_LINKS, 
 
-	WRONG_INPUT = 22,
+	WRONG_INPUT,
 
 	/* 
 	** Memory
 	*/
-	CANT_ALLOCATE_MEM = 23,
-	CANT_SETZERO = 24,
+	CANT_ALLOCATE_MEM,
+	CANT_SETZERO,
 
 	/*
 	** Algorithm
 	*/
-	THERE_ARE_NO_POSSIBLE_WAYS = 25,
+	THERE_ARE_NO_POSSIBLE_WAYS,
 }						t_errors;
 
 /*
@@ -103,9 +103,9 @@ typedef enum			e_errors
 typedef enum			e_controller
 {
 	READ = 1,
-	VALID_ROOM = 2,
-	STOP_READ = 3,
-	GO_VALID = 4,
+	VALID_ROOM,
+	STOP_READ,
+	GO_VALID,
 }						t_controller;
 
 typedef struct			s_checks
@@ -130,13 +130,15 @@ typedef struct			s_info
 	char				*first_room;
 	char				*second_room;
 	char				*coord;
-	unsigned int		id_coord;
-	unsigned int		id_room;
 	intmax_t			ants;
 	size_t				amnt_of_rooms;
 	size_t				num_start_elem;
 	size_t				num_end_elem;
 	size_t				cnt_rooms;
+	unsigned int		id_coord;
+	unsigned int		id_room;
+	unsigned long		id_first;
+	unsigned long		id_second;
 }						t_info;
 
 typedef struct			s_storage
@@ -269,14 +271,13 @@ typedef struct			s_lstpaths
 	struct s_path		*rear;
 }						t_lstpaths;
 
-typedef struct			s_printer
+typedef struct			s_args
 {
 	bool				ht;
 	bool				at;
 	bool				p;
-	bool				u;	
 	bool				a;
-}						t_printer;
+}						t_args;
 /*
 **--------------------Validation--------------------
 */
@@ -291,6 +292,9 @@ bool			is_commands(const char *line);
 bool			is_start_command(const char *data);
 bool			is_end_command(const char *data);
 bool			is_room(const char *line);
+bool			is_wrong_command(const char *line);
+bool			is_garbage(const char *line);
+bool			is_duplicate(const char *f_name, const char *s_name);
 
 /*
 **--------------------Errors-----------------------
@@ -302,6 +306,7 @@ void			errors_coordinates(const t_errors error);
 void			errors_input(const t_errors error);
 void			errors_memory(const t_errors error, const char *error_func);
 void			errors_algorithm(const t_errors error);
+void			errors_links(const t_errors error);
 
 /*
 **--------------------Room-------------------------
@@ -321,7 +326,7 @@ void   		 	coord_create(t_htab *htab, t_info *info);
 bool    		coord_exists(t_htab *htab, char *x_y, unsigned long id);
 void			coord_set(t_coord *coord, t_info *info);
 char    		*coord_get(char *x, char *y);
-void			coords_clear(t_coord **coords, size_t size);
+// void			coords_clear(t_coord **coords, size_t size);
 
 /*
 **--------------------Hashtable---------------------
@@ -332,7 +337,7 @@ bool			hashtab_exists(t_htab *htab, char *name, unsigned long id);
 void		    hashtab_set(t_htab *htab, t_info *info);
 t_room			*hashtab_get(t_htab *htab, unsigned long id, char *name);
 unsigned long	get_id(t_htab *htab, char *name, size_t name_len);
-void			hashtab_clear(t_htab *htab);
+// void			hashtab_clear(t_htab *htab);
 
 /*
 **--------------------Adjlist------------------------
@@ -340,7 +345,6 @@ void			hashtab_clear(t_htab *htab);
 void			adjlst_init(t_adjlst **lists, size_t size);
 bool			adjlst_exists(const t_adjlst *elem, const t_room *room);
 void			*adjlst_put(t_adjlst *elem, const t_room *room);
-// void			adjlist_clear();
 
 /*
 **--------------------Adjtable----------------------
@@ -348,10 +352,10 @@ void			*adjlst_put(t_adjlst *elem, const t_room *room);
 void			adjtab_init(t_adjtab *adjtab, size_t size);
 void			adjtab_create(t_adjtab *at, t_htab *ht, t_buff *b, t_info *i);
 bool         	adjtab_exists(t_adjtab *adjtab, t_room *room);
-void			adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info);
+bool			adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info);
 void         	adjtab_put(t_adjtab *adjtab, const t_room *room);
 t_adjlst		*adjtab_get(t_adjtab *adjtab, t_room *room);
-void			adjtab_clear(t_adjtab *adjtab);
+// void			adjtab_clear(t_adjtab *adjtab);
 
 /*
 **--------------------Info--------------------------
@@ -361,13 +365,13 @@ void			info_get_rooms(t_info *info, t_htab *htab, t_buff *buff);
 void			info_get_links(t_info *info, char *line);
 void			info_clear_links(t_info *info);
 void			info_clear_rooms(t_info *info);
-void			info_clear(t_info *info);
+// void			info_clear(t_info *info);
 
 /*
 **--------------------Buff--------------------------
 */
 void			buff_init(t_buff **buff);
-void			buff_clear(t_buff *buff);
+// void			buff_clear(t_buff *buff);
 
 /*
 **--------------------Queue------------------------
@@ -429,13 +433,13 @@ bool			read_line(t_buff *buff, char **line);
 char			*get_line(const char *data);
 
 /*
-**--------------------Printer--------------------
+**--------------------Args--------------------
 */
-void			printer_init(t_printer *prt);
-void			printer_analyze(t_printer *prt, int argc, char **argv);
-void			printer_print(t_printer *prt, t_lstpaths *lp, t_adjtab *at, t_htab *ht);
+void			args_init(t_args *args);
+bool			args_analyze(t_args *args, int argc, char **argv);
+void			args_print(t_args *args, t_lstpaths *lp, t_adjtab *at, t_htab *ht);
 void			print_all(t_lstpaths *lp, t_adjtab *at, t_htab *ht);
-
+void			usage_print(void); 
 void			hashtable_print_room(t_htab *htab);
 void			hashtable_print_coord(t_htab *htab);
 void			adjtab_print(t_adjtab *adjtab);
@@ -446,7 +450,6 @@ bool			is_ht(char *argv);
 bool			is_at(char *argv);
 bool			is_p(char *argv);
 bool			is_u(char *argv);
-
 
 void			init_storage(t_storage *strg);
 void			remember_start_end(t_htab *htab, t_room *room);

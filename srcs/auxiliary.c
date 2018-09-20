@@ -12,16 +12,31 @@
 
 #include "lem_in.h"
 
+bool		is_duplicate(const char *f_name, const char *s_name)
+{
+	if (ft_strcmp(f_name, s_name) == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+bool		is_garbage(const char *line)
+{
+	if (is_wrong_command(line) || !is_link(line))
+		return (TRUE);
+	return (FALSE);
+}
+
 void		skip_amount_of_ants(const char *data)
 {
 	char	*tmp;
 
-	if (is_comment(data))
+	while (TRUE)
 	{
 		tmp = get_line(data);
+		if (!is_comment(tmp))
+			break ;
 		ft_strdel(&tmp);
 	}
-	tmp = get_line(data);
 	if (tmp)
 		ft_strdel(&tmp);
 }
@@ -69,21 +84,3 @@ bool		read_line(t_buff *buff, char **line)
 	}
 	return (TRUE);
 }
-
-bool		is_exists(t_htab *htab, char *name, unsigned long id)
-{
-	t_room	*tmp;
-
-	if (htab->rooms[id]->name)
-	{
-		tmp = htab->rooms[id];
-		while (tmp && tmp->name)
-		{
-			if (ft_strcmp(tmp->name, name) == 0)
-				return (TRUE);
-			tmp = tmp->next;
-		}
-	}
-	return (FALSE);
-}
-

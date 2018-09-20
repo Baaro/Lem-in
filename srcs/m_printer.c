@@ -1,33 +1,36 @@
 #include "lem_in.h"
 
-void		printer_init(t_printer *prt)
+void		args_init(t_args *args)
 {
-	ft_memset(prt, 0, sizeof(t_printer));
+	ft_memset(args, 0, sizeof(t_args));
 }
 
-void		printer_analyze(t_printer *prt, int argc, char **argv)
+bool		args_analyze(t_args *args, int argc, char **argv)
 {
 	size_t	arg;
+	bool	exist;
 
 	if (!argv)
-		return ;
+		return (FALSE);
 	arg = 0;
+	exist = FALSE;
 	while (++arg < argc)
 	{
 		if (is_a(argv[arg]))
 		{
-			prt->a = TRUE;
-			return ;
+			args->a = TRUE;
+			return (TRUE);
 		}
-		if (!prt->ht && is_ht(argv[arg]))
-			prt->ht = TRUE;			
-		if (!prt->at && is_at(argv[arg]))
-			prt->at = TRUE;			
-		if (!prt->p && is_p(argv[arg]))
-			prt->p = TRUE;
-		if (!prt->u && is_u(argv[arg]))
-			prt->u = TRUE;
+		else if (!args->ht && is_ht(argv[arg]))
+			args->ht = TRUE;
+		else if (!args->at && is_at(argv[arg]))
+			args->at = TRUE;
+		else if (!args->p && is_p(argv[arg]))
+			args->p = TRUE;
+		if (args->ht || args->at || args->p)
+			exist = TRUE;
 	}
+	return (exist ? TRUE : FALSE);
 }
 
 void		print_all(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
@@ -36,23 +39,20 @@ void		print_all(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
     hashtable_print_coord(ht);
 	adjtab_print(at);
 	lstpaths_print(lp);
-	// usage_print();
 }
 
-void		printer_print(t_printer *prt, t_lstpaths *lp, t_adjtab *at, t_htab *ht)
+void		args_print(t_args *args, t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 {
-	if (!prt->a)
+	if (!args->a)
 	{
-        // if (prt->u)
-			// usage_print();
-		if (prt->ht)
+		if (args->ht)
 		{
 			hashtable_print_room(ht);
 			hashtable_print_coord(ht);
 		}
-		if (prt->at)
+		if (args->at)
 			adjtab_print(at);
-		if (prt->p)
+		if (args->p)
 			lstpaths_print(lp);		
 	}
 	else

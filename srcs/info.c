@@ -45,7 +45,6 @@ void			info_get_links(t_info *info, char *line)
 
 void			info_get_rooms(t_info *info, t_htab *htab, t_buff *buff)
 {
-
 	info->cnt_rooms++;
 	if (!(info->room_coord = ft_strsplit(info->line, ' ')))
 		errors_memory(CANT_ALLOCATE_MEM, "info_get_rooms");

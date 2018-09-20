@@ -29,6 +29,8 @@ static void	valid_x(char **line)
 		(*line)++;
 		neg = TRUE;	
 	}
+	if (!ft_isdigit(**line))
+			errors_coordinates(WRONG_X);
 	while (**line != ' ')
     {		
 		if (!ft_isdigit(**line))
@@ -55,6 +57,8 @@ static void	valid_y(char *line)
 		line++;
 		neg = TRUE;
 	}
+	if (!ft_isdigit(*line))
+			errors_coordinates(WRONG_Y);
 	while (*line)
 	{
 		if (!ft_isdigit(*line))

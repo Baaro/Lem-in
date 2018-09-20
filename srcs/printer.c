@@ -28,6 +28,7 @@ void		lstpaths_print(t_lstpaths *lp)
 	t_stack		*tmp;
 
 	p = lp->front;
+	ft_printf("\x1b[36mPATHS:\x1b[0m\n");	
 	while (p)
 	{
 		tmp = p->step;		
@@ -38,8 +39,10 @@ void		lstpaths_print(t_lstpaths *lp)
 			ft_printf("|%s|\n", tmp->vertex->room->name);
 			tmp = tmp->next;
 		}
+		ft_printf("\n");
 		p = p->next;
 	}
+	ft_printf("\n");
 }
 
 void			adjtab_print(t_adjtab *adjtab)
@@ -48,7 +51,7 @@ void			adjtab_print(t_adjtab *adjtab)
 	ssize_t		i;
 
 	i = -1;
-	ft_printf("\n\x1b[35mADJLISTS\x1b[0m\n");	
+	ft_printf("\n\x1b[35mADJLISTS:\x1b[0m\n");
 	while (++i < adjtab->size)
 	{
 		tmp = adjtab->lsts[i];
@@ -73,7 +76,7 @@ void		hashtable_print_room(t_htab *htab)
 	ssize_t		i;
 
 	i = -1;
-	ft_printf("\n\x1b[33mHASHTABLE_ROOM\x1b[0m\n");
+	ft_printf("\n\x1b[33mHASHTABLE_ROOM:\x1b[0m\n");
 	while (++i < htab->size)
 	{
 		tmp = htab->rooms[i];
@@ -97,7 +100,7 @@ void		hashtable_print_coord(t_htab *htab)
 	ssize_t		i;
 
 	i = -1;
-	ft_printf("\n\x1b[33mHASHTABLE_COORDNATES\x1b[0m\n");
+	ft_printf("\n\x1b[33mHASHTABLE_COORDNATES:\x1b[0m\n");
 	while (++i < htab->size)
 	{
 		tmp = htab->coords[i];

@@ -1,5 +1,22 @@
 #include "lem_in.h"
 
+void			queue_print_st(t_queue_st *queue)	
+{
+	t_node_st	*tmp;		
+
+ 	printf("\nqueue contains := {");
+	tmp = queue->front;
+	while (tmp)	
+	{
+		if (tmp->next != NULL)	
+			printf("%s, ", tmp->step->vertex->room->name);
+		else				
+			printf("%s", tmp->step->vertex->room->name);
+		tmp = tmp->next;
+	}
+	printf("}\n");	
+}
+
 void	ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
 	intmax_t	final_ant;
@@ -13,7 +30,7 @@ void	ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 		{
 			dequeue_st(q);
 			(*ants)--;
-			del++;	
+			del++;
 		}
 		if (q->front->step->next)
 		{
@@ -26,21 +43,23 @@ void	ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 	}
 	if (!is_empty_st(q) && found_room(end, q->front->step->vertex->room->name))
 		ft_printf("\n");
+	else if (!is_empty_st(q))
+		ft_printf("\n");
 	lp->ants_in_graph -= del;
 }
 
 void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
-	intmax_t final_ant;
-	intmax_t del;
+	intmax_t	final_ant;
+	intmax_t	del;
 
-	del = 0;	
-	final_ant = -1;  
-	while (*ants && ++final_ant < lp->ants_in_graph)
-	{	
+	del = 0;
+	final_ant = -1;
+	while ((*ants && ++final_ant < lp->ants_in_graph))
+	{
 		if (found_room(end, q->front->step->vertex->room->name))
 		{
-			dequeue_st(q);
+			dequeue_st(q);		
 			del++;
 			(*ants)--;
 		}
@@ -52,7 +71,7 @@ void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 			ft_printf("L%jd-%s ", q->front->step->next->ant,
 						q->front->step->next->vertex->room->name);
 			dequeue_st(q);
-		}
+		}			
 	}
     if (!(*ants))
         printf("\n");

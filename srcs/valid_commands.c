@@ -23,15 +23,10 @@ static bool		chck_e_cmmnd(t_storage *strg, t_checks *chcks, const char *line)
 		errors_commands(TWO_END_COMMANDS);
 	if (chcks->end_check == UNCHECKED && is_end_command(line))
 	{
-		if (chcks->start_check  == CHECKED)
-		{
-			chcks->end_check = CHECKED;
-			strg->info->num_end_elem = remember_num_of_command(
+		chcks->end_check = CHECKED;
+		strg->info->num_end_elem = remember_num_of_command(
 											strg->info->amnt_of_rooms + 1);
-			return (TRUE);
-		}
-		else
-			errors_commands(NO_START_COMMAND);
+		return (TRUE);
 	}
 	return (FALSE);
 }

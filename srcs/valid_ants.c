@@ -23,7 +23,7 @@ static intmax_t count_ants(const char *line)
 		errors_ants(ANTS_IS_ZERO);
 	while (*line)
 	{
-		if (ants > MAX_ANTS)
+		if (ants > INT_MAX)
 			errors_ants(TOO_FEW_ANTS);
 		if (ft_isdigit(*line))
 			ants = (ants * 10) + (*line) - '0';

@@ -55,8 +55,10 @@ void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 	{
 		p = path_init();
 		if (path_create(p, at, ht))
+		{
 			lp->paths++;
-		lstpaths_put(lp, p);
+			lstpaths_put(lp, p);			
+		}
 	}
 	if (!lp->paths)
 		errors_algorithm(THERE_ARE_NO_POSSIBLE_WAYS);

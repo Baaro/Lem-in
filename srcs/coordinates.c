@@ -1,26 +1,5 @@
 #include "lem_in.h"
 
-void	coords_clear(t_coord **coords, size_t size)
-{
-	t_coord		*tmp;
-	size_t		i;
-
-	i = -1;
-	while (++i < size)
-	{
-		tmp = coords[i];
-		while (tmp)
-		{
-			tmp = coords[i]->next;
-			if (coords[i]->x_y)
-				free(coords[i]->x_y);
-			free(coords[i]);
-			coords[i] = tmp;
-		}
-	}
-	free(coords);
-}
-
 void	coords_init(t_coord **coord, size_t size)
 {
 	size_t	i;

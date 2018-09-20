@@ -15,7 +15,7 @@
 void		errors_ants(const t_errors error)
 {
 	if (error == TOO_FEW_ANTS)
-		ft_printf("\x1b[31mERROR:\x1b[0m The value of ants is bigger than [100 000]!\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m The value of ants is bigger than MAX_INT!\n");
 	else if (error == WRONG_VALUE_OF_ANTS)
 		ft_printf("\x1b[31mERROR:\x1b[0m The value of ants is not a number!\n");
 	else if (error == ANTS_IS_NEG)
@@ -32,7 +32,7 @@ void		errors_rooms(const t_errors error)
 	else if (error == UNPRINTBALE_NAME)
 		ft_printf("\x1b[31mERROR:\x1b[0m The name of room is unprintable!\n");
 	else if (error == NO_ROOMS)
-		ft_printf("\x1b[31mERROR:\x1b[0m There are no rooms in the map\n");
+		ft_printf("\x1b[31mERROR:\x1b[0m There are no rooms in the map!\n");
 	else if (error == TWO_ROOMS_HAVE_THE_SAME_NAME)
 		ft_printf("\x1b[31mERROR:\x1b[0m Two rooms have the same name!\n");
 	else if (error == TWO_ROOMS_HAVE_THE_SAME_COORDS)
@@ -43,6 +43,15 @@ void		errors_rooms(const t_errors error)
 		ft_printf("\x1b[31mERROR:\x1b[0m There are no links with start!\n");
 	else if (error == START_EQUAL_END)
 		ft_printf("\x1b[31mERROR:\x1b[0m The start and the end have the same room!\n");
+	exit(EXIT_FAILURE);
+}
+
+void		errors_links(const t_errors error)
+{
+	if (error == THERE_ARE_NO_LINKS)
+		ft_printf("\x1b[31mERROR:\x1b[0m There are no links in map!\n");
+	else if (error == WRONG_LINKS)
+		ft_printf("\x1b[31mERROR:\x1b[0m There is some wrong link in map!\n");		
 	exit(EXIT_FAILURE);
 }
 
@@ -69,6 +78,8 @@ void		errors_commands(const t_errors error)
 		ft_printf("\x1b[31mERROR:\x1b[0m There are two [##start] commands!\n");
 	else if (error == TWO_END_COMMANDS)
 		ft_printf("\x1b[31mERROR:\x1b[0m There are two [##end] commands!\n");
+	else if (error == UNKNOWN_COMMAND)
+		ft_printf("\x1b[31mERROR:\x1b[0m There is an [##unknown] commands!\n");
 	exit(EXIT_FAILURE);
 }
 

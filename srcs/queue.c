@@ -94,6 +94,8 @@ t_stack			*dequeue_st(t_queue_st *queue)
 		queue->front = queue->front->next;
 		free(tmp);
 	}
+	if (!queue->size && queue->front)
+		queue->size++;
 	return (queue->front->step);
 }
 
