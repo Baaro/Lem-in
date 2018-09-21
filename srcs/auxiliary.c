@@ -41,6 +41,14 @@ void		skip_amount_of_ants(const char *data)
 		ft_strdel(&tmp);
 }
 
+void					save_data(char **data, char *line)
+{
+	char	*tmp;
+
+	*data = ft_strjoincl(ft_strjoincl(*data, line, 0), 
+		tmp = ft_strdup("\n"), 1);
+}
+
 char		*get_line(const char *data)
 {
 	static char	*tail;
@@ -61,10 +69,10 @@ char		*get_line(const char *data)
 
 bool		read_line(t_buff *buff, char **line)
 {
-	char	*tmp;
+	// char	*tmp;
 	ssize_t	flag;
 
-	tmp = NULL;
+	// tmp = NULL;
 	flag = 0;
 	if (*line)
 		free(*line);
@@ -74,8 +82,6 @@ bool		read_line(t_buff *buff, char **line)
 			errors_input(WRONG_INPUT);
 		if (flag == 0)
 				return (FALSE);
-		buff->data = ft_strjoincl(ft_strjoincl(buff->data, *line, 0), 
-				tmp = ft_strdup("\n"), 1);
 	}
 	else
 	{

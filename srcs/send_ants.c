@@ -1,21 +1,21 @@
 #include "lem_in.h"
 
-void			queue_print_st(t_queue_st *queue)	
-{
-	t_node_st	*tmp;		
+// void			queue_print_st(t_queue_st *queue)	
+// {
+// 	t_node_st	*tmp;		
 
- 	printf("\nqueue contains := {");
-	tmp = queue->front;
-	while (tmp)	
-	{
-		if (tmp->next != NULL)	
-			printf("%s, ", tmp->step->vertex->room->name);
-		else				
-			printf("%s", tmp->step->vertex->room->name);
-		tmp = tmp->next;
-	}
-	printf("}\n");	
-}
+//  	printf("\nqueue contains := {");
+// 	tmp = queue->front;
+// 	while (tmp)	
+// 	{
+// 		if (tmp->next != NULL)	
+// 			printf("%s, ", tmp->step->vertex->room->name);
+// 		else				
+// 			printf("%s", tmp->step->vertex->room->name);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("}\n");	
+// }
 
 void	ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
@@ -52,16 +52,18 @@ void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 {
 	intmax_t	final_ant;
 	intmax_t	del;
+	intmax_t	i;
 
 	del = 0;
+	i = -1;	
 	final_ant = -1;
-	while ((*ants && ++final_ant < lp->ants_in_graph))
+	while (*ants && ++final_ant < lp->ants_in_graph && ++i < lp->front->steps)
 	{
 		if (found_room(end, q->front->step->vertex->room->name))
 		{
 			dequeue_st(q);		
-			del++;
 			(*ants)--;
+			del++;
 		}
 		if (q->front->step->next)
 		{
@@ -71,9 +73,9 @@ void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 			ft_printf("L%jd-%s ", q->front->step->next->ant,
 						q->front->step->next->vertex->room->name);
 			dequeue_st(q);
-		}			
+		}
 	}
-    if (!(*ants))
+    if (!(*ants) && is_empty_st(q))
         printf("\n");
 	lp->ants_in_graph -= del;
 }
@@ -81,11 +83,11 @@ void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 void	ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in_graph)
 {
 	static intmax_t	ant;
+	intmax_t 		i;	
 	t_path			*p;
-	intmax_t 		i;
 
-	p = lp->front;
 	i = -1;
+	p = lp->front;
 	if (!(*all_ants_in_graph) && *ants && !p->step->ant)
 	{
 		while (p && ant < lp->final_ant && ++i < lp->paths)

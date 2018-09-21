@@ -431,6 +431,7 @@ t_adjlst		*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name);
 */
 bool			read_line(t_buff *buff, char **line);
 char			*get_line(const char *data);
+void			save_data(char **data, char *line);
 
 /*
 **--------------------Args--------------------

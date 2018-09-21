@@ -28,6 +28,8 @@ void		adjtab_put(t_adjtab *adjtab, const t_room *room)
 
 bool		adjtab_check(t_adjtab *adjtab, t_room *f_room, t_room *s_room)
 {
+	if (is_duplicate(f_room->name,  s_room->name))
+		return (FALSE);
 	if (!adjtab_exists(adjtab, f_room))
 		adjtab_put(adjtab, f_room);
 	if (!adjtab_exists(adjtab, s_room))
@@ -54,8 +56,6 @@ bool		adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *i)
 			return (FALSE);
 		if (!(second_room = hashtab_get(htab, i->id_second, i->second_room)))
 			return (FALSE);
-		if (is_duplicate(first_room->name,  second_room->name))
-			return (FALSE);
 		if (!adjtab_check(adjtab, first_room, second_room))
 			return (FALSE);
  	}
@@ -80,6 +80,7 @@ void		adjtab_create(t_adjtab *at, t_htab *ht, t_buff *b, t_info *i)
 			}
 			info_clear_links(i); // here is double free !!!
  		}
+		save_data(&b->data, b->line);		 
  		if (!read_line(b, &b->line))
  			break ;
  	}

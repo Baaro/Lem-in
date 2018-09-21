@@ -62,6 +62,7 @@ void					valid_data(t_storage *strg)
 		if (strg->contrllr == GO_VALID)
 		{
 			strg->contrllr = valid_line(strg, &strg->chcks, strg->buff->line);
+			save_data(&strg->buff->data, strg->buff->line);
 			if (strg->contrllr == VALID_ROOM)
 			{
 				strg->info->amnt_of_rooms++;
