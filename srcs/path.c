@@ -23,7 +23,7 @@ t_path		*path_init(void)
 
 	if (!(p = ft_memalloc(sizeof(t_path))))
 		errors_memory(CANT_ALLOCATE_MEM, "path_init");
-	p->steps = -1;
+	// p->steps = -1;
 	return (p);
 }
 

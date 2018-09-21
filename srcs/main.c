@@ -31,20 +31,20 @@ int			main(int argc, char **argv)
 	// \x1b[36mINFO:\x1b[0m\n
 	// if (strg.buff->data)
 	ft_printf("%s\n", strg.buff->data);
-	// if (argc > 1)
-	// {
-	// 	args_init(&args);
-	// 	if (args_analyze(&args, argc, argv))
-	// 	{
-	// 		ft_printf("\x1b[32mSTART:\x1b[0m [%s]\n", ht.start);
-	// 		ft_printf("\x1b[34mFINISH:\x1b[0m [%s]\n", ht.end);
-	// 		args_print(&args, &lp, &at, &ht);
-	// 	}
-	// 	else
-	// 		usage_print();
-	// }
-	// else
-	// 	usage_print();
+	if (argc > 1)
+	{
+		args_init(&args);
+		if (args_analyze(&args, argc, argv))
+		{
+			ft_printf("\x1b[32mSTART:\x1b[0m [%s]\n", ht.start);
+			ft_printf("\x1b[34mFINISH:\x1b[0m [%s]\n", ht.end);
+			args_print(&args, &lp, &at, &ht);
+		}
+		else
+			usage_print();
+	}
+	else
+		usage_print();
 	send_ants(&lp, strg.info->ants, ht.end);
 	// system("leaks lem-in");
 	return (0);
