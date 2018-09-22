@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-void	rooms_init(t_room **rooms, size_t size)
+void	rooms_init(t_room **rooms, ssize_t size)
 {
-	size_t	i;
+	ssize_t	i;
 
 	i = -1;
 	while (++i < size)

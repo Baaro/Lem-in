@@ -78,15 +78,20 @@ void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 {
 	while (TRUE)
 	{
-		if (!is_comment(b->line) && is_link(b->line))
+		if (!is_comment(b->line))
 		{
-			info_get_links(i, b->line);
-			if (!atab_set(at, ht, i))
+			if (is_link(b->line))
 			{
+				info_get_links(i, b->line);
+				if (!atab_set(at, ht, i))
+				{
+					info_clear_links(i);
+					return ;
+				}
 				info_clear_links(i);
-				return ;
 			}
-			info_clear_links(i);
+			else
+				break ;
 		}
 		save_data(&b->data, b->line);
 		if (!read_line(b, &b->line))

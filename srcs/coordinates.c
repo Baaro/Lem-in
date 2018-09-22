@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-void	coords_init(t_coord **coord, size_t size)
+void	coords_init(t_coord **coord, ssize_t size)
 {
-	size_t	i;
+	ssize_t	i;
 
 	i = -1;
 	while (++i < size)

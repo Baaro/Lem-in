@@ -12,11 +12,10 @@
 
 #include "lem_in.h"
 
-void	atab_init(t_atab *at, size_t size)
+void	atab_init(t_atab *at, ssize_t size)
 {
 	at->size = size;
-	if (!(at->lsts = (t_alst **)malloc(sizeof(t_alst *)
-				* at->size + 1)))
+	if (!(at->lsts = (t_alst **)malloc(sizeof(t_alst *) * at->size + 1)))
 		errors_memory(CANT_ALLOCATE_MEM, "at_init");
 	alst_init(at->lsts, at->size + 1);
 }

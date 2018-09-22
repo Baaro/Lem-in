@@ -49,25 +49,25 @@ t_alst		*dequeue(t_queue *q)
 	return (q->front->vertex);
 }
 
-void		enqueue(t_queue *q, t_alst *v, size_t level)
+void		enqueue(t_queue *q, t_alst *curr_v, size_t level)
 {
 	if (q->front == NULL)
 	{
 		q->front = (t_node *)malloc(sizeof(t_node));
-		q->front->vertex = v;
+		q->front->vertex = curr_v;
 		q->front->next = NULL;
 		q->rear = q->front;
 		q->size++;
 	}
-	else if (!level || !v->room->in_queue)
+	else if (!level || !curr_v->room->in_queue)
 	{
 		q->rear->next = (t_node *)malloc(sizeof(t_node));
-		q->rear->next->vertex = v;
+		q->rear->next->vertex = curr_v;
 		q->rear->next->next = NULL;
 		q->rear = q->rear->next;
 		q->size++;
 	}
-	v->room->level = level;
-	v->room->in_queue = TRUE;
-	v->room->visited = TRUE;
+	curr_v->room->level = level;
+	curr_v->room->in_queue = TRUE;
+	curr_v->room->visited = TRUE;
 }

@@ -122,8 +122,8 @@ typedef struct			s_room
 	bool				in_queue;
 	bool				start;
 	bool				end;
-	size_t				name_len;
 	unsigned long		id;
+	size_t				name_len;
 	size_t				index;
 	size_t				level;
 	struct s_room		*next;
@@ -147,16 +147,16 @@ typedef struct			s_htab
 	char				*end;
 	size_t				start_len;
 	size_t				end_len;
-	size_t				size;
-	t_room				**rooms;
-	t_coord				**coords;
+	ssize_t				size;
+	struct s_room		**rooms;
+	struct s_coord		**coords;
 }						t_htab;
 /*
 **--------------------Adjlists------------------------
 */
 typedef struct			s_alst
 {
-	t_room				*room;
+	struct s_room		*room;
 	struct s_alst		*next;
 }						t_alst;
 /*
@@ -164,8 +164,8 @@ typedef struct			s_alst
 */
 typedef struct			s_atab
 {
-	size_t				size;
-	t_alst				**lsts;
+	ssize_t				size;
+	struct s_alst		**lsts;
 }						t_atab;
 /*
 **--------------------Stack---------------------------
@@ -173,7 +173,7 @@ typedef struct			s_atab
 typedef struct			s_stack
 {
 	intmax_t			ant;
-	t_alst				*vertex;
+	struct s_alst		*vertex;
 	struct s_stack		*next;
 }						t_stack;
 /*
@@ -181,28 +181,28 @@ typedef struct			s_stack
 */
 typedef struct			s_node
 {
-	t_alst				*vertex;
+	struct s_alst		*vertex;
 	struct s_node		*next;
 }						t_node;
 
 typedef struct			s_node_st
 {
-	t_stack				*step;
+	struct s_stack		*step;
 	struct s_node_st	*next;
 }						t_node_st;
 
 typedef struct			s_queue
 {
 	size_t				size;
-	t_node				*front;
-	t_node				*rear;
+	struct s_node		*front;
+	struct s_node		*rear;
 }						t_queue;
 
 typedef struct			s_q_st
 {
 	size_t				size;
-	t_node_st			*front;
-	t_node_st			*rear;
+	struct s_node_st	*front;
+	struct s_node_st	*rear;
 }						t_q_st;
 /*
 **--------------------Path----------------------------
@@ -210,7 +210,7 @@ typedef struct			s_q_st
 typedef	struct			s_path
 {
 	size_t				steps;
-	t_stack				*step;
+	struct s_stack		*step;
 	struct s_path		*next;
 }						t_path;
 /*
@@ -221,8 +221,8 @@ typedef struct			s_lp
 	size_t				paths;
 	intmax_t			ants_in_graph;
 	intmax_t			final_ant;
-	t_path				*front;
-	t_path				*rear;
+	struct s_path		*front;
+	struct s_path		*rear;
 }						t_lp;
 
 typedef struct			s_args
@@ -263,16 +263,16 @@ void					errors_links(const t_errors e);
 /*
 **--------------------Room-------------------------
 */
-void					rooms_init(t_room **rooms, size_t size);
+void					rooms_init(t_room **rooms, ssize_t size);
 void					room_create(t_htab *ht, t_info *info);
-bool					room_exists(t_htab *ht, char *name, unsigned long	id);
+bool					room_exists(t_htab *ht, char *name, unsigned long id);
 void					room_set(t_htab *ht, t_room *room, t_info *info);
 char					**room_get(char *line);
-void					rooms_clear(t_room **rooms, size_t size);
+// void					rooms_clear(t_room **rooms, size_t size);
 /*
 **--------------------Coordinates-------------------
 */
-void					coords_init(t_coord **coord, size_t size);
+void					coords_init(t_coord **coord, ssize_t size);
 void					coord_create(t_htab *ht, t_info *info);
 bool					coord_exists(t_htab *ht, char *x_y, unsigned long id);
 void					coord_set(t_coord *coord, t_info *info);
@@ -288,19 +288,19 @@ unsigned long			get_id(t_htab *ht, char *name, size_t name_len);
 /*
 **--------------------Adjlist------------------------
 */
-void					alst_init(t_alst **lists, size_t size);
+void					alst_init(t_alst **lsts, ssize_t size);
 bool					alst_exists(const t_alst *elem, const t_room *room);
 void					*alst_put(t_alst *elem, const t_room *room);
 
 /*
 **--------------------Adjtable----------------------
 */
-void					atab_init(t_atab *at, size_t size);
+void					atab_init(t_atab *at, ssize_t size);
 void					atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i);
 bool					atab_exists(t_atab *at, t_room *room);
 bool					atab_set(t_atab *at, t_htab *htab, t_info *info);
 void					atab_put(t_atab *at, const t_room *room);
-t_alst					*atab_get(t_atab *at, t_room *room);
+t_alst					*atab_get(t_atab *a, t_room *room);
 /*
 **--------------------Info--------------------------
 */
@@ -350,7 +350,7 @@ bool					found_room(const char *to_find, const char *found);
 /*
 **--------------------BFS--------------------------
 */
-void					bfs(t_atab *adjtab, t_htab *htab);
+void					bfs(t_atab *at, t_htab *ht);
 /*
 **--------------------Send_ants--------------------
 */

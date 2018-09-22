@@ -52,7 +52,7 @@ void	atab_print(t_atab *at)
 
 	i = -1;
 	ft_printf("\n\x1b[35mADJLISTS:\x1b[0m\n");
-	while (++i < at->size)
+	while (++i < at->size + 1)
 	{
 		tmp = at->lsts[i];
 		if (tmp->room && tmp->room->name)
@@ -76,7 +76,7 @@ void	htab_print_room(t_htab *ht)
 	ssize_t		i;
 
 	i = -1;
-	ft_printf("\n\x1b[33mHAShtLE_ROOM:\x1b[0m\n");
+	ft_printf("\n\x1b[33mHASHTABLE_ROOM:\x1b[0m\n");
 	while (++i < ht->size)
 	{
 		tmp = ht->rooms[i];
@@ -100,7 +100,7 @@ void	htab_print_coord(t_htab *ht)
 	ssize_t		i;
 
 	i = -1;
-	ft_printf("\n\x1b[33mHAShtLE_COORDNATES:\x1b[0m\n");
+	ft_printf("\n\x1b[33mHASHTABLE_COORDNATES:\x1b[0m\n");
 	while (++i < ht->size)
 	{
 		tmp = ht->coords[i];

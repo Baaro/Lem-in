@@ -14,7 +14,7 @@
 
 void		errors_ants(const t_errors e)
 {
-	ft_printf("\x1b[31me:\x1b[0m ");
+	ft_printf("\x1b[31mERROR:\x1b[0m ");
 	if (e == TOO_FEW_ANTS)
 		ft_printf("The value of ants is bigger than MAX_INT!\n");
 	else if (e == WRONG_VALUE_OF_ANTS)
@@ -28,7 +28,7 @@ void		errors_ants(const t_errors e)
 
 void		errors_rooms(const t_errors e)
 {
-	ft_printf("\x1b[31me:\x1b[0m ");
+	ft_printf("\x1b[31mERROR:\x1b[0m ");	
 	if (e == L_CHAR_AT_ROOM_NAME)
 		ft_printf("There is 'L' character at the beginning of name of room!\n");
 	else if (e == UNPRINTBALE_NAME)
@@ -50,7 +50,7 @@ void		errors_rooms(const t_errors e)
 
 void		errors_links(const t_errors e)
 {
-	ft_printf("\x1b[31me:\x1b[0m ");
+	ft_printf("\x1b[31mERROR:\x1b[0m ");
 	if (e == THERE_ARE_NO_LINKS)
 		ft_printf("There are no links in map!\n");
 	else if (e == WRONG_LINKS)
@@ -60,7 +60,7 @@ void		errors_links(const t_errors e)
 
 void		errors_coordinates(const t_errors e)
 {
-	ft_printf("\x1b[31me:\x1b[0m ");
+	ft_printf("\x1b[31mERROR:\x1b[0m ");
 	if (e == WRONG_X)
 		ft_printf("There is wrong [X] coordinate!\n");
 	else if (e == WRONG_Y)

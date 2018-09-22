@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-void	alst_init(t_alst **lsts, size_t size)
+void	alst_init(t_alst **lsts, ssize_t size)
 {
-	size_t	i;
+	ssize_t	i;
 
 	i = -1;
 	while (++i < size)
