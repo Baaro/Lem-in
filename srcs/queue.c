@@ -60,6 +60,23 @@ void		enqueue(t_queue *queue, t_adjlst *v, size_t level)
 	v->room->visited = TRUE;
 }
 
+void			queue_print_st(t_queue_st *queue)	
+{
+	t_node_st	*tmp;		
+
+ 	printf("\nqueue contains := {");
+	tmp = queue->front;
+	while (tmp)	
+	{
+		if (tmp->next != NULL)	
+			printf("%s, ", tmp->step->vertex->room->name);
+		else				
+			printf("%s", tmp->step->vertex->room->name);
+		tmp = tmp->next;
+	}
+	printf("}\n");	
+}
+
 void		queue_clear_st(t_queue_st *queue)
 {
 	if (queue->front)
