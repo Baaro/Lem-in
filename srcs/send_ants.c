@@ -38,13 +38,15 @@ void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 
 	del = 0;
 	final_ant = -1;
+	// printf("a_i_g: %jd\n", lp->ants_in_graph);
 	while (*ants && ++final_ant < lp->ants_in_graph)
 	{
 		if (found_room(end, q->front->step->vertex->room->name))
 		{
 			dequeue_st(q);
 			(*ants)--;
-			del++;			
+			// del++;
+			lp->ants_in_graph--;			
 		}
 		if (q->front->step->next)
 		{
@@ -56,9 +58,26 @@ void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 			dequeue_st(q);
 		}			
 	}
-    if (!(*ants))
+	// lp->ants_in_graph -= del;
+    if (!(*ants) && is_empty_st(q))
         printf("\n");
-	lp->ants_in_graph -= del;
+}
+
+intmax_t	count_waves(t_path *p, intmax_t ants, intmax_t paths)
+{
+	intmax_t waves;
+	intmax_t a;
+	intmax_t sum_p;
+
+	if (p && p->next)
+	{
+		if (paths == 1)
+			waves = p->steps + ants - 1;
+		else if (paths == 2)
+			waves = (((p->steps + p->next->steps + ants) - paths) / paths);
+	}
+	// printf("waves: %jd\n", waves);
+	return (waves);
 }
 
 void	ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in_graph)
@@ -77,6 +96,8 @@ void	ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in_g
 			lp->ants_in_graph++;
 			enqueue_st(q, p->step);
 			ft_printf("L%jd-%s ", p->step->ant, p->step->vertex->room->name);
+			if (count_waves(p, *ants, 1) < count_waves(p, *ants, 2))
+				break ;
 			p = p->next;
 		}
 		ft_printf("\n");
