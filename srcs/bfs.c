@@ -12,41 +12,41 @@
 
 #include "lem_in.h"
 
-t_adjlst	*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name)
+t_alst		*get_vertex(t_htab *htab, t_atab *at, char *name)
 {
 	unsigned long	id;
-	t_adjlst		*vertex;
+	t_alst			*vertex;
 	t_room			*room;
 
 	id = get_id(htab, name, ft_strlen(name));
-	room = hashtab_get(htab, id, name);
-	vertex = adjtab_get(adjtab, room);
+	room = htab_get(htab, id, name);
+	vertex = atab_get(at, room);
 	return (vertex);
 }
 
-void		bfs(t_adjtab *adjtab, t_htab *htab)
+void		bfs(t_atab *at, t_htab *htab)
 {
-	t_queue			*queue;
-	t_adjlst		*v;
+	t_queue			*q;
+	t_alst			*v;
 	size_t			level;
 
 	level = 1;
-	queue = queue_init();
-	if (!(v = get_vertex(htab, adjtab, htab->start)))
+	q = queue_init();
+	if (!(v = get_vertex(htab, at, htab->start)))
 		errors_rooms(THERE_ARE_NO_LINKS_WITH_START);
-	enqueue(queue, v, level);
-	while (!is_empty(queue))
+	enqueue(q, v, level);
+	while (!is_empty(q))
 	{
 		level = v->room->level;
 		while (v)
 		{
 			if (!v->room->visited
 			&& !v->room->in_queue)
-				enqueue(queue, v, level + 1);
+				enqueue(q, v, level + 1);
 			v = v->next;
 		}
-		v = dequeue(queue);
-		v = get_vertex(htab, adjtab, v->room->name);
+		v = dequeue(q);
+		v = get_vertex(htab, at, v->room->name);
 	}
-	queue_clear(queue);
+	queue_clear(q);
 }

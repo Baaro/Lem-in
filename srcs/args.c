@@ -12,12 +12,12 @@
 
 #include "lem_in.h"
 
-void		args_init(t_args *args)
+void		args_init(t_args *a)
 {
-	ft_memset(args, 0, sizeof(t_args));
+	ft_memset(a, 0, sizeof(t_args));
 }
 
-bool		args_analyze(t_args *args, int argc, char **argv)
+bool		args_analyze(t_args *a, int argc, char **argv)
 {
 	size_t	arg;
 	bool	exist;
@@ -30,43 +30,43 @@ bool		args_analyze(t_args *args, int argc, char **argv)
 	{
 		if (is_a(argv[arg]))
 		{
-			args->a = TRUE;
+			a->a = TRUE;
 			return (TRUE);
 		}
-		else if (!args->ht && is_ht(argv[arg]))
-			args->ht = TRUE;
-		else if (!args->at && is_at(argv[arg]))
-			args->at = TRUE;
-		else if (!args->p && is_p(argv[arg]))
-			args->p = TRUE;
-		if (args->ht || args->at || args->p)
+		else if (!a->ht && is_ht(argv[arg]))
+			a->ht = TRUE;
+		else if (!a->at && is_at(argv[arg]))
+			a->at = TRUE;
+		else if (!a->p && is_p(argv[arg]))
+			a->p = TRUE;
+		if (a->ht || a->at || a->p)
 			exist = TRUE;
 	}
 	return (exist ? TRUE : FALSE);
 }
 
-void		print_all(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
+void		print_all(t_lp *lp, t_atab *at, t_htab *ht)
 {
-	hashtable_print_room(ht);
-	hashtable_print_coord(ht);
-	adjtab_print(at);
+	htab_print_room(ht);
+	htab_print_coord(ht);
+	atab_print(at);
 	lstpaths_print(lp);
 }
 
-void		args_print(t_args *args, t_lstpaths *lp, t_adjtab *at, t_htab *ht)
+void		args_print(t_args *a, t_lp *lp, t_atab *at, t_htab *ht)
 {
 	ft_printf("\x1b[32mSTART:\x1b[0m [%s]\n", ht->start);
 	ft_printf("\x1b[34mFINISH:\x1b[0m [%s]\n", ht->end);
-	if (!args->a)
+	if (!a->a)
 	{
-		if (args->ht)
+		if (a->ht)
 		{
-			hashtable_print_room(ht);
-			hashtable_print_coord(ht);
+			htab_print_room(ht);
+			htab_print_coord(ht);
 		}
-		if (args->at)
-			adjtab_print(at);
-		if (args->p)
+		if (a->at)
+			atab_print(at);
+		if (a->p)
 			lstpaths_print(lp);
 	}
 	else

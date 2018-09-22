@@ -22,7 +22,7 @@ void	usage_print(void)
 	ft_printf("\n");
 }
 
-void	lstpaths_print(t_lstpaths *lp)
+void	lstpaths_print(t_lp *lp)
 {
 	t_path		*p;
 	t_stack		*tmp;
@@ -45,16 +45,16 @@ void	lstpaths_print(t_lstpaths *lp)
 	ft_printf("\n");
 }
 
-void	adjtab_print(t_adjtab *adjtab)
+void	atab_print(t_atab *at)
 {
-	t_adjlst	*tmp;
+	t_alst		*tmp;
 	ssize_t		i;
 
 	i = -1;
 	ft_printf("\n\x1b[35mADJLISTS:\x1b[0m\n");
-	while (++i < adjtab->size)
+	while (++i < at->size)
 	{
-		tmp = adjtab->lsts[i];
+		tmp = at->lsts[i];
 		if (tmp->room && tmp->room->name)
 		{
 			ft_printf("[%s] -> ", tmp->room->name);
@@ -70,16 +70,16 @@ void	adjtab_print(t_adjtab *adjtab)
 	ft_printf("\n");
 }
 
-void	hashtable_print_room(t_htab *htab)
+void	htab_print_room(t_htab *ht)
 {
 	t_room		*tmp;
 	ssize_t		i;
 
 	i = -1;
-	ft_printf("\n\x1b[33mHASHTABLE_ROOM:\x1b[0m\n");
-	while (++i < htab->size)
+	ft_printf("\n\x1b[33mHAShtLE_ROOM:\x1b[0m\n");
+	while (++i < ht->size)
 	{
-		tmp = htab->rooms[i];
+		tmp = ht->rooms[i];
 		if (tmp && tmp->name)
 		{
 			ft_printf("[id:%lu] %s -> ", tmp->id, tmp->name);
@@ -94,16 +94,16 @@ void	hashtable_print_room(t_htab *htab)
 	}
 }
 
-void	hashtable_print_coord(t_htab *htab)
+void	htab_print_coord(t_htab *ht)
 {
 	t_coord		*tmp;
 	ssize_t		i;
 
 	i = -1;
-	ft_printf("\n\x1b[33mHASHTABLE_COORDNATES:\x1b[0m\n");
-	while (++i < htab->size)
+	ft_printf("\n\x1b[33mHAShtLE_COORDNATES:\x1b[0m\n");
+	while (++i < ht->size)
 	{
-		tmp = htab->coords[i];
+		tmp = ht->coords[i];
 		if (tmp && tmp->x_y)
 		{
 			ft_printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);

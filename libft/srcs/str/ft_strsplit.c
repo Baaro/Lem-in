@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-static	int		cntwords(char const *s, char c)
+static int		cntwords(char const *s, char c)
 {
-	int word;
-	int i;
+	int		word;
+	int		i;
 
-	word = 0;
 	i = 0;
+	word = 0;
 	while (s[i])
 	{
 		if (s[i] == c && (s[i + 1] != c && s[i + 1] != '\0'))
@@ -30,12 +30,11 @@ static	int		cntwords(char const *s, char c)
 	return (word);
 }
 
-static	char	*putword(char const *s, char c, int *last_pos)
+static char		*putword(char const *s, char c, int *last_pos)
 {
 	char	*word;
 	int		j;
 	int		i;
-
 
 	if (!(word = (char *)malloc(sizeof(char) * ft_strlen(s))))
 		return (NULL);
@@ -60,7 +59,6 @@ char			**ft_strsplit(char const *s, char c)
 	int		last_pos;
 	int		count;
 	int		i;
-
 
 	if (!s || !c)
 		return (NULL);

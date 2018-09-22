@@ -25,5 +25,5 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 
-int				get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 #endif

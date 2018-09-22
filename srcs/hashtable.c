@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/22 12:15:39 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/09/22 12:15:41 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/09/22 16:14:41 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 16:14:43 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-unsigned long	get_id(t_htab *htab, char *name, size_t name_len)
+unsigned long	get_id(t_htab *ht, char *name, size_t name_len)
 {
 	size_t	hash;
 	size_t	i;
@@ -25,15 +25,15 @@ unsigned long	get_id(t_htab *htab, char *name, size_t name_len)
 		hash += (hash << 10);
 		hash ^= (hash >> 6);
 	}
-	hash = hash % htab->size;
+	hash = hash % ht->size;
 	return (hash == 0 ? 1 : hash);
 }
 
-t_room			*hashtab_get(t_htab *htab, unsigned long id, char *name)
+t_room			*htab_get(t_htab *ht, unsigned long id, char *name)
 {
 	t_room	*tmp;
 
-	tmp = htab->rooms[id];
+	tmp = ht->rooms[id];
 	while (tmp && tmp->name)
 	{
 		if (ft_strcmp(tmp->name, name) == 0)
@@ -43,14 +43,14 @@ t_room			*hashtab_get(t_htab *htab, unsigned long id, char *name)
 	return (NULL);
 }
 
-void			hashtab_set(t_htab *htab, t_info *info)
+void			htab_set(t_htab *ht, t_info *i)
 {
-	if (!room_exists(htab, info->room, info->id_room))
+	if (!room_exists(ht, i->room, i->id_room))
 	{
-		if (!coord_exists(htab, info->coord, info->id_coord))
+		if (!coord_exists(ht, i->coord, i->id_coord))
 		{
-			room_create(htab, info);
-			coord_create(htab, info);
+			room_create(ht, i);
+			coord_create(ht, i);
 		}
 		else
 			errors_rooms(TWO_ROOMS_HAVE_THE_SAME_COORDS);
@@ -59,33 +59,33 @@ void			hashtab_set(t_htab *htab, t_info *info)
 		errors_rooms(TWO_ROOMS_HAVE_THE_SAME_NAME);
 }
 
-bool			start_equal_end(t_htab *htab)
+bool			start_equal_end(t_htab *ht)
 {
-	if (htab)
-		if (ft_strcmp(htab->start, htab->end) == 0)
+	if (ht)
+		if (ft_strcmp(ht->start, ht->end) == 0)
 			return (TRUE);
 	return (FALSE);
 }
 
-void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
+void			htab_create(t_htab *ht, t_buff *b, t_info *i)
 {
-	skip_amount_of_ants(buff->data);
+	skip_amount_of_ants(b->data);
 	while (TRUE)
 	{
-		info->line = get_line(buff->data);
-		if (!is_comment(info->line))
+		i->line = get_line(b->data);
+		if (!is_comment(i->line))
 		{
-			if (is_link(info->line))
+			if (is_link(i->line))
 				break ;
-			if (is_room(info->line))
+			if (is_room(i->line))
 			{
-				info_get_rooms(info, htab, buff);
-				hashtab_set(htab, info);
-				info_clear_rooms(info);
+				info_get_rooms(i, ht, b);
+				htab_set(ht, i);
+				info_clear_rooms(i);
 			}
 		}
-		ft_strdel(&info->line);
+		ft_strdel(&i->line);
 	}
-	if (start_equal_end(htab))
+	if (start_equal_end(ht))
 		errors_rooms(START_EQUAL_END);
 }

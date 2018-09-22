@@ -32,13 +32,13 @@ void	coord_set(t_coord *coord, t_info *info)
 	coord->id = info->id_coord;
 }
 
-bool	coord_exists(t_htab *htab, char *x_y, unsigned long id)
+bool	coord_exists(t_htab *ht, char *x_y, unsigned long id)
 {
 	t_coord	*tmp;
 
-	if (htab->coords[id] != NULL)
+	if (ht->coords[id] != NULL)
 	{
-		tmp = htab->coords[id];
+		tmp = ht->coords[id];
 		while (tmp && tmp->x_y)
 		{
 			if (ft_strcmp(tmp->x_y, x_y) == 0)
@@ -49,20 +49,20 @@ bool	coord_exists(t_htab *htab, char *x_y, unsigned long id)
 	return (FALSE);
 }
 
-void	coord_create(t_htab *htab, t_info *info)
+void	coord_create(t_htab *ht, t_info *info)
 {
 	t_coord	*tmp;
 
-	if (!htab->coords[info->id_coord]->x_y)
-		coord_set(htab->coords[info->id_coord], info);
+	if (!ht->coords[info->id_coord]->x_y)
+		coord_set(ht->coords[info->id_coord], info);
 	else
 	{
 		if (!(tmp = (t_coord *)malloc(sizeof(t_coord))))
 			errors_memory(CANT_ALLOCATE_MEM, "coord_create");
 		coord_set(tmp, info);
-		tmp->next = htab->coords[info->id_coord]->next;
-		htab->coords[info->id_coord]->next = tmp;
-		if (!htab->coords[info->id_coord]->next->next)
-			htab->coords[info->id_coord]->next->next = NULL;
+		tmp->next = ht->coords[info->id_coord]->next;
+		ht->coords[info->id_coord]->next = tmp;
+		if (!ht->coords[info->id_coord]->next->next)
+			ht->coords[info->id_coord]->next->next = NULL;
 	}
 }

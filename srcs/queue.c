@@ -5,67 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/22 12:17:10 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/09/22 12:17:12 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/09/22 16:14:16 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 16:14:18 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void		queue_clear(t_queue *queue)
+void		queue_clear(t_queue *q)
 {
-	if (queue->front)
-		free(queue->front);
-	free(queue);
+	if (q->front)
+		free(q->front);
+	free(q);
 }
 
 t_queue		*queue_init(void)
 {
-	t_queue	*queue;
+	t_queue	*q;
 
-	queue = (t_queue *)malloc(sizeof(t_queue));
-	queue->front = NULL;
-	queue->rear = NULL;
-	queue->size = 0;
-	return (queue);
+	q = (t_queue *)malloc(sizeof(t_queue));
+	q->front = NULL;
+	q->rear = NULL;
+	q->size = 0;
+	return (q);
 }
 
-bool		is_empty(t_queue *queue)
+bool		is_empty(t_queue *q)
 {
-	return (queue->size == 0 ? TRUE : FALSE);
+	return (q->size == 0 ? TRUE : FALSE);
 }
 
-t_adjlst	*dequeue(t_queue *queue)
+t_alst		*dequeue(t_queue *q)
 {
 	t_node	*tmp;
 
-	tmp = queue->front;
-	queue->size != 0 ? queue->size-- : 0;
-	if (queue->size)
+	tmp = q->front;
+	q->size != 0 ? q->size-- : 0;
+	if (q->size)
 	{
-		queue->front = queue->front->next;
+		q->front = q->front->next;
 		free(tmp);
 	}
-	return (queue->front->vertex);
+	return (q->front->vertex);
 }
 
-void		enqueue(t_queue *queue, t_adjlst *v, size_t level)
+void		enqueue(t_queue *q, t_alst *v, size_t level)
 {
-	if (queue->front == NULL)
+	if (q->front == NULL)
 	{
-		queue->front = (t_node *)malloc(sizeof(t_node));
-		queue->front->vertex = v;
-		queue->front->next = NULL;
-		queue->rear = queue->front;
-		queue->size++;
+		q->front = (t_node *)malloc(sizeof(t_node));
+		q->front->vertex = v;
+		q->front->next = NULL;
+		q->rear = q->front;
+		q->size++;
 	}
 	else if (!level || !v->room->in_queue)
 	{
-		queue->rear->next = (t_node *)malloc(sizeof(t_node));
-		queue->rear->next->vertex = v;
-		queue->rear->next->next = NULL;
-		queue->rear = queue->rear->next;
-		queue->size++;
+		q->rear->next = (t_node *)malloc(sizeof(t_node));
+		q->rear->next->vertex = v;
+		q->rear->next->next = NULL;
+		q->rear = q->rear->next;
+		q->size++;
 	}
 	v->room->level = level;
 	v->room->in_queue = TRUE;

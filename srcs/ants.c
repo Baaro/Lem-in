@@ -26,7 +26,7 @@ static intmax_t	count_waves(t_path *p, intmax_t ants, intmax_t paths)
 	return (waves);
 }
 
-void			antsshft(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *e)
+void			antsshft(t_lp *lp, t_q_st *q, intmax_t *ants, char *e)
 {
 	intmax_t	final_ant;
 
@@ -46,7 +46,7 @@ void			antsshft(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *e)
 		ft_printf("\n");
 }
 
-void			antsput(t_lstpaths *lp, t_queue_st *q, intmax_t *a, bool *aig)
+void			antsput(t_lp *lp, t_q_st *q, intmax_t *a, bool *aig)
 {
 	static intmax_t	ant;
 	intmax_t		i;

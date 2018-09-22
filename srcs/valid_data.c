@@ -12,32 +12,24 @@
 
 #include "lem_in.h"
 
-static bool			commands_is_checked(const t_checks *chcks)
+static bool			commands_is_checked(const t_checks *c)
 {
-	if (chcks->end_check == UNCHECKED)
+	if (c->end_check == UNCHECKED)
 		errors_commands(NO_END_COMMAND);
-	else if (chcks->start_check == UNCHECKED)
+	else if (c->start_check == UNCHECKED)
 		errors_commands(NO_START_COMMAND);
 	return (TRUE);
 }
 
-bool				is_wrong_command(const char *line)
-{
-	if (*line == '#' && *(line + 1) == '#'
-	&& !is_end_command(line) && !is_start_command(line))
-		return (TRUE);
-	return (FALSE);
-}
-
-static t_controller	valid_line(t_storage *strg, t_checks *chcks, char *line)
+static t_controller	valid_line(t_storage *s, t_checks *c, char *line)
 {
 	if (!is_comment(line))
 	{
-		if (valid_ants(chcks, line, &strg->info->ants))
+		if (valid_ants(c, line, &s->info->ants))
 			return (READ);
-		if (valid_commands(strg, chcks, line))
+		if (valid_cmmnds(s, c, line))
 			return (READ);
-		if (is_link(line) && commands_is_checked(chcks))
+		if (is_link(line) && commands_is_checked(c))
 			return (STOP_READ);
 		if (valid_room(line))
 			return (VALID_ROOM);
@@ -45,28 +37,28 @@ static t_controller	valid_line(t_storage *strg, t_checks *chcks, char *line)
 	return (READ);
 }
 
-void				valid_data(t_storage *strg)
+void				valid_data(t_storage *s)
 {
-	strg->contrllr = READ;
+	s->contrllr = READ;
 	while (TRUE)
 	{
-		if (strg->contrllr == READ)
+		if (s->contrllr == READ)
 		{
-			if (read_line(strg->buff, &strg->buff->line))
-				strg->contrllr = GO_VALID;
+			if (read_line(s->buff, &s->buff->line))
+				s->contrllr = GO_VALID;
 			else
 				errors_links(THERE_ARE_NO_LINKS);
 		}
-		if (strg->contrllr == GO_VALID)
+		if (s->contrllr == GO_VALID)
 		{
-			strg->contrllr = valid_line(strg, &strg->chcks, strg->buff->line);
-			save_data(&strg->buff->data, strg->buff->line);
-			if (strg->contrllr == VALID_ROOM)
+			s->contrllr = valid_line(s, &s->c, s->buff->line);
+			save_data(&s->buff->data, s->buff->line);
+			if (s->contrllr == VALID_ROOM)
 			{
-				strg->info->amnt_of_rooms++;
-				strg->contrllr = READ;
+				s->info->amnt_of_rooms++;
+				s->contrllr = READ;
 			}
-			else if (strg->contrllr == STOP_READ)
+			else if (s->contrllr == STOP_READ)
 				break ;
 		}
 	}

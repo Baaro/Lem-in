@@ -5,68 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/22 12:17:25 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/09/22 12:17:27 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/09/22 16:14:52 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 16:14:55 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void		queue_clear_st(t_queue_st *queue)
+void	queue_clear_st(t_q_st *q)
 {
-	if (queue->front)
-		free(queue->front);
-	free(queue);
+	if (q->front)
+		free(q->front);
+	free(q);
 }
 
-bool		is_empty_st(t_queue_st *queue)
+bool	is_empty_st(t_q_st *q)
 {
-	return (queue->size == 0 ? TRUE : FALSE);
+	return (q->size == 0 ? TRUE : FALSE);
 }
 
-t_queue_st	*queue_init_st(void)
+t_q_st	*queue_init_st(void)
 {
-	t_queue_st	*queue;
+	t_q_st	*q;
 
-	queue = (t_queue_st *)malloc(sizeof(t_queue_st));
-	queue->front = NULL;
-	queue->rear = NULL;
-	queue->size = 0;
-	return (queue);
+	q = (t_q_st *)malloc(sizeof(t_q_st));
+	q->front = NULL;
+	q->rear = NULL;
+	q->size = 0;
+	return (q);
 }
 
-t_stack		*dequeue_st(t_queue_st *queue)
+t_stack	*dequeue_st(t_q_st *q)
 {
 	t_node_st	*tmp;
 
-	tmp = queue->front;
-	queue->size != 0 ? queue->size-- : 0;
-	if (queue->size)
+	tmp = q->front;
+	q->size != 0 ? q->size-- : 0;
+	if (q->size)
 	{
-		queue->front = queue->front->next;
+		q->front = q->front->next;
 		free(tmp);
 	}
-	if (!queue->size && queue->front)
-		queue->size++;
-	return (queue->front->step);
+	if (!q->size && q->front)
+		q->size++;
+	return (q->front->step);
 }
 
-void		enqueue_st(t_queue_st *queue, t_stack *step)
+void	enqueue_st(t_q_st *q, t_stack *step)
 {
-	if (queue->front == NULL)
+	if (q->front == NULL)
 	{
-		queue->front = (t_node_st *)malloc(sizeof(t_node_st));
-		queue->front->step = step;
-		queue->front->next = NULL;
-		queue->rear = queue->front;
-		queue->size++;
+		q->front = (t_node_st *)malloc(sizeof(t_node_st));
+		q->front->step = step;
+		q->front->next = NULL;
+		q->rear = q->front;
+		q->size++;
 	}
 	else
 	{
-		queue->rear->next = (t_node_st *)malloc(sizeof(t_node_st));
-		queue->rear->next->step = step;
-		queue->rear->next->next = NULL;
-		queue->rear = queue->rear->next;
-		queue->size++;
+		q->rear->next = (t_node_st *)malloc(sizeof(t_node_st));
+		q->rear->next->step = step;
+		q->rear->next->next = NULL;
+		q->rear = q->rear->next;
+		q->size++;
 	}
 }

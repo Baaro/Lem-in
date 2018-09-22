@@ -12,17 +12,17 @@
 
 #include "lem_in.h"
 
-void		lstpaths_init(t_lstpaths *lp)
+void		lstpaths_init(t_lp *lp)
 {
-	if (!(ft_memset(lp, 0, sizeof(t_lstpaths))))
+	if (!(ft_memset(lp, 0, sizeof(t_lp))))
 		errors_memory(CANT_SETZERO, "lstpaths_init");
 }
 
-t_adjlst	*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name)
+t_alst		*get_nearest_vertex(t_atab *at, t_htab *ht, char *name)
 {
-	t_adjlst	*tmp;
-	t_adjlst	*nearest_v;
-	size_t		level;
+	t_alst	*tmp;
+	t_alst	*nearest_v;
+	size_t	level;
 
 	level = 0;
 	tmp = get_vertex(ht, at, name);
@@ -42,7 +42,7 @@ t_adjlst	*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name)
 	return (nearest_v ? nearest_v : NULL);
 }
 
-void		lstpaths_put(t_lstpaths *lp, t_path *p)
+void		lstpaths_put(t_lp *lp, t_path *p)
 {
 	if (lp->front == NULL)
 	{
@@ -58,7 +58,7 @@ void		lstpaths_put(t_lstpaths *lp, t_path *p)
 	}
 }
 
-void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
+void		lstpaths_create(t_lp *lp, t_atab *at, t_htab *ht)
 {
 	t_path		*p;
 

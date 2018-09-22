@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/22 12:14:30 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/09/22 12:14:31 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/09/22 16:12:01 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 16:12:04 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	adjtab_init(t_adjtab *adjtab, size_t size)
+void	atab_init(t_atab *at, size_t size)
 {
-	adjtab->size = size;
-	if (!(adjtab->lsts = (t_adjlst **)malloc(sizeof(t_adjlst *)
-				* adjtab->size + 1)))
-		errors_memory(CANT_ALLOCATE_MEM, "adjtab_init");
-	adjlst_init(adjtab->lsts, adjtab->size + 1);
+	at->size = size;
+	if (!(at->lsts = (t_alst **)malloc(sizeof(t_alst *)
+				* at->size + 1)))
+		errors_memory(CANT_ALLOCATE_MEM, "at_init");
+	alst_init(at->lsts, at->size + 1);
 }

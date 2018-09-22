@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void		step(t_queue_st *q, bool clear)
+void		step(t_q_st *q, bool clear)
 {
 	q->front->step->next->ant = q->front->step->ant;
 	if (clear)
@@ -23,7 +23,7 @@ void		step(t_queue_st *q, bool clear)
 	dequeue_st(q);
 }
 
-void		antsstep(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end)
+void		antsstep(t_lp *lp, t_q_st *q, intmax_t *ants, char *end)
 {
 	intmax_t	final_ant;
 	intmax_t	del;
@@ -50,7 +50,7 @@ void		antsstep(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end)
 	lp->ants_in_graph -= del;
 }
 
-void		atgraph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end)
+void		atgraph(t_lp *lp, t_q_st *q, intmax_t *ants, char *end)
 {
 	bool	all_ants_in_graph;
 
@@ -62,9 +62,9 @@ void		atgraph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end)
 	}
 }
 
-void		send_ants(t_lstpaths *lp, intmax_t ants, char *end)
+void		send_ants(t_lp *lp, intmax_t ants, char *end)
 {
-	t_queue_st	*q;
+	t_q_st	*q;
 
 	q = queue_init_st();
 	lp->final_ant = ants;

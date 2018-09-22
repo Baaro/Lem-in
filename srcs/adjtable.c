@@ -5,68 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/22 12:14:39 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/09/22 12:14:40 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/09/22 16:13:24 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 16:13:26 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-bool		adjtab_exists(t_adjtab *adjtab, t_room *room)
+bool		atab_exists(t_atab *a, t_room *room)
 {
-	if (adjtab->lsts[room->index]
-	&& adjtab->lsts[room->index]->room
-	&& adjtab->lsts[room->index]->room->name
-	&& ft_strcmp(adjtab->lsts[room->index]->room->name, room->name) == 0)
+	if (a->lsts[room->index]
+	&& a->lsts[room->index]->room
+	&& a->lsts[room->index]->room->name
+	&& ft_strcmp(a->lsts[room->index]->room->name, room->name) == 0)
 		return (TRUE);
 	return (FALSE);
 }
 
-t_adjlst	*adjtab_get(t_adjtab *adjtab, t_room *room)
+t_alst		*atab_get(t_atab *a, t_room *room)
 {
-	if (adjtab->lsts[room->index]->room)
-		if (ft_strcmp(adjtab->lsts[room->index]->room->name, room->name) == 0)
-			return (adjtab->lsts[room->index]);
+	if (a->lsts[room->index]->room)
+		if (ft_strcmp(a->lsts[room->index]->room->name, room->name) == 0)
+			return (a->lsts[room->index]);
 	return (NULL);
 }
 
-bool		adjtab_check(t_adjtab *adjtab, t_room *f_room, t_room *s_room)
+bool		atab_check(t_atab *a, t_room *f_room, t_room *s_room)
 {
 	if (is_duplicate(f_room->name, s_room->name))
 		return (FALSE);
-	if (!adjtab_exists(adjtab, f_room))
+	if (!atab_exists(a, f_room))
 	{
-		adjtab->lsts[f_room->index]->room = f_room;
-		adjtab->lsts[f_room->index]->next = NULL;
+		a->lsts[f_room->index]->room = f_room;
+		a->lsts[f_room->index]->next = NULL;
 	}
-	if (!adjtab_exists(adjtab, s_room))
+	if (!atab_exists(a, s_room))
 	{
-		adjtab->lsts[s_room->index]->room = s_room;
-		adjtab->lsts[s_room->index]->next = NULL;
+		a->lsts[s_room->index]->room = s_room;
+		a->lsts[s_room->index]->next = NULL;
 	}
-	if (adjlst_exists(adjtab->lsts[f_room->index], s_room)
-	|| adjlst_exists(adjtab->lsts[s_room->index], f_room))
+	if (alst_exists(a->lsts[f_room->index], s_room)
+	|| alst_exists(a->lsts[s_room->index], f_room))
 		return (FALSE);
-	adjlst_put(adjtab->lsts[f_room->index], s_room);
-	adjlst_put(adjtab->lsts[s_room->index], f_room);
+	alst_put(a->lsts[f_room->index], s_room);
+	alst_put(a->lsts[s_room->index], f_room);
 	return (TRUE);
 }
 
-bool		adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *i)
+bool		atab_set(t_atab *a, t_htab *ht, t_info *i)
 {
 	t_room	*first_room;
 	t_room	*second_room;
 
-	i->id_first = get_id(htab, i->first_room, ft_strlen(i->first_room));
-	i->id_second = get_id(htab, i->second_room, ft_strlen(i->second_room));
-	if (room_exists(htab, i->first_room, i->id_first)
-	&& room_exists(htab, i->second_room, i->id_second))
+	i->id_first = get_id(ht, i->first_room, ft_strlen(i->first_room));
+	i->id_second = get_id(ht, i->second_room, ft_strlen(i->second_room));
+	if (room_exists(ht, i->first_room, i->id_first)
+	&& room_exists(ht, i->second_room, i->id_second))
 	{
-		if (!(first_room = hashtab_get(htab, i->id_first, i->first_room)))
+		if (!(first_room = htab_get(ht, i->id_first, i->first_room)))
 			return (FALSE);
-		if (!(second_room = hashtab_get(htab, i->id_second, i->second_room)))
+		if (!(second_room = htab_get(ht, i->id_second, i->second_room)))
 			return (FALSE);
-		if (!adjtab_check(adjtab, first_room, second_room))
+		if (!atab_check(a, first_room, second_room))
 			return (FALSE);
 	}
 	else
@@ -74,14 +74,14 @@ bool		adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *i)
 	return (TRUE);
 }
 
-void		adjtab_create(t_adjtab *at, t_htab *ht, t_buff *b, t_info *i)
+void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 {
 	while (TRUE)
 	{
 		if (!is_comment(b->line) && is_link(b->line))
 		{
 			info_get_links(i, b->line);
-			if (!adjtab_set(at, ht, i))
+			if (!atab_set(at, ht, i))
 			{
 				info_clear_links(i);
 				return ;

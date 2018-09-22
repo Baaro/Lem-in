@@ -20,26 +20,26 @@ void		print_data(const char *data)
 
 int			main(int argc, char **argv)
 {
-	t_storage		strg;
+	t_storage		s;
 	t_htab			ht;
-	t_adjtab		at;
-	t_lstpaths		lp;
-	t_args			args;
+	t_atab			at;
+	t_lp			lp;
+	t_args			a;
 
-	storage_init(&strg);
-	valid_data(&strg);
-	hashtab_init(&ht, &strg);
-	hashtab_create(&ht, strg.buff, strg.info);
-	adjtab_init(&at, ht.size);
-	adjtab_create(&at, &ht, strg.buff, strg.info);
+	storage_init(&s);
+	valid_data(&s);
+	htab_init(&ht, &s);
+	htab_create(&ht, s.buff, s.info);
+	atab_init(&at, ht.size);
+	atab_crte(&at, &ht, s.buff, s.info);
 	lstpaths_init(&lp);
 	lstpaths_create(&lp, &at, &ht);
-	print_data(strg.buff->data);
-	args_init(&args);
-	if (argc > 1 && args_analyze(&args, argc, argv))
-		args_print(&args, &lp, &at, &ht);
+	print_data(s.buff->data);
+	args_init(&a);
+	if (argc > 1 && args_analyze(&a, argc, argv))
+		args_print(&a, &lp, &at, &ht);
 	else
 		usage_print();
-	send_ants(&lp, strg.info->ants, ht.end);
+	send_ants(&lp, s.info->ants, ht.end);
 	return (0);
 }
