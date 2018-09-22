@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bfs.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 12:15:01 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 12:15:03 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 t_adjlst	*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name)
@@ -12,16 +24,16 @@ t_adjlst	*get_vertex(t_htab *htab, t_adjtab *adjtab, char *name)
 	return (vertex);
 }
 
-void			bfs(t_adjtab *adjtab, t_htab *htab)
+void		bfs(t_adjtab *adjtab, t_htab *htab)
 {
-	t_queue		*queue;
-	t_adjlst	*v;
-	size_t		level;
+	t_queue			*queue;
+	t_adjlst		*v;
+	size_t			level;
 
 	level = 1;
 	queue = queue_init();
 	if (!(v = get_vertex(htab, adjtab, htab->start)))
-			errors_rooms(THERE_ARE_NO_LINKS_WITH_START);
+		errors_rooms(THERE_ARE_NO_LINKS_WITH_START);
 	enqueue(queue, v, level);
 	while (!is_empty(queue))
 	{

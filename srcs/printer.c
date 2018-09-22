@@ -12,26 +12,26 @@
 
 #include "lem_in.h"
 
-void		usage_print(void)
+void	usage_print(void)
 {
 	ft_printf("usage:\n");
 	ft_printf("[-at] adjacency table;\n");
 	ft_printf("[-ht] hash table;\n");
 	ft_printf("[-p]  paths which were found;\n");
 	ft_printf("[-a]  show all info.\n");
-	printf("\n");
+	ft_printf("\n");
 }
 
-void		lstpaths_print(t_lstpaths *lp)
+void	lstpaths_print(t_lstpaths *lp)
 {
 	t_path		*p;
 	t_stack		*tmp;
 
 	p = lp->front;
-	ft_printf("\x1b[36mPATHS:\x1b[0m\n");	
+	ft_printf("\x1b[36mPATHS:\x1b[0m\n");
 	while (p)
 	{
-		tmp = p->step;		
+		tmp = p->step;
 		if (tmp)
 			ft_printf("steps: %zu\n", p->steps);
 		while (tmp && tmp->vertex->room)
@@ -45,7 +45,7 @@ void		lstpaths_print(t_lstpaths *lp)
 	ft_printf("\n");
 }
 
-void			adjtab_print(t_adjtab *adjtab)
+void	adjtab_print(t_adjtab *adjtab)
 {
 	t_adjlst	*tmp;
 	ssize_t		i;
@@ -60,17 +60,17 @@ void			adjtab_print(t_adjtab *adjtab)
 			ft_printf("[%s] -> ", tmp->room->name);
 			while (tmp->next)
 			{
-				tmp = tmp->next;		
+				tmp = tmp->next;
 				if (tmp->room && tmp->room->name)
 					ft_printf("%s -> ", tmp->room->name);
 			}
-			ft_printf("\n");		
+			ft_printf("\n");
 		}
 	}
-	ft_printf("\n");	
+	ft_printf("\n");
 }
 
-void		hashtable_print_room(t_htab *htab)
+void	hashtable_print_room(t_htab *htab)
 {
 	t_room		*tmp;
 	ssize_t		i;
@@ -85,8 +85,8 @@ void		hashtable_print_room(t_htab *htab)
 			ft_printf("[id:%lu] %s -> ", tmp->id, tmp->name);
 			while (tmp->next)
 			{
-				tmp = tmp->next;			
-				if (tmp && tmp->name)		
+				tmp = tmp->next;
+				if (tmp && tmp->name)
 					ft_printf("[id:%lu] %s -> ", tmp->id, tmp->name);
 			}
 			ft_printf("\n");
@@ -94,7 +94,7 @@ void		hashtable_print_room(t_htab *htab)
 	}
 }
 
-void		hashtable_print_coord(t_htab *htab)
+void	hashtable_print_coord(t_htab *htab)
 {
 	t_coord		*tmp;
 	ssize_t		i;
@@ -113,7 +113,7 @@ void		hashtable_print_coord(t_htab *htab)
 				if (tmp && tmp->x_y)
 					ft_printf("[id:%zu] %s -> ", tmp->id, tmp->x_y);
 			}
-			ft_printf("\n");		
+			ft_printf("\n");
 		}
 	}
 }

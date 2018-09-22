@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hashtable.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 12:15:39 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 12:15:41 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 unsigned long	get_id(t_htab *htab, char *name, size_t name_len)
@@ -56,7 +68,7 @@ bool			start_equal_end(t_htab *htab)
 }
 
 void			hashtab_create(t_htab *htab, t_buff *buff, t_info *info)
-{	
+{
 	skip_amount_of_ants(buff->data);
 	while (TRUE)
 	{

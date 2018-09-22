@@ -2,6 +2,7 @@
     "files.associations": {
         "lem_in.h": "c",
         "stdarg.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "stdbool.h": "c"
     }
 }

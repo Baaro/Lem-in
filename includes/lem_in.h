@@ -17,9 +17,6 @@
 # include <stdarg.h>
 # include <stdbool.h>
 # include <stdint.h>
-# include <stdio.h> // delete it
-
-// # define MAX_ANTS 10000000
 
 # define TRUE 1
 # define FALSE 0
@@ -57,7 +54,6 @@ typedef enum			e_errors
 	NO_END_COMMAND,
 	TWO_START_COMMANDS,
 	TWO_END_COMMANDS,
-	UNKNOWN_COMMAND,
 	/*
 	** Coordinates
 	*/
@@ -81,8 +77,7 @@ typedef enum			e_errors
 	** Links
 	*/
 	WRONG_LINKS,
-	THERE_ARE_NO_LINKS, 
-
+	THERE_ARE_NO_LINKS,
 	WRONG_INPUT,
 
 	/* 
@@ -326,7 +321,6 @@ void   		 	coord_create(t_htab *htab, t_info *info);
 bool    		coord_exists(t_htab *htab, char *x_y, unsigned long id);
 void			coord_set(t_coord *coord, t_info *info);
 char    		*coord_get(char *x, char *y);
-// void			coords_clear(t_coord **coords, size_t size);
 
 /*
 **--------------------Hashtable---------------------
@@ -337,7 +331,6 @@ bool			hashtab_exists(t_htab *htab, char *name, unsigned long id);
 void		    hashtab_set(t_htab *htab, t_info *info);
 t_room			*hashtab_get(t_htab *htab, unsigned long id, char *name);
 unsigned long	get_id(t_htab *htab, char *name, size_t name_len);
-// void			hashtab_clear(t_htab *htab);
 
 /*
 **--------------------Adjlist------------------------
@@ -355,7 +348,6 @@ bool         	adjtab_exists(t_adjtab *adjtab, t_room *room);
 bool			adjtab_set(t_adjtab *adjtab, t_htab *htab, t_info *info);
 void         	adjtab_put(t_adjtab *adjtab, const t_room *room);
 t_adjlst		*adjtab_get(t_adjtab *adjtab, t_room *room);
-// void			adjtab_clear(t_adjtab *adjtab);
 
 /*
 **--------------------Info--------------------------
@@ -365,13 +357,11 @@ void			info_get_rooms(t_info *info, t_htab *htab, t_buff *buff);
 void			info_get_links(t_info *info, char *line);
 void			info_clear_links(t_info *info);
 void			info_clear_rooms(t_info *info);
-// void			info_clear(t_info *info);
 
 /*
 **--------------------Buff--------------------------
 */
 void			buff_init(t_buff **buff);
-// void			buff_clear(t_buff *buff);
 
 /*
 **--------------------Queue------------------------
@@ -414,11 +404,12 @@ void			bfs(t_adjtab *adjtab, t_htab *htab);
 /*
 **--------------------Send_ants--------------------------
 */
-void			send_ants(t_lstpaths *lp, intmax_t ants, const char *end);
-void			put_all_ants_in_graph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end);
-void			ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in_graph);
-void			ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end);
-void			ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end);
+void	    	send_ants(t_lstpaths *lp, intmax_t ants, char *end);
+void			atgraph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end);
+void			antsput(t_lstpaths *lp, t_queue_st *q, intmax_t *a, bool *aig);
+void			antsshft(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *e);
+void			antsstep(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end);
+void			step(t_queue_st *q, bool clear);
 
 /*
 **--------------------Vertexes--------------------

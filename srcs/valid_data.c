@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_strg.c                                       :+:      :+:    :+:  */
+/*   valid_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 16:47:19 by vsokolog          #+#    #+#             */
-/*   Updated: 2018/08/29 11:09:45 by vsokolog         ###   ########.fr       */
+/*   Created: 2018/09/22 13:28:28 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 13:28:30 by vsokolog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static bool				commands_is_checked(const t_checks *chcks)
+static bool			commands_is_checked(const t_checks *chcks)
 {
 	if (chcks->end_check == UNCHECKED)
 		errors_commands(NO_END_COMMAND);
@@ -22,19 +22,17 @@ static bool				commands_is_checked(const t_checks *chcks)
 }
 
 bool				is_wrong_command(const char *line)
-{	
-	if (*line == '#' && *(line +1) == '#'
+{
+	if (*line == '#' && *(line + 1) == '#'
 	&& !is_end_command(line) && !is_start_command(line))
 		return (TRUE);
 	return (FALSE);
 }
 
-static t_controller		valid_line(t_storage *strg, t_checks *chcks, char *line)
+static t_controller	valid_line(t_storage *strg, t_checks *chcks, char *line)
 {
 	if (!is_comment(line))
 	{
-		if (is_wrong_command(line))
-			errors_commands(UNKNOWN_COMMAND);
 		if (valid_ants(chcks, line, &strg->info->ants))
 			return (READ);
 		if (valid_commands(strg, chcks, line))
@@ -47,7 +45,7 @@ static t_controller		valid_line(t_storage *strg, t_checks *chcks, char *line)
 	return (READ);
 }
 
-void					valid_data(t_storage *strg)
+void				valid_data(t_storage *strg)
 {
 	strg->contrllr = READ;
 	while (TRUE)
@@ -69,10 +67,7 @@ void					valid_data(t_storage *strg)
 				strg->contrllr = READ;
 			}
 			else if (strg->contrllr == STOP_READ)
-			{
-				free(strg->buff->line);
 				break ;
-			}
 		}
 	}
 }

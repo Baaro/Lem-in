@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static intmax_t count_ants(const char *line)
+static intmax_t	count_ants(const char *line)
 {
 	intmax_t	ants;
 
@@ -34,7 +34,7 @@ static intmax_t count_ants(const char *line)
 	return (ants);
 }
 
-bool		valid_ants(t_checks *checks, const char *line, intmax_t *ants)
+bool			valid_ants(t_checks *checks, const char *line, intmax_t *ants)
 {
 	if (checks->ants_check == UNCHECKED)
 	{

@@ -19,13 +19,6 @@ bool		is_duplicate(const char *f_name, const char *s_name)
 	return (FALSE);
 }
 
-bool		is_garbage(const char *line)
-{
-	if (is_wrong_command(line) || !is_link(line))
-		return (TRUE);
-	return (FALSE);
-}
-
 void		skip_amount_of_ants(const char *data)
 {
 	char	*tmp;
@@ -41,11 +34,11 @@ void		skip_amount_of_ants(const char *data)
 		ft_strdel(&tmp);
 }
 
-void					save_data(char **data, char *line)
+void		save_data(char **data, char *line)
 {
 	char	*tmp;
 
-	*data = ft_strjoincl(ft_strjoincl(*data, line, 0), 
+	*data = ft_strjoincl(ft_strjoincl(*data, line, 0),
 		tmp = ft_strdup("\n"), 1);
 }
 

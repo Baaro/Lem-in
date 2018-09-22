@@ -14,7 +14,7 @@
 
 static bool	is_delim(char c)
 {
-	return  (c == ' ' || c == '\t' || c == '\n');
+	return (c == ' ' || c == '\t' || c == '\n');
 }
 
 static bool	valid_first_name_room(char **line)

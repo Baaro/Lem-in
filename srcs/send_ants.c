@@ -1,6 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   send_ants.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 12:17:35 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 12:17:36 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-void	ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
+void		step(t_queue_st *q, bool clear)
+{
+	q->front->step->next->ant = q->front->step->ant;
+	if (clear)
+		q->front->step->ant = 0;
+	enqueue_st(q, q->front->step->next);
+	ft_printf("L%jd-%s ", q->front->step->ant,
+				q->front->step->next->vertex->room->name);
+	dequeue_st(q);
+}
+
+void		antsstep(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end)
 {
 	intmax_t	final_ant;
 	intmax_t	del;
@@ -9,7 +32,7 @@ void	ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 	final_ant = -1;
 	while (*ants && ++final_ant < *ants && final_ant < lp->ants_in_graph)
 	{
-		if (found_room(end, q->front->step->vertex->room->name))
+		if (ft_strcmp(end, q->front->step->vertex->room->name) == 0)
 		{
 			dequeue_st(q);
 			(*ants)--;
@@ -18,116 +41,35 @@ void	ants_step(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
 		if (final_ant == *ants)
 			break ;
 		if (q->front->step->next)
-		{
-			q->front->step->next->ant = q->front->step->ant;
-			enqueue_st(q, q->front->step->next);
-			ft_printf("L%jd-%s ", q->front->step->ant,
-						q->front->step->next->vertex->room->name);
-			dequeue_st(q);
-		}
-		// printf("*ants: %jd && f: %jd\n", *ants, final_ant);
-		// queue_print_st(q);		
+			step(q, 0);
 	}
-	if ((!is_empty_st(q) && found_room(end, q->front->step->vertex->room->name))
+	if ((!is_empty_st(q)
+	&& ft_strcmp(end, q->front->step->vertex->room->name) == 0)
 	|| !is_empty_st(q))
 		ft_printf("\n");
 	lp->ants_in_graph -= del;
 }
 
-void	ants_shift(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
-{
-	intmax_t	final_ant;
-	intmax_t	del;
-
-	del = 0;
-	final_ant = -1;
-	while (*ants && ++final_ant < lp->ants_in_graph)
-	{
-		if (found_room(end, q->front->step->vertex->room->name))
-		{
-			dequeue_st(q);
-			(*ants)--;
-			// del++;
-			lp->ants_in_graph--;			
-		}
-		if (q->front->step->next)
-		{
-			q->front->step->next->ant = q->front->step->ant;
-			q->front->step->ant = 0;
-			enqueue_st(q, q->front->step->next);
-			ft_printf("L%jd-%s ", q->front->step->next->ant,
-						q->front->step->next->vertex->room->name);
-			dequeue_st(q);
-		}			
-	}
-	// lp->ants_in_graph -= del;
-    if (!(*ants) && is_empty_st(q))
-        printf("\n");
-}
-
-intmax_t	count_waves(t_path *p, intmax_t ants, intmax_t paths)
-{
-	intmax_t waves;
-	intmax_t a;
-	intmax_t sum_p;
-
-	if (p && p->next)
-	{
-		if (paths == 1)
-			waves = p->steps + ants - 1;
-		else if (paths == 2)
-			waves = p->next->steps + ants / paths - 1;
-	}
-	// printf("waves: %jd\n", waves); 
-	return (waves);
-}
-
-void		ants_put(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, bool *all_ants_in_graph)
-{
-	static intmax_t	ant;
-	intmax_t		i;
-	t_path			*p;
-
-	i = -1;
-	p = lp->front;
-	if (!(*all_ants_in_graph) && *ants && !p->step->ant)
-	{
-		while (p && ant < lp->final_ant && ++i < lp->paths)
-		{
-			p->step->ant = ++ant;
-			lp->ants_in_graph++;
-			enqueue_st(q, p->step);
-			ft_printf("L%jd-%s ", p->step->ant, p->step->vertex->room->name);
-			if (count_waves(p, *ants, 1) < count_waves(p, *ants, 2))
-				break ;
-			p = p->next;
-		}
-		ft_printf("\n");
-	}
-	if (lp->ants_in_graph == lp->final_ant)
-		*all_ants_in_graph = TRUE;
-}
-
-void	put_all_ants_in_graph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, const char *end)
+void		atgraph(t_lstpaths *lp, t_queue_st *q, intmax_t *ants, char *end)
 {
 	bool	all_ants_in_graph;
 
 	all_ants_in_graph = FALSE;
 	while (!all_ants_in_graph && *ants)
 	{
-		ants_shift(lp, q, ants, end);
-		ants_put(lp, q, ants, &all_ants_in_graph);
+		antsshft(lp, q, ants, end);
+		antsput(lp, q, ants, &all_ants_in_graph);
 	}
 }
 
-void    send_ants(t_lstpaths *lp, intmax_t ants, const char *end)
+void		send_ants(t_lstpaths *lp, intmax_t ants, char *end)
 {
 	t_queue_st	*q;
 
 	q = queue_init_st();
 	lp->final_ant = ants;
-	put_all_ants_in_graph(lp, q, &ants, end);
+	atgraph(lp, q, &ants, end);
 	while (ants)
-		ants_step(lp, q, &ants, end);
+		antsstep(lp, q, &ants, end);
 	queue_clear_st(q);
 }

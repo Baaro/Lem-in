@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rooms.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 12:17:30 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 12:17:31 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 void	rooms_init(t_room **rooms, size_t size)
@@ -22,7 +34,7 @@ void	room_set(t_htab *htab, t_room *room, t_info *info)
 	if (info->num_start_elem == info->cnt_rooms)
 	{
 		htab->start = ft_strdup(room->name);
-		room->start = TRUE;		
+		room->start = TRUE;
 	}
 	if (info->num_end_elem == info->cnt_rooms)
 	{
@@ -31,7 +43,7 @@ void	room_set(t_htab *htab, t_room *room, t_info *info)
 	}
 }
 
-bool	room_exists(t_htab *htab, char *name, unsigned long	id)
+bool	room_exists(t_htab *htab, char *name, unsigned long id)
 {
 	t_room	*tmp;
 
@@ -53,7 +65,7 @@ void	room_create(t_htab *htab, t_info *info)
 	t_room	*tmp;
 
 	if (!htab->rooms[info->id_room]->name)
-	 	room_set(htab, htab->rooms[info->id_room], info);
+		room_set(htab, htab->rooms[info->id_room], info);
 	else
 	{
 		if (!(tmp = (t_room *)malloc(sizeof(t_room))))

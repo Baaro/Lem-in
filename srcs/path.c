@@ -1,11 +1,16 @@
-#include "lem_in.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 12:16:53 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 12:16:54 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-bool		found_room(const char *to_find, const char *found)
-{
-	if (ft_strcmp(to_find, found) == 0)
-		return (TRUE);
-	return (FALSE);
-}
+#include "lem_in.h"
 
 void		path_del(t_path *p)
 {
@@ -23,7 +28,6 @@ t_path		*path_init(void)
 
 	if (!(p = ft_memalloc(sizeof(t_path))))
 		errors_memory(CANT_ALLOCATE_MEM, "path_init");
-	// p->steps = -1;
 	return (p);
 }
 
@@ -67,7 +71,7 @@ bool		path_create(t_path *p, t_adjtab *at, t_htab *ht)
 	path_put(p, vertex);
 	while ((vertex = get_nearest_vertex(at, ht, vertex->room->name)))
 	{
-		if (found_room(ht->start, vertex->room->name))
+		if (ft_strcmp(ht->start, vertex->room->name) == 0)
 		{
 			vertex->room->visited = TRUE;
 			found = TRUE;

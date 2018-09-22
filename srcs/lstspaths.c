@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lstspaths.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 12:16:18 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 12:16:20 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 void		lstpaths_init(t_lstpaths *lp)
@@ -23,7 +35,7 @@ t_adjlst	*get_nearest_vertex(t_adjtab *at, t_htab *ht, char *name)
 			level = tmp->room->level;
 			nearest_v = tmp;
 		}
-		if (nearest_v && found_room(ht->start, nearest_v->room->name))
+		if (nearest_v && ft_strcmp(ht->start, nearest_v->room->name) == 0)
 			break ;
 		tmp = tmp->next;
 	}
@@ -57,7 +69,7 @@ void		lstpaths_create(t_lstpaths *lp, t_adjtab *at, t_htab *ht)
 		if (path_create(p, at, ht))
 		{
 			lp->paths++;
-			lstpaths_put(lp, p);			
+			lstpaths_put(lp, p);
 		}
 	}
 	if (!lp->paths)

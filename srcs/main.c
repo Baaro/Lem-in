@@ -12,6 +12,12 @@
 
 #include "lem_in.h"
 
+void		print_data(const char *data)
+{
+	if (data)
+		ft_printf("\x1b[36mINFO:\x1b[0m\n%s\n", data);
+}
+
 int			main(int argc, char **argv)
 {
 	t_storage		strg;
@@ -28,24 +34,12 @@ int			main(int argc, char **argv)
 	adjtab_create(&at, &ht, strg.buff, strg.info);
 	lstpaths_init(&lp);
 	lstpaths_create(&lp, &at, &ht);
-	// \x1b[36mINFO:\x1b[0m\n
-	// if (strg.buff->data)
-	ft_printf("%s\n", strg.buff->data);
-	if (argc > 1)
-	{
-		args_init(&args);
-		if (args_analyze(&args, argc, argv))
-		{
-			ft_printf("\x1b[32mSTART:\x1b[0m [%s]\n", ht.start);
-			ft_printf("\x1b[34mFINISH:\x1b[0m [%s]\n", ht.end);
-			args_print(&args, &lp, &at, &ht);
-		}
-		else
-			usage_print();
-	}
+	print_data(strg.buff->data);
+	args_init(&args);
+	if (argc > 1 && args_analyze(&args, argc, argv))
+		args_print(&args, &lp, &at, &ht);
 	else
 		usage_print();
 	send_ants(&lp, strg.info->ants, ht.end);
-	// system("leaks lem-in");
 	return (0);
 }

@@ -12,6 +12,14 @@
 
 #include "lem_in.h"
 
+void	buff_init(t_buff **buff)
+{
+	if (!(*buff = (t_buff *)malloc(sizeof(t_buff))))
+		errors_memory(CANT_ALLOCATE_MEM, "buff_init");
+	(*buff)->line = NULL;
+	(*buff)->data = ft_strnew(0);
+}
+
 void	storage_init(t_storage *strg)
 {
 	ft_memset(strg, 0, sizeof(t_storage));

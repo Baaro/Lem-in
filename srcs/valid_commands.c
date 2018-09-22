@@ -45,7 +45,7 @@ static bool		chck_s_cmmnd(t_storage *strg, t_checks *chcks, const char *line)
 	return (FALSE);
 }
 
-bool		valid_commands(t_storage *strg, t_checks *chcks, char *line)
+bool			valid_commands(t_storage *strg, t_checks *chcks, char *line)
 {
 	if (chck_s_cmmnd(strg, chcks, line))
 		return (TRUE);

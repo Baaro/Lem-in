@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   coordinates.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 12:15:17 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/09/22 12:15:18 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 void	coords_init(t_coord **coord, size_t size)
@@ -20,7 +32,7 @@ void	coord_set(t_coord *coord, t_info *info)
 	coord->id = info->id_coord;
 }
 
-bool    coord_exists(t_htab *htab, char *x_y, unsigned long id)
+bool	coord_exists(t_htab *htab, char *x_y, unsigned long id)
 {
 	t_coord	*tmp;
 
@@ -37,12 +49,12 @@ bool    coord_exists(t_htab *htab, char *x_y, unsigned long id)
 	return (FALSE);
 }
 
-void    coord_create(t_htab *htab, t_info *info)
+void	coord_create(t_htab *htab, t_info *info)
 {
 	t_coord	*tmp;
 
 	if (!htab->coords[info->id_coord]->x_y)
-	 	coord_set(htab->coords[info->id_coord], info);
+		coord_set(htab->coords[info->id_coord], info);
 	else
 	{
 		if (!(tmp = (t_coord *)malloc(sizeof(t_coord))))
