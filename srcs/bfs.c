@@ -20,10 +20,7 @@ t_alst		*get_vertex(t_htab *ht, t_atab *at, char *name)
 
 	id = get_id(ht, name, ft_strlen(name));
 	room = htab_get(ht, id, name);
-	// ft_printf("r: %s\n", room->name);
-	// ft_printf("GO_TO_ATAB_GET\n");
 	v = atab_get(at, room);
-	// ft_printf("AFTER_ATAB_GET\n");
 	return (v);
 }
 
@@ -36,10 +33,7 @@ void		bfs(t_atab *at, t_htab *ht)
 	level = 1;
 	q = queue_init();
 	if (!(v = get_vertex(ht, at, ht->start)))
-	{
-		// ft_printf("v: %s\n", v->room->name);
 		errors_rooms(THERE_ARE_NO_LINKS_WITH_START);
-	}
 	enqueue(q, v, level);
 	while (!is_empty(q))
 	{

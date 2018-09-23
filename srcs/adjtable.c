@@ -16,9 +16,11 @@ bool		atab_exists(t_atab *a, t_room *room)
 {
 	if (a->lsts[room->index]
 	&& a->lsts[room->index]->room
-	&& a->lsts[room->index]->room->name
-	&& ft_strcmp(a->lsts[room->index]->room->name, room->name) == 0)
-		return (TRUE);
+	&& a->lsts[room->index]->room->name)
+	{
+		if (ft_strcmp(a->lsts[room->index]->room->name, room->name) == 0)
+			return (TRUE);
+	}
 	return (FALSE);
 }
 
@@ -44,11 +46,12 @@ bool		atab_check(t_atab *a, t_room *f_room, t_room *s_room)
 		a->lsts[s_room->index]->room = s_room;
 		a->lsts[s_room->index]->next = NULL;
 	}
-	if (alst_exists(a->lsts[f_room->index], s_room)
-	|| alst_exists(a->lsts[s_room->index], f_room))
-		return (FALSE);
-	alst_put(a->lsts[f_room->index], s_room);
-	alst_put(a->lsts[s_room->index], f_room);
+	if (!alst_exists(a->lsts[f_room->index], s_room)
+	&& !alst_exists(a->lsts[s_room->index], f_room))
+	{
+		alst_put(a->lsts[f_room->index], s_room);
+		alst_put(a->lsts[s_room->index], f_room);
+	}
 	return (TRUE);
 }
 
@@ -76,8 +79,11 @@ bool		atab_set(t_atab *a, t_htab *ht, t_info *i)
 
 void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 {
+	static int j;
+
 	while (TRUE)
 	{
+		ft_printf("i: %d\n", ++j);
 		if (!is_comment(b->line))
 		{
 			if (is_link(b->line))

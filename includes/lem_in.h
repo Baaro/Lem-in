@@ -93,15 +93,15 @@ typedef struct			s_info
 	char				*first_room;
 	char				*second_room;
 	char				*coord;
+	unsigned int		id_coord;
+	unsigned int		id_room;
+	unsigned long		id_first;
+	unsigned long		id_second;
 	intmax_t			ants;
 	size_t				amnt_of_rooms;
 	size_t				num_start_elem;
 	size_t				num_end_elem;
 	size_t				cnt_rooms;
-	unsigned int		id_coord;
-	unsigned int		id_room;
-	unsigned long		id_first;
-	unsigned long		id_second;
 }						t_info;
 
 typedef struct			s_storage
