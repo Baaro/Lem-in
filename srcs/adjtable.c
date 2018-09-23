@@ -77,11 +77,8 @@ bool		atab_set(t_atab *a, t_htab *ht, t_info *i)
 
 void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 {
-	static int j;
-
 	while (TRUE)
 	{
-		ft_printf("i: %d\n", ++j);
 		if (!is_comment(b->line))
 		{
 			if (is_link(b->line))

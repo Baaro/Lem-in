@@ -16,6 +16,7 @@ static intmax_t	count_waves(t_path *p, intmax_t ants, intmax_t paths)
 {
 	intmax_t waves;
 
+	waves = 0;
 	if (p && p->next)
 	{
 		if (paths == 1)

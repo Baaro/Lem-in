@@ -12,11 +12,11 @@
 
 #include "lem_in.h"
 
-// static void		print_data(const char *data)
-// {
-// 	if (data)
-// 		ft_printf("\x1b[36mINFO:\x1b[0m\n%s\n", data);
-// }
+static void		print_data(const char *data)
+{
+	if (data)
+		ft_printf("\x1b[36mINFO:\x1b[0m\n%s\n", data);
+}
 
 int			main(int argc, char **argv)
 {
@@ -34,13 +34,12 @@ int			main(int argc, char **argv)
 	atab_crte(&at, &ht, s.buff, s.info);
 	lstpaths_init(&lp);
 	lstpaths_create(&lp, &at, &ht);
-	// print_data(s.buff->data);
+	print_data(s.buff->data);
 	args_init(&a);
 	if (argc > 1 && args_analyze(&a, argc, argv))
 		args_print(&a, &lp, &at, &ht);
 	else
 		usage_print();
 	send_ants(&lp, s.info->ants, ht.end);
-	// system("leaks lem-in");
 	return (0);
 }
