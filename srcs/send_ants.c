@@ -15,11 +15,11 @@
 void		step(t_q_st *q, bool clear)
 {
 	q->front->step->next->ant = q->front->step->ant;
-	if (clear)
-		q->front->step->ant = 0;
 	enqueue_st(q, q->front->step->next);
 	ft_printf("L%jd-%s ", q->front->step->ant,
 				q->front->step->next->vertex->room->name);
+	if (clear)
+		q->front->step->ant = 0;
 	dequeue_st(q);
 }
 
@@ -69,7 +69,7 @@ void		send_ants(t_lp *lp, intmax_t ants, char *end)
 	q = queue_init_st();
 	lp->final_ant = ants;
 	atgraph(lp, q, &ants, end);
-	while (ants)
-		antsstep(lp, q, &ants, end);
+	// while (ants)
+		// antsstep(lp, q, &ants, end);
 	queue_clear_st(q);
 }
