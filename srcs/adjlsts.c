@@ -45,6 +45,7 @@ void	*alst_put(t_alst *elem, const t_room *room)
 {
 	t_alst	*tmp;
 
+	tmp = NULL;
 	if (elem && room)
 	{
 		tmp = (t_alst *)malloc(sizeof(t_alst));

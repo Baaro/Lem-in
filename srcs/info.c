@@ -46,7 +46,7 @@ void			info_get_links(t_info *info, char *line)
 	free(info->room_coord);
 }
 
-void			info_get_rooms(t_info *info, t_htab *htab, t_buff *buff)
+void			info_get_rooms(t_info *info, t_htab *htab)
 {
 	info->cnt_rooms++;
 	if (!(info->room_coord = ft_strsplit(info->line, ' ')))

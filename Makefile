@@ -12,8 +12,7 @@
 
 NAME = lem-in
 CC := gcc
-# FLAGS := -Wall -Wextra -Werror -g
-FLAGS := -g
+FLAGS := -Wall -Wextra -Werror -g
 INCLUDES := includes/
 source_dirs :=	srcs	\
 srcs/checks 			\

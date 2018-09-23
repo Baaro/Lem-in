@@ -19,7 +19,7 @@ void		args_init(t_args *a)
 
 bool		args_analyze(t_args *a, int argc, char **argv)
 {
-	size_t	arg;
+	int		arg;
 	bool	exist;
 
 	if (!argv)

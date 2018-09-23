@@ -305,7 +305,7 @@ t_alst					*atab_get(t_atab *a, t_room *room);
 **--------------------Info--------------------------
 */
 void					info_init(t_info **info);
-void					info_get_rooms(t_info *info, t_htab *htab, t_buff *b);
+void					info_get_rooms(t_info *info, t_htab *htab);
 void					info_get_links(t_info *info, char *line);
 void					info_clear_links(t_info *info);
 void					info_clear_rooms(t_info *info);

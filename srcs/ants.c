@@ -49,7 +49,7 @@ void			antsshft(t_lp *lp, t_q_st *q, intmax_t *ants, char *e)
 void			antsput(t_lp *lp, t_q_st *q, intmax_t *a, bool *aig)
 {
 	static intmax_t	ant;
-	intmax_t		i;
+	size_t			i;
 	t_path			*p;
 
 	i = -1;

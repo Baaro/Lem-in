@@ -79,7 +79,7 @@ void			htab_create(t_htab *ht, t_buff *b, t_info *i)
 				break ;
 			if (is_room(i->line))
 			{
-				info_get_rooms(i, ht, b);
+				info_get_rooms(i, ht);
 				htab_set(ht, i);
 				info_clear_rooms(i);
 			}
