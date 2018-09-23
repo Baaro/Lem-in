@@ -47,7 +47,7 @@ bool		atab_check(t_atab *a, t_room *f_room, t_room *s_room)
 		a->lsts[s_room->index]->next = NULL;
 	}
 	if (!alst_exists(a->lsts[f_room->index], s_room))
-		alst_put(a->lsts[f_room->index], s_room);		
+		alst_put(a->lsts[f_room->index], s_room);	
 	if (!alst_exists(a->lsts[s_room->index], f_room))
 		alst_put(a->lsts[s_room->index], f_room);
 	return (TRUE);

@@ -268,7 +268,6 @@ void					room_create(t_htab *ht, t_info *info);
 bool					room_exists(t_htab *ht, char *name, unsigned long id);
 void					room_set(t_htab *ht, t_room *room, t_info *info);
 char					**room_get(char *line);
-// void					rooms_clear(t_room **rooms, size_t size);
 /*
 **--------------------Coordinates-------------------
 */

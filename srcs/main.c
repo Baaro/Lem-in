@@ -18,7 +18,7 @@ static void		print_data(const char *data)
 		ft_printf("\x1b[36mINFO:\x1b[0m\n%s\n", data);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_storage		s;
 	t_htab			ht;

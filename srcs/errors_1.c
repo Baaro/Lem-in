@@ -28,13 +28,13 @@ void		errors_ants(const t_errors e)
 
 void		errors_rooms(const t_errors e)
 {
-	ft_printf("\x1b[31mERROR:\x1b[0m ");	
+	ft_printf("\x1b[31mERROR:\x1b[0m ");
 	if (e == L_CHAR_AT_ROOM_NAME)
 		ft_printf("There is 'L' character at the beginning of name of room!\n");
 	else if (e == UNPRINTBALE_NAME)
 		ft_printf("The name of room is unprintable!\n");
 	else if (e == NO_ROOMS)
-		ft_printf("here are no rooms in the map!\n");
+		ft_printf("There are no rooms in the map!\n");
 	else if (e == TWO_ROOMS_HAVE_THE_SAME_NAME)
 		ft_printf("Two rooms have the same name!\n");
 	else if (e == TWO_ROOMS_HAVE_THE_SAME_COORDS)

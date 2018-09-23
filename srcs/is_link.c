@@ -17,27 +17,20 @@ static bool	is_delim(char c)
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-static bool	valid_first_name_room(char **line)
+static bool	valid_link(char *line)
 {
-	while (**line && ft_isprint(**line) && **line != '-' && !is_delim(**line))
-		(*line)++;
-	if (**line == '-')
-	{
-		(*line)++;
-		return (TRUE);
-	}
-	return (FALSE);
-}
+	size_t	delim;
 
-static bool	valid_second_name_room(char *line)
-{
-	while (*line)
+	delim = 0;
+	while (*line && ft_isprint(*line))
 	{
-		if (!ft_isprint(*line) || is_delim(*line))
+		if ((*line) == '-')
+			delim++;
+		if (delim > 1 || is_delim(*line))
 			return (FALSE);
 		line++;
 	}
-	return (TRUE);
+	return (FALSE);
 }
 
 bool		is_link(const char *line)
@@ -45,8 +38,7 @@ bool		is_link(const char *line)
 	char	*tmp;
 
 	tmp = (char *)line;
-	if (valid_first_name_room(&tmp))
-		if (valid_second_name_room(tmp))
-			return (TRUE);
+	if (valid_link(tmp))
+		return (TRUE);
 	return (FALSE);
 }

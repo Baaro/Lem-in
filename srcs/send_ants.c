@@ -69,7 +69,7 @@ void		send_ants(t_lp *lp, intmax_t ants, char *end)
 	q = queue_init_st();
 	lp->final_ant = ants;
 	atgraph(lp, q, &ants, end);
-	// while (ants)
-		// antsstep(lp, q, &ants, end);
+	while (ants)
+		antsstep(lp, q, &ants, end);
 	queue_clear_st(q);
 }
