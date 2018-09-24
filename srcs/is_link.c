@@ -30,7 +30,7 @@ static bool	valid_link(char *line)
 			return (FALSE);
 		line++;
 	}
-	return (FALSE);
+	return (delim == 1 ? TRUE : FALSE);
 }
 
 bool		is_link(const char *line)

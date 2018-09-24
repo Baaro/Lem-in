@@ -80,6 +80,8 @@ static bool	valid_name_of_room(char **line)
 		errors_rooms(L_CHAR_AT_ROOM_NAME);
 	while (**line)
 	{
+		if (**line == '-')
+			errors_rooms(DASH_AT_THE_NAME_OF_ROOM);
 		if (!ft_isprint(**line))
 			errors_rooms(UNPRINTBALE_NAME);
 		if (**line == ' ')
@@ -93,7 +95,7 @@ static bool	valid_name_of_room(char **line)
 bool		valid_room(const char *line)
 {
 	char *tmp;
-
+	
 	tmp = (char*)line;
 	if (valid_name_of_room(&tmp))
 		if (valid_coord_of_room(tmp))

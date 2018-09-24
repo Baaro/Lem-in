@@ -34,6 +34,7 @@
 typedef enum			e_errors
 {
 	WRONG_VALUE_OF_ANTS = 1,
+	DASH_AT_THE_NAME_OF_ROOM,
 	ANTS_IS_ZERO,
 	ANTS_IS_NEG,
 	TOO_FEW_ANTS,

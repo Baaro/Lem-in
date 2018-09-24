@@ -39,7 +39,7 @@ t_alst		*get_nearest_vertex(t_atab *at, t_htab *ht, char *name)
 			break ;
 		tmp = tmp->next;
 	}
-	return (nearest_v ? nearest_v : NULL);
+	return (nearest_v);
 }
 
 void		lstpaths_put(t_lp *lp, t_path *p)

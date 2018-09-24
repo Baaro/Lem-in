@@ -45,6 +45,8 @@ void		errors_rooms(const t_errors e)
 		ft_printf("There are no links with start!\n");
 	else if (e == START_EQUAL_END)
 		ft_printf("The start and the end have the same room!\n");
+	else if (e == DASH_AT_THE_NAME_OF_ROOM)
+		ft_printf("The name of room has \'-\'!\n");		
 	exit(EXIT_FAILURE);
 }
 

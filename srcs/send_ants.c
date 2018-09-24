@@ -14,6 +14,7 @@
 
 void		step(t_q_st *q, bool clear)
 {
+	// if (q->front->step->next)
 	q->front->step->next->ant = q->front->step->ant;
 	enqueue_st(q, q->front->step->next);
 	ft_printf("L%jd-%s ", q->front->step->ant,
@@ -55,7 +56,7 @@ void		atgraph(t_lp *lp, t_q_st *q, intmax_t *ants, char *end)
 	bool	all_ants_in_graph;
 
 	all_ants_in_graph = FALSE;
-	while (!all_ants_in_graph && *ants)
+	while (!all_ants_in_graph || *ants)
 	{
 		antsshft(lp, q, ants, end);
 		antsput(lp, q, ants, &all_ants_in_graph);

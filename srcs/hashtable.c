@@ -73,7 +73,7 @@ void			htab_create(t_htab *ht, t_buff *b, t_info *i)
 	while (TRUE)
 	{
 		i->line = get_line(b->data);
-		if (!is_comment(i->line))
+		if (!is_comment(i->line) && !is_commands(i->line))
 		{
 			if (is_link(i->line))
 				break ;

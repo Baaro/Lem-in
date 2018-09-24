@@ -19,7 +19,7 @@ static intmax_t	count_ants(char *line)
 	ants = 0;
 	if (*line == '-')
 		errors_ants(ANTS_IS_NEG);
-	if (*line == 0)
+	if (*line == '0')
 		errors_ants(ANTS_IS_ZERO);
 	while (*line)
 	{

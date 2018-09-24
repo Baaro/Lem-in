@@ -75,27 +75,27 @@ bool		atab_set(t_atab *a, t_htab *ht, t_info *i)
 	return (TRUE);
 }
 
+bool		is_garbage(const char *line)
+{
+	if (!is_link(line) && !is_comment(line))
+		return (TRUE);
+	return (FALSE);
+}
+
 void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 {
-	while (TRUE)
+	while (read_line(b, &b->line) && !is_garbage(b->line))
 	{
-		if (!is_comment(b->line))
-		{
-			if (is_link(b->line))
-			{
-				info_get_links(i, b->line);
-				if (!atab_set(at, ht, i))
-				{
-					info_clear_links(i);
-					return ;
-				}
-				info_clear_links(i);
-			}
-			else
-				break ;
-		}
 		save_data(&b->data, b->line);
-		if (!read_line(b, &b->line))
-			break ;
+		if (!is_comment(b->line) && is_link(b->line))
+		{
+			info_get_links(i, b->line);
+			if (!atab_set(at, ht, i))
+			{
+				info_clear_links(i);
+				return ;
+			}
+			info_clear_links(i);
+		}
 	}
 }
