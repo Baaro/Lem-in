@@ -54,7 +54,7 @@ bool		paths_exist(t_atab *at, t_htab *ht)
 	v = get_vertex(ht, at, ht->end);
 	while (v && v->room)
 	{
-		if (v->room->visited)
+		if (v->room->visited && !is_start(ht, v))
 			return (TRUE);
 		v = v->next;
 	}

@@ -34,7 +34,7 @@ void		errors_rooms(const t_errors e)
 	else if (e == UNPRINTBALE_NAME)
 		ft_printf("The name of room is unprintable!\n");
 	else if (e == NO_ROOMS)
-		ft_printf("There are no rooms in the map!\n");
+		ft_printf("here are no rooms in the map!\n");
 	else if (e == TWO_ROOMS_HAVE_THE_SAME_NAME)
 		ft_printf("Two rooms have the same name!\n");
 	else if (e == TWO_ROOMS_HAVE_THE_SAME_COORDS)
@@ -46,7 +46,7 @@ void		errors_rooms(const t_errors e)
 	else if (e == START_EQUAL_END)
 		ft_printf("The start and the end have the same room!\n");
 	else if (e == DASH_AT_THE_NAME_OF_ROOM)
-		ft_printf("The name of room has \'-\'!\n");		
+		ft_printf("The name of room has \'-\'!\n");
 	exit(EXIT_FAILURE);
 }
 

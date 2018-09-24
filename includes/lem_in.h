@@ -121,6 +121,7 @@ typedef struct			s_room
 	char				*name;
 	bool				visited;
 	bool				in_queue;
+	bool				shortest_path;
 	bool				start;
 	bool				end;
 	unsigned long		id;
@@ -250,6 +251,8 @@ bool					is_room(const char *line);
 bool					is_wrong_command(const char *line);
 bool					is_garbage(const char *line);
 bool					is_duplicate(const char *f_name, const char *s_name);
+bool					is_start(t_htab *ht, t_alst *v);
+bool					is_end(t_htab *ht, t_alst *v);
 /*
 **--------------------Errors-----------------------
 */

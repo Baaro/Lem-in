@@ -47,7 +47,7 @@ bool		atab_check(t_atab *a, t_room *f_room, t_room *s_room)
 		a->lsts[s_room->index]->next = NULL;
 	}
 	if (!alst_exists(a->lsts[f_room->index], s_room))
-		alst_put(a->lsts[f_room->index], s_room);	
+		alst_put(a->lsts[f_room->index], s_room);
 	if (!alst_exists(a->lsts[s_room->index], f_room))
 		alst_put(a->lsts[s_room->index], f_room);
 	return (TRUE);
@@ -69,10 +69,9 @@ bool		atab_set(t_atab *a, t_htab *ht, t_info *i)
 			return (FALSE);
 		if (!atab_check(a, first_room, second_room))
 			return (FALSE);
+		return (TRUE);
 	}
-	else
-		return (FALSE);
-	return (TRUE);
+	return (FALSE);
 }
 
 bool		is_garbage(const char *line)
@@ -84,9 +83,8 @@ bool		is_garbage(const char *line)
 
 void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 {
-	while (read_line(b, &b->line) && !is_garbage(b->line))
+	while (!is_garbage(b->line))
 	{
-		save_data(&b->data, b->line);
 		if (!is_comment(b->line) && is_link(b->line))
 		{
 			info_get_links(i, b->line);
@@ -97,5 +95,8 @@ void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 			}
 			info_clear_links(i);
 		}
+		if (!read_line(b, &b->line))
+			return ;
+		save_data(&b->data, b->line);
 	}
 }
