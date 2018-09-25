@@ -367,7 +367,7 @@ void					step(t_q_st *q, bool clear);
 **--------------------Vertexes--------------------
 */
 t_alst					*get_vertex(t_htab *ht, t_atab *aat, char *name);
-t_alst					*get_nearest_vertex(t_atab *at, t_htab *ht, char *name);
+t_alst					*get_nearest_vertex(t_atab *at, t_htab *ht, t_alst *v);
 /*
 **--------------------Reader----------------------
 */

@@ -40,31 +40,41 @@ bool		shortest_path_found(t_htab *ht, t_alst *v)
 	return (FALSE);
 }
 
-t_alst		*get_nearest_vertex(t_atab *at, t_htab *ht, char *name)
+bool		is_nearest(t_alst *tmp, size_t level)
+{
+	if (tmp->room && tmp->room->visited
+	&& (level == 0 || level >= tmp->room->level))
+		return (TRUE);
+	return (FALSE);
+}
+
+t_alst		*get_nearest_vertex(t_atab *at, t_htab *ht, t_alst *v)
 {
 	t_alst	*tmp;
 	t_alst	*nearest_v;
-	size_t	steps;
 	size_t	level;
 
 	level = 0;
-	steps = 0;
 	nearest_v = NULL;
-	tmp = get_vertex(ht, at, name);
+	tmp = get_vertex(ht, at, v->room->name);
+	ft_printf("v[l:%zu][v:%zu]: %s\n", tmp->room->level,
+	tmp->room->visited,
+	tmp->room->name);
 	while (tmp && tmp->room)
 	{
-		if (tmp->room && tmp->room->visited
-		&& (level == 0 || level >= tmp->room->level)
-		&& (is_start(ht, tmp) && steps == 1) ? FALSE : TRUE)
+		if (is_nearest(tmp, level)
+		&& (is_end(ht, v) && is_start(ht, tmp)) ? FALSE : TRUE	// if link is not start-end
+		&& (!is_end(ht, v) && is_end(ht, tmp)) ? FALSE : TRUE)	// if we have link start-end and we are not at the end that we shouldn't go to end
 		{
-			printf("asd\n");
+			ft_printf("tmp[l:%zu][v:%zu]: %s\n", tmp->room->level,
+			tmp->room->visited,
+			tmp->room->name);
 			level = tmp->room->level;
 			nearest_v = tmp;
 		}
 		if (nearest_v && is_start(ht, nearest_v))
 			break ;
 		tmp = tmp->next;
-		steps++;
 	}
 	return (nearest_v);
 }

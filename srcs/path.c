@@ -69,8 +69,9 @@ bool		path_create(t_path *p, t_atab *at, t_htab *ht)
 	found = FALSE;
 	v = get_vertex(ht, at, ht->end);
 	path_put(p, v);
-	while ((v = get_nearest_vertex(at, ht, v->room->name)))
+	while ((v = get_nearest_vertex(at, ht, v)))
 	{
+		ft_printf("got_v: %s\n", v->room->name);
 		if (ft_strcmp(ht->start, v->room->name) == 0)
 		{
 			v->room->visited = TRUE;
