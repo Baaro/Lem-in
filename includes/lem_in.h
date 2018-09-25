@@ -220,6 +220,7 @@ typedef	struct			s_path
 */
 typedef struct			s_lp
 {
+	bool				shortest_path;
 	size_t				paths;
 	intmax_t			ants_in_graph;
 	intmax_t			final_ant;
@@ -253,6 +254,7 @@ bool					is_garbage(const char *line);
 bool					is_duplicate(const char *f_name, const char *s_name);
 bool					is_start(t_htab *ht, t_alst *v);
 bool					is_end(t_htab *ht, t_alst *v);
+bool					is_nearest(t_alst *tmp, size_t level);
 /*
 **--------------------Errors-----------------------
 */
@@ -341,6 +343,9 @@ void					lstpaths_init(t_lp *lp);
 void					lstpaths_create(t_lp*lp, t_atab *at, t_htab *ht);
 void					lstpaths_put(t_lp*lp, t_path *p);
 void					lstpaths_print(t_lp *lp);
+bool					shortest_path_exist(t_atab *at, t_htab *ht);
+void					shortest_path_create(t_lp *lp, t_path *p, t_atab *at, t_htab *ht);
+void					send_through_shortest_path(intmax_t ants, char *end);
 /*
 **--------------------Path------------------------
 */

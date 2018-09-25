@@ -23,31 +23,33 @@ void		step(t_q_st *q, bool clear)
 	dequeue_st(q);
 }
 
-void		antsstep(t_lp *lp, t_q_st *q, intmax_t *ants, char *end)
+void		antsstep(t_lp *lp, t_q_st *q, intmax_t ants, char *end)
 {
 	intmax_t	final_ant;
 	intmax_t	del;
 
+	if (!ants)
+		return ;
 	del = 0;
 	final_ant = -1;
-	while (*ants && ++final_ant < *ants && final_ant < lp->ants_in_graph)
+	while (ants && ++final_ant < ants && final_ant < lp->ants_in_graph)
 	{
 		if (ft_strcmp(end, q->front->step->vertex->room->name) == 0)
 		{
 			dequeue_st(q);
-			(*ants)--;
+			ants--;
 			del++;
 		}
-		if (final_ant == *ants)
+		if (final_ant == ants)
 			break ;
 		if (q->front->step->next)
 			step(q, 0);
 	}
-	if ((!is_empty_st(q)
-	&& ft_strcmp(end, q->front->step->vertex->room->name) == 0)
-	|| !is_empty_st(q))
+	if (!is_empty_st(q)
+	|| ft_strcmp(end, q->front->step->vertex->room->name))
 		ft_printf("\n");
 	lp->ants_in_graph -= del;
+	antsstep(lp, q, ants, end);
 }
 
 void		atgraph(t_lp *lp, t_q_st *q, intmax_t *ants, char *end)
@@ -66,10 +68,14 @@ void		send_ants(t_lp *lp, intmax_t ants, char *end)
 {
 	t_q_st	*q;
 
-	q = queue_init_st();
-	lp->final_ant = ants;
-	atgraph(lp, q, &ants, end);
-	while (ants)
-		antsstep(lp, q, &ants, end);
-	queue_clear_st(q);
+	if (lp->shortest_path)
+		send_through_shortest_path(ants, end);
+	else
+	{
+		q = queue_init_st();
+		lp->final_ant = ants;
+		atgraph(lp, q, &ants, end);
+		antsstep(lp, q, ants, end);
+		queue_clear_st(q);
+	}
 }

@@ -33,19 +33,15 @@ int				main(int argc, char **argv)
 	atab_init(&at, ht.size);
 	atab_crte(&at, &ht, s.buff, s.info);
 	args_init(&a);
+	lstpaths_init(&lp);
+	lstpaths_create(&lp, &at, &ht);
+	print_data(s.buff->data);
+	args_init(&a);
 	if (argc > 1 && args_analyze(&a, argc, argv))
 		args_print(&a, &lp, &at, &ht);
 	else
 		usage_print();
-	lstpaths_init(&lp);
-	lstpaths_create(&lp, &at, &ht);
-	// print_data(s.buff->data);
-	// args_init(&a);
-	// if (argc > 1 && args_analyze(&a, argc, argv))
-	// 	args_print(&a, &lp, &at, &ht);
-	// else
-	// 	usage_print();
-	// send_ants(&lp, s.info->ants, ht.end);
+	send_ants(&lp, s.info->ants, ht.end);
 	// system("leaks lem-in");
 	return (0);
 }

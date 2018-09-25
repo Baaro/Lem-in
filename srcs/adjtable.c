@@ -74,13 +74,6 @@ bool		atab_set(t_atab *a, t_htab *ht, t_info *i)
 	return (FALSE);
 }
 
-bool		is_garbage(const char *line)
-{
-	if (!is_link(line) && !is_comment(line))
-		return (TRUE);
-	return (FALSE);
-}
-
 void		atab_crte(t_atab *at, t_htab *ht, t_buff *b, t_info *i)
 {
 	while (!is_garbage(b->line))
