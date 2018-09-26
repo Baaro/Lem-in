@@ -1,49 +1,24 @@
 [36mINFO:[0m
-4
+3
+2 5 0
 ##start
-S 23 3
-2 16 7
-#comment
-3 16 3
-4 16 5
-5 9 3
-6 1 5
-7 4 8
+S 1 2
 ##end
-F 9 5
-F-4
-F-6
+F 9 2
+3 5 4
+S-2
 S-3
-4-3
-5-2
-3-5
-#another comment
-4-2
-2-S
-7-6
-7-2
-7-4
-6-5
+2-F
+3-F
+2-3
 
-[32mSTART:[0m [S]
-[34mFINISH:[0m [F]
-[36mPATHS:[0m
-steps: 3
-|3|
-|4|
-|F|
+usage:
+[-at] adjacency table;
+[-ht] hash table;
+[-p]  paths which were found;
+[-a]  show all info.
 
-steps: 4
-|2|
-|7|
-|6|
-|F|
-
-
-L1-3 L2-2 
-L1-4 L2-7 L3-3 L4-2 
-L1-F L2-6 L3-4 L4-7 
-L2-F L3-F L4-6 
-
-L4-F 
+L1-2 L2-3 
+L1-F L2-F L3-2 
+L3-F 
 

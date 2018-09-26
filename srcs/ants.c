@@ -45,7 +45,7 @@ void			antsshft(t_lp *lp, t_q_st *q, intmax_t *ants, char *e)
 		if (q->front->step->next)
 			step(q, 1);
 	}
-	if (!(*ants) && is_empty_st(q))
+	if (!(*ants) || is_empty_st(q))
 		ft_printf("\n");
 	lp->ants_in_graph -= del;
 }

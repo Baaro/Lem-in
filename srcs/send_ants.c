@@ -34,7 +34,8 @@ void		antsstep(t_lp *lp, t_q_st *q, intmax_t ants, char *end)
 	final_ant = -1;
 	while (ants && ++final_ant < ants && final_ant < lp->ants_in_graph)
 	{
-		if (ft_strcmp(end, q->front->step->vertex->room->name) == 0)
+		while (!is_empty_st(q) && ants
+		&& ft_strcmp(end, q->front->step->vertex->room->name) == 0)
 		{
 			dequeue_st(q);
 			ants--;
