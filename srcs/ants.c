@@ -36,18 +36,18 @@ void			antsshft(t_lp *lp, t_q_st *q, intmax_t *ants, char *e)
 	final_ant = -1;
 	while (*ants && ++final_ant < lp->ants_in_graph)
 	{
-		if (ft_strcmp(e, q->front->step->vertex->room->name) == 0)
+		while (!is_empty_st(q) && *ants
+		&& ft_strcmp(e, q->front->step->vertex->room->name) == 0)
 		{
 			dequeue_st(q);
-			del++;
+			lp->ants_in_graph--;			
 			(*ants)--;
 		}
 		if (q->front->step->next)
-			step(q, 1);
+			step(q, 1);		
 	}
 	if (!(*ants) || is_empty_st(q))
 		ft_printf("\n");
-	lp->ants_in_graph -= del;
 }
 
 void			antsput(t_lp *lp, t_q_st *q, intmax_t *a, bool *aig)
