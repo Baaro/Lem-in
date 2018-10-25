@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shortest_path.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/04 14:46:51 by vsokolog          #+#    #+#             */
+/*   Updated: 2018/10/04 14:46:52 by vsokolog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-void		send_through_shortest_path(intmax_t ants, char *end)
+void		send_through_sp(intmax_t ants, char *end)
 {
 	intmax_t	ant;
 
@@ -10,7 +22,7 @@ void		send_through_shortest_path(intmax_t ants, char *end)
 	ft_printf("\n");
 }
 
-bool		shortest_path_exist(t_atab *at, t_htab *ht)
+bool		spe(t_atab *at, t_htab *ht)
 {
 	t_alst		*v;
 

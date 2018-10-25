@@ -62,7 +62,7 @@ void		lstpaths_create(t_lp *lp, t_atab *at, t_htab *ht)
 	t_path	*p;
 
 	bfs(at, ht);
-	if (shortest_path_exist(at, ht))
+	if (spe(at, ht))
 		lp->shortest_path = TRUE;
 	else
 	{

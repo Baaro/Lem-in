@@ -12,7 +12,7 @@
 
 NAME = libft.a
 CC := gcc
-# FLAGS := -Wall -Wextra -Werror
+FLAGS := -Wall -Wextra -Werror
 INCLUDES := includes/
 source_dirs := .									\
 srcs/convert_to/									\

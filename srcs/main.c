@@ -42,6 +42,5 @@ int				main(int argc, char **argv)
 	else
 		usage_print();
 	send_ants(&lp, s.info->ants, ht.end);
-	// system("leaks lem-in");
 	return (0);
 }

@@ -343,9 +343,8 @@ void					lstpaths_init(t_lp *lp);
 void					lstpaths_create(t_lp*lp, t_atab *at, t_htab *ht);
 void					lstpaths_put(t_lp*lp, t_path *p);
 void					lstpaths_print(t_lp *lp);
-bool					shortest_path_exist(t_atab *at, t_htab *ht);
-void					shortest_path_create(t_lp *lp, t_path *p, t_atab *at, t_htab *ht);
-void					send_through_shortest_path(intmax_t ants, char *end);
+bool					spe(t_atab *at, t_htab *ht);
+void					send_through_sp(intmax_t ants, char *end);
 /*
 **--------------------Path------------------------
 */

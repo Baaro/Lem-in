@@ -14,7 +14,7 @@
 
 static intmax_t	count_waves(t_path *p, intmax_t ants, intmax_t paths)
 {
-	intmax_t 	waves;
+	intmax_t	waves;
 
 	waves = 0;
 	if (p && p->next)
@@ -40,11 +40,11 @@ void			antsshft(t_lp *lp, t_q_st *q, intmax_t *ants, char *e)
 		&& ft_strcmp(e, q->front->step->vertex->room->name) == 0)
 		{
 			dequeue_st(q);
-			lp->ants_in_graph--;			
+			lp->ants_in_graph--;
 			(*ants)--;
 		}
 		if (q->front->step->next)
-			step(q, 1);		
+			step(q, 1);
 	}
 	if (!(*ants) || is_empty_st(q))
 		ft_printf("\n");
