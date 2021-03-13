@@ -1,6 +1,6 @@
 # Lem-in
-The goal of the project is to carry ant colony through the shortest path across the farm.
-Where the farm is just an undirected graph represented in terms of rooms(vertices) and links(edges). For the precise description, you'd prefer to look into the [subject](https://github.com/vsokh/lem-in/blob/master/docs/en.subject.pdf).
+The goal is to bring an ant colony through the shortest path(yeah, first of all, we need to find it) across the farm.
+Where the farm is just an undirected graph represented in terms of rooms(vertices) and links(edges). For a more complete description, you'd prefer to look into the [subject](https://github.com/vsokh/lem-in/blob/master/docs/en.subject.pdf).
 
 ## Install & Build & Run
 ```
@@ -17,7 +17,7 @@ the_rooms
 the_links
 ```
 
-Example of an input:
+Example of input:
 
 At the beginning of the game all colony is in the room *##start*. And the goal is to bring them to the room *##end*.
 ```
@@ -33,7 +33,7 @@ At the beginning of the game all colony is in the room *##start*. And the goal i
 3-1
 ```
 
-And the program produces an output in the following format:
+And the program produces output in the following format:
 
 *Lx-y Lz-w Lr-o*
 
