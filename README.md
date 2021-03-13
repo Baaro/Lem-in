@@ -28,6 +28,7 @@ At the beginning of the game all colony is the room *##start*. And the goal is t
 Example of an output in the following format:
 
 *Lx-y Lz-w Lr-o*
+
 *x, z, r* represents the ants’ numbers (going from 1 to *number_of_ants*) and *y,
 w, o* represents the rooms’ names.
 ```
