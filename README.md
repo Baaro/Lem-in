@@ -10,7 +10,8 @@ the_links
 ```
 
 Example of an input:
-At the beginning of the game all colony is the room ##start. And the goal is to bring the to the room ##end.
+
+At the beginning of the game all colony is the room *##start*. And the goal is to bring the to the room *##end*.
 ```
 3
 ##start
@@ -25,9 +26,10 @@ At the beginning of the game all colony is the room ##start. And the goal is to 
 ```
 
 Example of an output in the following format:
-Lx-y Lz-w Lr-o
-x, z, r represents the ants’ numbers (going from 1 to number_of_ants) and y,
-w, o represents the rooms’ names.
+
+*Lx-y Lz-w Lr-o*
+*x, z, r* represents the ants’ numbers (going from 1 to *number_of_ants*) and *y,
+w, o* represents the rooms’ names.
 ```
 L1-2
 L1-3 L2-2
