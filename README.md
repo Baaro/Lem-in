@@ -1,6 +1,6 @@
 # Lem-in
 The goal of the project is to carry ant colony through the shortest path across the farm.
-Where the farm is just an undirected graph represented in terms of rooms(vertices) and links(edges).
+Where the farm is just an undirected graph represented in terms of rooms(vertices) and links(edges). For the precise description, you'd prefer to look into the [subject](https://github.com/vsokh/lem-in/blob/master/docs/en.subject.pdf).
 
 The program receives the data describing the ant farm from the standard output in the following format:
 ```
@@ -50,7 +50,7 @@ make
 ## Preview
 
 ## Coding style
-C code has written following [Norminette](https://github.com/vsokh/assembler/blob/master/docs/norme.en.pdf)(42 code style specifications for almost all C-based projects) rules.
+C code has written following [Norminette](https://github.com/vsokh/lem-in/blob/master/docs/norme.en.pdf)(42 code style specifications for almost all C-based projects) rules.
 
 ## Author
 vsokolog
