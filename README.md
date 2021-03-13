@@ -47,6 +47,7 @@ L2-1 L3-3
 L3-1
 ```
 ## Preview
+![program output](https://github.com/vsokh/lem-in/blob/master/images/preview.png)
 
 ## Coding style
 C code has written following [Norminette](https://github.com/vsokh/lem-in/blob/master/docs/norme.en.pdf)(42 code style specifications for almost all C-based projects) rules.
