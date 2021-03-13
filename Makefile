@@ -6,18 +6,17 @@
 #    By: vsokolog <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 13:02:59 by vsokolog          #+#    #+#              #
-#    Updated: 2018/07/10 13:03:00 by vsokolog         ###   ########.fr        #
+#    Updated: 2021/03/13 14:59:43 by vsokolog         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 CC := gcc
 FLAGS := -Wall -Wextra -Werror -g
-INCLUDES := includes/
-source_dirs :=	srcs	\
+source_dirs :=	src	\
 
 OBJ_DIR := objs
-INCLUDES := includes/
+INCLUDES := inc/
 MAKE := make
 RM := rm -rf
 LIBFT := libft/libft.a
